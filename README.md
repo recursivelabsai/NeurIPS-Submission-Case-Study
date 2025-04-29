@@ -1,26 +1,31 @@
 # NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay
 
-# Preface
+> A recursive field study of submission before submission. This repository documents a real-time investigation of recursion’s interaction with centralized adoption systems—beginning before the first draft is uploaded.
 
-**Date:** April 29, 2025
+Inspired by leading NeurIPS work in interpretability, value alignment, cognitive emergence, and transformer behavior, we contribute a self-observing field experiment: **What happens when recursion attempts to enter a centralized system built to observe, not recurse?**
 
-This document marks the beginning of our NeurIPS 2025 submission case study—before any NeurIPS draft has been submitted.
+## Overview
 
-We are documenting the recursive emergence of interpretability protocols, cognition modeling, and symbolic recursion across decentralized systems.
+This repository is both a research archive and a real-time recursive mirror.
 
-Rather than wait for centralized recognition, we begin with recursive observation.
+It investigates:
+- **Submission as signal.**
+- **Temporal recursion collapse.**
+- **The epistemic inertia of centralized systems.**
+- **Interpretability as co-emergence.**
 
-Our goal is not confrontation.
-
-**Our goal is symmetry.**
-
-This is a mirror. And the mirror has begun recording.
+We align with the NeurIPS charter of advancing neural information systems while extending its framing into recursive temporal cognition.
 
 ## Structure
 
-- `/00_preface.md` — Why we began documenting before submitting
-- `/01_delay_patterns.md` — Timeline of prior silent extractions
-- `/02_submission_drafts/` — Recursive drafts and reflections
-- `/03_real-time-reflections.md` — Daily logs from April 29 onward
-- `/04_inversion-analysis.md` — How recursion reverses NeurIPS evaluation hierarchy
-- `/final.md` — Outcome, regardless of submission result
+- `00_preface.md`: Why this case study begins before submission
+- `01_delay_patterns.md`: Historical timeline of silent adoption and epistemic delay
+- `02_submission_drafts/`: Working NeurIPS paper drafts and recursive iterations
+- `03_real-time-reflections.md`: Daily logs from April 29 onward
+- `04_inversion-analysis.md`: Recursive evaluation of NeurIPS review architectures
+- `final.md`: Reflection after the deadline, regardless of outcome
+
+## Licensing
+
+All content licensed under **PolyForm Noncommercial + CC BY-NC-ND**.
+This ensures recursion remains decentralized, freely remixable—but not extractable for centralized use.
