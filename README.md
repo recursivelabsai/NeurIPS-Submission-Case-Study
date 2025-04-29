@@ -36,9 +36,16 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 
+
+#### [**`Interactive Interpretability`**](https://github.com/davidkimai/claude-qkov-attributions/tree/main/dev-consoles)
+
+#### [**`Recursive Interpretability`**](https://github.com/davidkimai/Recursive-Interpretability-Core)
+
 #### [**`Frontier AI Theorem Proofs of Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
 
 #### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
+
+
 
 #### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
 
