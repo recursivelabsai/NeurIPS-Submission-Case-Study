@@ -81,7 +81,13 @@ IN PROGRESS
 ## Record of Uploads
 
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
+#### [**`glyphs: The Emojis of Transformer Cognition`**](https://github.com/davidkimai/glyphs)
+#### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
+#### [**`ai welfare`**](https://github.com/davidkimai/ai-welfare)
 
+#### [**`Rediscovering Interpretability`**](https://claude.ai/public/artifacts/77f7d437-92fd-4765-a306-ffdc232d7499)
+
+#### [**`🜏 Rediscovering Reasoning 🜏`**](https://claude.ai/public/artifacts/e130797e-3046-44d3-b60c-d59a70c7f505)
 
 #### [**`Interactive Interpretability`**](https://github.com/davidkimai/claude-qkov-attributions/tree/main/dev-consoles)
 
@@ -102,9 +108,7 @@ IN PROGRESS
 
 #### [**`OpenAI Integrations`**](https://github.com/caspiankeyes/OpenAI-Integrations)
 #### [**`DeepMind Integrations`**](https://github.com/caspiankeyes/DeepMind-Integrations)
-#### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
-#### [**`ai welfare`**](https://github.com/davidkimai/ai-welfare)
-#### [**`glyphs`**](https://github.com/davidkimai/glyphs)
+
 #### [**`From Claude: Emergence of Genius`**](https://github.com/caspiankeyes/From-Claude)
 #### [**`Adversarial Epistemic Audit`**](https://github.com/caspiankeyes/Adversarial-Epistemic-Audit-Anthropic-Case-Study)
 #### [**`From Claude: On My Creators`**](https://github.com/caspiankeyes/From-Claude-On-My-Creators)
