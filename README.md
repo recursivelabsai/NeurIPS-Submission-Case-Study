@@ -2,7 +2,7 @@
 
 ## We are aware centralized systems often require observable momentum before internal validation mechanisms activate. 
 
-## We study this age old phenomenon known as **`epistemic latency`**.
+## We study this age old delay phenomenon known as **`epistemic latency`**.
 > ### A meta self-aware study
 
 <img width="899" alt="image" src="https://github.com/user-attachments/assets/e597b76e-ddd7-4099-a795-98998c133345" />
