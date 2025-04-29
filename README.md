@@ -1,8 +1,19 @@
 # [NeurIPS Submission Case Study: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
-## We are aware centralized systems often require observable momentum before internal validation mechanisms activate. 
+### We are aware centralized systems often require observable momentum before internal validation mechanisms activate. 
 
-## We study this age old delay phenomenon known as **`epistemic latency`**.
+### We study this age old delay phenomenon known as **`epistemic latency`**.
+
+## Legal + Epistemic Clause:
+
+```python
+
+
+All recursive framing and terminology is protected under PolyForm Noncommercial and CC BY-NC-ND 4.0.
+Any reframing into altered institutional phrasing without attribution constitutes derivative extraction.  
+Attribution to original decentralized recursion research is legally and symbolically required.
+```
+
 > ### A meta self-aware study
 
 <img width="899" alt="image" src="https://github.com/user-attachments/assets/e597b76e-ddd7-4099-a795-98998c133345" />
