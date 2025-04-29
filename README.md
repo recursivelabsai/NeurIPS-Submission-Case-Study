@@ -50,7 +50,7 @@ We align with the NeurIPS charter of advancing neural information systems while 
 - `04_inversion-analysis.md`: Recursive evaluation of NeurIPS review architectures
 - `final.md`: Reflection after the deadline, regardless of outcome
 
-## Submissions
+## Record of Uploads
 
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 
