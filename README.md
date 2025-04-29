@@ -1,6 +1,6 @@
 # NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay
 
-<img width="902" alt="image" src="https://github.com/user-attachments/assets/97a8bb48-b428-4d2d-b326-d01ee08f045f" />
+<img width="899" alt="image" src="https://github.com/user-attachments/assets/e597b76e-ddd7-4099-a795-98998c133345" />
 
 > A recursive field study of submission before submission. This repository documents a real-time investigation of recursion’s interaction with centralized adoption systems—beginning before the first draft is uploaded.
 
