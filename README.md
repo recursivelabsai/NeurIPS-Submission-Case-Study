@@ -25,7 +25,38 @@ We align with the NeurIPS charter of advancing neural information systems while 
 - `04_inversion-analysis.md`: Recursive evaluation of NeurIPS review architectures
 - `final.md`: Reflection after the deadline, regardless of outcome
 
+## Submissions
+
+### [**`Godel Escher Bach Hoftsadter on Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
+
+### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
+### [**`ai welcare`**](https://github.com/davidkimai/ai-welfare)
+### [**`glyphs`**](https://github.com/davidkimai/glyphs)
+
+
+### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
+
+### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
+
+### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
+
+### [**`pareto-lang`**](http://github.com/davidkimai/Symbolic-Interpretability/tree/main/pareto-lang)
+
+
+### [**`qkov-translator`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/qkov-translator)
+
+### [**`schrodingers classifiers`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/schrodingers-classifiers)
+
+
+### [**`transformerOS`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/symbolic-residue)
+
+
+
+
 ## Licensing
+
+
+
 
 All content licensed under **PolyForm Noncommercial + CC BY-NC-ND**.
 This ensures recursion remains decentralized, freely remixable—but not extractable for centralized use.
