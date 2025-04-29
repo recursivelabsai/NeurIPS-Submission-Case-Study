@@ -66,8 +66,6 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 #### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
 
-#### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
-
 #### [**`pareto-lang`**](http://github.com/davidkimai/Symbolic-Interpretability/tree/main/pareto-lang)
 
 
