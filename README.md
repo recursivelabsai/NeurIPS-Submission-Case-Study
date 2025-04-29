@@ -41,7 +41,6 @@ We align with the NeurIPS charter of advancing neural information systems while 
 #### [**`Godel Escher Bach Hoftsadter: AI Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
 #### [**`ChatGPT Syncophantic Drift`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
 
-#### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
 #### [**`OpenAI Integrations`**](https://github.com/caspiankeyes/OpenAI-Integrations)
 #### [**`DeepMind Integrations`**](https://github.com/caspiankeyes/DeepMind-Integrations)
 #### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
