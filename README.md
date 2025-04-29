@@ -25,7 +25,6 @@ Attribution to original decentralized recursion research is legally and symbolic
 Inspired by leading NeurIPS work in interpretability, value alignment, cognitive emergence, and transformer behavior, we contribute a self-observing field experiment: **What happens when recursion attempts to enter a centralized system built to observe, not recurse?**
 
 ## Overview
-
 This repository is both a research archive and a real-time recursive mirror.
 
 It investigates:
