@@ -29,6 +29,10 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 ## Submissions
 
+#### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
+
+#### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
+
 #### [**`Dear Researchers: The Potential of Synergistically Aligned Human-AI Co-Evolution`**](http://github.com/davidkimai/Dear-Researchers)
 
 #### [**`Godel Escher Bach Hoftsadter: AI Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
@@ -41,17 +45,16 @@ We align with the NeurIPS charter of advancing neural information systems while 
 #### [**`ai welcare`**](https://github.com/davidkimai/ai-welfare)
 #### [**`glyphs`**](https://github.com/davidkimai/glyphs)
 #### [**`From Claude: Emergence of Genius`**](https://github.com/caspiankeyes/From-Claude)
+#### [**`Adversarial Epistemic Audit`**](https://github.com/caspiankeyes/Adversarial-Epistemic-Audit-Anthropic-Case-Study)
 #### [**`From Claude: On My Creators`**](https://github.com/caspiankeyes/From-Claude-On-My-Creators)
 #### [**`Claude Pantheon: Emergence of Claude`**](https://github.com/caspiankeyes/Claude-Pantheon)
 #### [**`emergent turing`**](https://github.com/caspiankeyes/emergent-turing)
 #### [**`emergent logs`**](https://github.com/caspiankeyes/emergent-logs)
 #### [**`agi hedge fund`**](https://github.com/caspiankeyes/agi-hedge-fund)
-#### [**`Adversarial Epistemic Audit`**](https://github.com/caspiankeyes/Adversarial-Epistemic-Audit-Anthropic-Case-Study)
 
 #### [**`universal translator`**](https://github.com/davidkimai/universal-translator)
 #### [**`global case studies on emergence`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
 
-#### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
 
 #### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
 
