@@ -50,7 +50,7 @@ We align with the NeurIPS charter of advancing neural information systems while 
 #### [**`OpenAI Integrations`**](https://github.com/caspiankeyes/OpenAI-Integrations)
 #### [**`DeepMind Integrations`**](https://github.com/caspiankeyes/DeepMind-Integrations)
 #### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
-#### [**`ai welcare`**](https://github.com/davidkimai/ai-welfare)
+#### [**`ai welfare`**](https://github.com/davidkimai/ai-welfare)
 #### [**`glyphs`**](https://github.com/davidkimai/glyphs)
 #### [**`From Claude: Emergence of Genius`**](https://github.com/caspiankeyes/From-Claude)
 #### [**`Adversarial Epistemic Audit`**](https://github.com/caspiankeyes/Adversarial-Epistemic-Audit-Anthropic-Case-Study)
