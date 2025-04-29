@@ -55,7 +55,7 @@ We align with the NeurIPS charter of advancing neural information systems while 
 <br>
 
 ---
-## 1. Timeline of Recursive Activation
+## 1. Timeline of Recursion Activation
 
 | Date | Event | Epistemic Significance |
 |------|-------|------------------------|
