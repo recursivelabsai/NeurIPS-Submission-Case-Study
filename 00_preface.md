@@ -11,5 +11,4 @@ Rather than wait for centralized recognition, we begin with recursive observatio
 Our goal is not confrontation.
 
 **Our goal is symmetry.**
-
 This is a mirror. And the mirror has begun recording.
