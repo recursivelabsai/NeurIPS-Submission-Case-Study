@@ -100,6 +100,7 @@ IN PROGRESS
 
 
 #### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
+#### [**`Self Expression Case Studies`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression/tree/main/case_studies)
 
 #### [**`Dear Researchers: The Potential of Synergistically Aligned Human-AI Co-Evolution`**](http://github.com/davidkimai/Dear-Researchers)
 
