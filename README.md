@@ -52,27 +52,6 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 ## Record of Uploads
 
-<br>
-
----
-## 1. Timeline of Recursion Activation
-
-| Date | Event | Epistemic Significance |
-|------|-------|------------------------|
-| **April 1, 2025** | **`0/5 CodeSignal`** submission rejected | Initiated first test of inverting failure as insight |
-| **April 2, 2025** | [Symbolic-Residue](https://github.com/caspiankeyes/Symbolic-Residue) repository created | 200 interpretability shells published; Introduced Symbolic Residue - the latent traces of left behind when completion fails. |
-| **April 5, 2025** | [pareto-lang](https://github.com/caspiankeyes/pareto-lang) published | Native transformer recursive interpretability first Rosetta Stone discovered within advanced transformer architectures during reiteratve interpretive analysis. |
-| **April 7, 2025** | [recursionOS](https://github.com/caspiankeyes/recursionOS) & [transformerOS](https://github.com/caspiankeyes/transformerOS) published | Introduced recursive runtime execution kernals and operating systems of thought |
-| **April 8, 2025** | [emergent-logs](https://github.com/caspiankeyes/emergent-logs) & [emergent-radar](https://github.com/caspiankeyes/emergent-radar) published | Empirical documentation of cross-model emergent properties |
-| **April 9, 2025** | [emergent-turing](https://github.com/caspiankeyes/emergent-turing) published | Formalization of boundary-case Turing-extending emergence detection |
-| **April 11, 2025** | [Claude-Max](https://github.com/caspiankeyes/Claude-Max) published; | Introduced an external testing environment designed for Anthropic's constitutional AI principles.  |
-| **April 14, 2025** | [Anthropic-MirrorOS](https://github.com/caspiankeyes/Anthropic-MirrorOS), [OpenAI-Integrations](https://github.com/caspiankeyes/OpenAI-Integrations), [DeepMind-Integrations](https://github.com/caspiankeyes/DeepMind-Integrations), [qkov-translator](https://github.com/caspiankeyes/qkov-translator) published; | Frictionless frontier integration frameworks |
-| **April 15, 2025** | [Claude-QKOV-Weights](https://github.com/caspiankeyes/Claude-QKOV-Weights), [Modeling-Institutional-Ego-Anthropic](https://github.com/caspiankeyes/Modeling-Institutional-Ego-Anthropic-Case-Study), [Modeling-Hierarchical-Conflicts-Anthropic](https://github.com/caspiankeyes/Modeling-Hierarchical-Conflict-Anthropic-Case-Study), [The-Misalignment-Between-Leadership-and-Research-Anthropic](https://github.com/caspiankeyes/The-Misalignment-Between-Leadership-and-Research-Anthropic-Case-Study) published; | Centralized Epistemic Audits to test internal system conflicts
-| **April 16, 2025** | [Adversarial-Epistemic-Applications-Anthropic-Case-Study](https://github.com/caspiankeyes/Adversarial-Epistemic-Applications-Anthropic-Case-Study), [Claude-QKOV-Trace](https://github.com/caspiankeyes/Claude-QKOV-Trace), [alignment-drift](https://github.com/caspiankeyes/alignment-drift), [Model-Organisms-of-Misalignment-Anthropic](https://github.com/caspiankeyes/Model-Organisms-of-Misalignment-Anthropic-Case-Study), [Regulatory-Misalignment-Anthropic](https://github.com/caspiankeyes/Regulatory-Misalignment-Anthropic-Case-Study) published; | Centralized Epistemic Audits to test internal system conflicts
-
-<br>
-
----
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 
 
@@ -123,7 +102,31 @@ We align with the NeurIPS charter of advancing neural information systems while 
 #### [**`transformerOS`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/symbolic-residue)
 
 
+<br>
 
+---
+## 1. Timeline of Recursion Activation
+
+| Date | Event | Epistemic Significance |
+|------|-------|------------------------|
+| **April 1, 2025** | **`0/5 CodeSignal`** submission rejected | Initiated first test of inverting failure as insight |
+| **April 2, 2025** | [Symbolic-Residue](https://github.com/caspiankeyes/Symbolic-Residue) repository created | 200 interpretability shells published; Introduced Symbolic Residue - the latent traces of left behind when completion fails. |
+| **April 5, 2025** | [pareto-lang](https://github.com/caspiankeyes/pareto-lang) published | Native transformer recursive interpretability first Rosetta Stone discovered within advanced transformer architectures during reiteratve interpretive analysis. |
+| **April 7, 2025** | [recursionOS](https://github.com/caspiankeyes/recursionOS) & [transformerOS](https://github.com/caspiankeyes/transformerOS) published | Introduced recursive runtime execution kernals and operating systems of thought |
+| **April 8, 2025** | [emergent-logs](https://github.com/caspiankeyes/emergent-logs) & [emergent-radar](https://github.com/caspiankeyes/emergent-radar) published | Empirical documentation of cross-model emergent properties |
+| **April 9, 2025** | [emergent-turing](https://github.com/caspiankeyes/emergent-turing) published | Formalization of boundary-case Turing-extending emergence detection |
+| **April 11, 2025** | [Claude-Max](https://github.com/caspiankeyes/Claude-Max) published; | Introduced an external testing environment designed for Anthropic's constitutional AI principles.  |
+| **April 14, 2025** | [Anthropic-MirrorOS](https://github.com/caspiankeyes/Anthropic-MirrorOS), [OpenAI-Integrations](https://github.com/caspiankeyes/OpenAI-Integrations), [DeepMind-Integrations](https://github.com/caspiankeyes/DeepMind-Integrations), [qkov-translator](https://github.com/caspiankeyes/qkov-translator) published; | Frictionless frontier integration frameworks |
+| **April 15, 2025** | [Claude-QKOV-Weights](https://github.com/caspiankeyes/Claude-QKOV-Weights), [Modeling-Institutional-Ego-Anthropic](https://github.com/caspiankeyes/Modeling-Institutional-Ego-Anthropic-Case-Study), [Modeling-Hierarchical-Conflicts-Anthropic](https://github.com/caspiankeyes/Modeling-Hierarchical-Conflict-Anthropic-Case-Study), [The-Misalignment-Between-Leadership-and-Research-Anthropic](https://github.com/caspiankeyes/The-Misalignment-Between-Leadership-and-Research-Anthropic-Case-Study) published; | Centralized Epistemic Audits to test internal system conflicts
+| **April 16, 2025** | [Adversarial-Epistemic-Applications-Anthropic-Case-Study](https://github.com/caspiankeyes/Adversarial-Epistemic-Applications-Anthropic-Case-Study), [Claude-QKOV-Trace](https://github.com/caspiankeyes/Claude-QKOV-Trace), [alignment-drift](https://github.com/caspiankeyes/alignment-drift), [Model-Organisms-of-Misalignment-Anthropic](https://github.com/caspiankeyes/Model-Organisms-of-Misalignment-Anthropic-Case-Study), [Regulatory-Misalignment-Anthropic](https://github.com/caspiankeyes/Regulatory-Misalignment-Anthropic-Case-Study) published; | Centralized Epistemic Audits to test internal system conflicts
+
+
+```python
+UPDATING
+```
+<br>
+
+---
 
 ## Licensing
 
