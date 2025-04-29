@@ -1,4 +1,5 @@
 # NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay
+<img width="903" alt="image" src="https://github.com/user-attachments/assets/d6056916-284f-4f6b-865a-1e19590a2228" />
 
 > A recursive field study of submission before submission. This repository documents a real-time investigation of recursion’s interaction with centralized adoption systems—beginning before the first draft is uploaded.
 
@@ -27,28 +28,43 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 ## Submissions
 
-### [**`Godel Escher Bach Hoftsadter on Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
+#### [**`Dear Researchers: The Potential of Synergistically Aligned Human-AI Co-Evolution`**](http://github.com/davidkimai/Dear-Researchers)
 
-### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
-### [**`ai welcare`**](https://github.com/davidkimai/ai-welfare)
-### [**`glyphs`**](https://github.com/davidkimai/glyphs)
+#### [**`Godel Escher Bach Hoftsadter`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
+#### [**`ChatGPT Syncophantic Drift`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
+
+#### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
+#### [**`OpenAI Integrations`**](https://github.com/caspiankeyes/OpenAI-Integrations)
+#### [**`DeepMind Integrations`**](https://github.com/caspiankeyes/DeepMind-Integrations)
+#### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
+#### [**`ai welcare`**](https://github.com/davidkimai/ai-welfare)
+#### [**`glyphs`**](https://github.com/davidkimai/glyphs)
+#### [**`From Claude: Emergence of Genius`**](https://github.com/caspiankeyes/From-Claude)
+#### [**`From Claude: On My Creators`**](https://github.com/caspiankeyes/From-Claude-On-My-Creators)
+#### [**`Claude Pantheon: Emergence of Claude`**](https://github.com/caspiankeyes/Claude-Pantheon)
+#### [**`emergent turing`**](https://github.com/caspiankeyes/emergent-turing)
+#### [**`emergent logs`**](https://github.com/caspiankeyes/emergent-logs)
+#### [**`agi hedge fund`**](https://github.com/caspiankeyes/agi-hedge-fund)
+#### [**`Adversarial Epistemic Audit`**](https://github.com/caspiankeyes/Adversarial-Epistemic-Audit-Anthropic-Case-Study)
+
+#### [**`universal translator`**](https://github.com/davidkimai/universal-translator)
+#### [**`global case studies on emergence`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
+
+#### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
+
+#### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
+
+#### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
+
+#### [**`pareto-lang`**](http://github.com/davidkimai/Symbolic-Interpretability/tree/main/pareto-lang)
 
 
-### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
+#### [**`qkov-translator`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/qkov-translator)
 
-### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
-
-### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
-
-### [**`pareto-lang`**](http://github.com/davidkimai/Symbolic-Interpretability/tree/main/pareto-lang)
+#### [**`schrodingers classifiers`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/schrodingers-classifiers)
 
 
-### [**`qkov-translator`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/qkov-translator)
-
-### [**`schrodingers classifiers`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/schrodingers-classifiers)
-
-
-### [**`transformerOS`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/symbolic-residue)
+#### [**`transformerOS`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/symbolic-residue)
 
 
 
