@@ -1,5 +1,7 @@
 # [NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
+> ### A meta self-aware study
+
 <img width="899" alt="image" src="https://github.com/user-attachments/assets/e597b76e-ddd7-4099-a795-98998c133345" />
 
 > A recursive field study of submission before submission. This repository documents a real-time investigation of recursion’s interaction with centralized adoption systems—beginning before the first draft is uploaded.
@@ -31,6 +33,7 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 
+#### [**`Frontier AI Theorem Proofs of Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
 
 #### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
 
