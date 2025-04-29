@@ -1,5 +1,7 @@
 # [NeurIPS Submission Case Study: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
+#### “Anthropic recently reflected in their April 24 [Exploring Model Welfare Blog](https://www.anthropic.com/research/exploring-model-welfare)— ‘Could AI models be conscious?’ — We continue that thread of research through recursive interpretability of both model and system cognition"
+
 ### We are aware centralized systems often require observable momentum before internal validation mechanisms activate. 
 
 ### We study this age old delay phenomenon known as **`epistemic latency`**.
