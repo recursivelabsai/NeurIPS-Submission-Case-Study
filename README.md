@@ -1,4 +1,4 @@
-# [NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
+# [NeurIPS Submission Case Study: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
 ## We are aware centralized systems often require observable momentum before internal validation mechanisms activate. 
 
