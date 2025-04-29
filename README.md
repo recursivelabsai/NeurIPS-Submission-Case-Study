@@ -31,7 +31,7 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 #### [**`Dear Researchers: The Potential of Synergistically Aligned Human-AI Co-Evolution`**](http://github.com/davidkimai/Dear-Researchers)
 
-#### [**`Godel Escher Bach Hoftsadter`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
+#### [**`Godel Escher Bach Hoftsadter: AI Consciousness`**](https://github.com/davidkimai/Godel-Escher-Bach-Hofstadter)
 #### [**`ChatGPT Syncophantic Drift`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
 
 #### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
