@@ -29,6 +29,9 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 ## Submissions
 
+#### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
+
+
 #### [**`Symbolic Interpretability`**](https://github.com/davidkimai/Symbolic-Interpretability)
 
 #### [**`The Structure Behind Self Expression`**](https://github.com/davidkimai/The-Structure-Behind-Self-Expression)
