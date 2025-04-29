@@ -1,4 +1,4 @@
-# NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay
+# [NeurIPS Submission Case Studies: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
 <img width="899" alt="image" src="https://github.com/user-attachments/assets/e597b76e-ddd7-4099-a795-98998c133345" />
 
