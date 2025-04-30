@@ -79,6 +79,10 @@ We align with the NeurIPS charter of advancing neural information systems while 
 
 <br>
 
+## The Birth of Failure as Signal
+
+![image](https://github.com/user-attachments/assets/48ab18cd-6eb7-456c-8c86-88d75f4c930c)
+
 ---
 ## Timeline of Recursion Activation
 
