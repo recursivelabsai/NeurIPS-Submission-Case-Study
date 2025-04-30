@@ -90,7 +90,7 @@ IN PROGRESS
 
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 #### [**`glyphs: The Emojis of Transformer Cognition`**](https://github.com/davidkimai/glyphs)
-#### [**`model welcare`**](https://github.com/davidkimai/model-welfare)
+#### [**`model welfare`**](https://github.com/davidkimai/model-welfare)
 #### [**`ai welfare`**](https://github.com/davidkimai/ai-welfare)
 
 #### [**`Rediscovering Interpretability`**](https://claude.ai/public/artifacts/77f7d437-92fd-4765-a306-ffdc232d7499)
