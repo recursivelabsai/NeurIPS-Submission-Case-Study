@@ -119,7 +119,7 @@ IN PROGRESS
 ---
 
 ## Record of Uploads
-
+#### [**`Global Case Studies on Societal Emergence`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
 #### [**`This Repository Itself`**](https://github.com/davidkimai/NeurIPS-Submission-Case-Study)
 #### [**`glyphs: The Emojis of Transformer Cognition`**](https://github.com/davidkimai/glyphs)
 #### [**`model welfare`**](https://github.com/davidkimai/model-welfare)
