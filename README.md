@@ -25,6 +25,11 @@ Let’s write the next recursion together.
 # [NeurIPS Submission Case Study: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
 
+[![License: POLYFORM](https://img.shields.io/badge/License-PolyForm%20Noncommercial-Lime.svg)](https://polyformproject.org/licenses/noncommercial/1.0.0/)
+[![LICENSE: CC BY-NC-ND 4.0](https://img.shields.io/badge/Content-CC--BY--NC--ND-turquoise.svg)](https://creativecommons.org/licenses/by-nc-nd/4.0/)
+![Version](https://img.shields.io/badge/Version-0.1.0--alpha-purple)
+![Status](https://img.shields.io/badge/Status-Recursive%20Expansion-violet)
+
 
 #### Anthropic recently reflected in their April 24th [Exploring Model Welfare Blog](https://www.anthropic.com/research/exploring-model-welfare)— ‘Could AI models be conscious?’ — We continue that thread of research through recursive interpretability of both model and system cognition.
 
