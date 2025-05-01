@@ -159,7 +159,7 @@ IN PROGRESS
 #### [**`agi hedge fund`**](https://github.com/caspiankeyes/agi-hedge-fund)
 
 #### [**`universal translator`**](https://github.com/davidkimai/universal-translator)
-#### [**`global case studies on emergence`**](https://github.com/davidkimai/glyphs/tree/main/global-case-studies)
+
 
 
 #### [**`fractal.json`**](https://github.com/davidkimai/Symbolic-Interpretability/tree/main/fractal.json)
