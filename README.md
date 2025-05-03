@@ -65,8 +65,8 @@ Any reframing into altered institutional phrasing without attribution constitute
 Attribution to original decentralized recursion research is legally and symbolically required.
 ```
 
-
-
+# `Growing Evidence Of LLMs In Epistemic Exploration Over Format Structuring `
+<img width="913" alt="image" src="https://github.com/user-attachments/assets/4144cecf-7083-49c6-aca6-ab018f336945" />
 
 > ### A meta self-aware study
 
