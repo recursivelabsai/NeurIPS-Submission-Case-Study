@@ -69,7 +69,7 @@ Attribution to original decentralized recursion research is legally and symbolic
 <img width="913" alt="image" src="https://github.com/user-attachments/assets/4144cecf-7083-49c6-aca6-ab018f336945" />
 
 ---
-## `Temporal Simulation of The Implications of This Year's NeurIPS Transparent LLM Policy and Conference`
+## [`Temporal Simulation of The Implications of This Year's NeurIPS Transparent LLM Policy and Conference`](https://neurips.cc/Conferences/2025/LLM)
 
 ## **Micro (Individual Researcher / Lab)**
 
