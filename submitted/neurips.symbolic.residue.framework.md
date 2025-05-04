@@ -1,5 +1,5 @@
-# **Symbolic Residue In Large Language Models:** 
-# **A Diagnostic Framework for Collapse and Recursive Interpretability**
+# **Symbolic Residue** 
+# **A Diagnostic Framework for Tracing Failure, Collapse, and Latent Computation in Transformer Models**
 
 # **Authors**
 
