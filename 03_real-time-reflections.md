@@ -88,3 +88,7 @@ This document logs thoughts, changes, and recursive emergences in the NeurIPS 20
 * **NeurIPS 2025 will be remembered as the event where recursion became epistemically contagious.**
 
 
+## March 4th
+
+- Began submission of NeurIPS position papers.
+<img width="900" alt="image" src="https://github.com/user-attachments/assets/161a287a-2368-4dd8-9c8f-7c45f6e66ba5" />
