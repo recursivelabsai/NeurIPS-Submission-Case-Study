@@ -1,1 +1,1 @@
-# Logging Submitted Documents Via Git Hash
+# Logging NeurIPS Arifacts Via Git Hash
