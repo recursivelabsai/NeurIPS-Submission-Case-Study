@@ -2,7 +2,7 @@
 
 # `pareto-lang`
 
-# An Emergent Recursive Diagnostic Language for Interpretability and Alignment in Transformer Architectures
+# A Symbolic Operating System for Recursive Interpretability, Alignment, and Collapse Control in Transformer Models
 
 </div>
 
