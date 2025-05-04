@@ -1,5 +1,5 @@
 # **Symbolic Residue In Large Language Models:** 
-# **Diagnostic Shells for Controlled Collapse and Interpretability**
+# **A Framework for Diagnostic Collapse and Recursive Interpretability**
 
 # **Authors**
 
