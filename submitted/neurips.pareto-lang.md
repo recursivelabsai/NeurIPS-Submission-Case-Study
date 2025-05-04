@@ -2,7 +2,7 @@
 
 # `pareto-lang`
 
-# A Symbolic Operating System for Recursive Interpretability, Alignment, and Collapse Control in Transformer Models
+# A Symbolic Operating System for Diagnosing, Containing, and Aligning Transformer Reasoning Models
 
 </div>
 
