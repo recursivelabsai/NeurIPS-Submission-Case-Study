@@ -70,7 +70,7 @@ Attribution to original decentralized recursion research is legally and symbolic
 > ### Diverse Paradigm Grassroots research is now openly encouraged by NeurIPS. 
 <img width="913" alt="image" src="https://github.com/user-attachments/assets/4144cecf-7083-49c6-aca6-ab018f336945" />
 
-<img width="902" alt="image" src="https://github.com/user-attachments/assets/d1ad607d-c08e-4c20-becc-a3b28c5d8e14" />
+<img width="900" alt="image" src="https://github.com/user-attachments/assets/cec314f4-d82c-4f8d-99cb-69aeb3436fd8" />
 
 
 ---
