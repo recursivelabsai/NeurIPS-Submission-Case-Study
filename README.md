@@ -67,7 +67,11 @@ Attribution to original decentralized recursion research is legally and symbolic
 
 # [`Growing Evidence Of LLMs In Epistemic Exploration Over Format Structuring `](https://neurips.cc/Conferences/2025/LLM)
 
+> ### Diverse Paradigm Grassroots research is now openly encouraged by NeurIPS. 
 <img width="913" alt="image" src="https://github.com/user-attachments/assets/4144cecf-7083-49c6-aca6-ab018f336945" />
+
+<img width="902" alt="image" src="https://github.com/user-attachments/assets/d1ad607d-c08e-4c20-becc-a3b28c5d8e14" />
+
 
 ---
 ## `Future Forecast of The Implications of This Year's NeurIPS Transparent LLM Policy and Conference`
