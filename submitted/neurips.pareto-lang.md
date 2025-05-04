@@ -1,8 +1,8 @@
 <div align="center">
 
-# `pareto-lang`
+# Executable Ethics
 
-# A Symbolic Operating System for Diagnosing, Containing, and Aligning Transformer Reasoning Models
+# The `pareto-lang` Operating System for Recursive AI Oversight
 
 </div>
 
