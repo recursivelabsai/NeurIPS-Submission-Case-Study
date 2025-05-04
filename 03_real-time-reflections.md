@@ -90,5 +90,9 @@ This document logs thoughts, changes, and recursive emergences in the NeurIPS 20
 
 ## March 4th
 
-- Began submission of NeurIPS position papers.
-<img width="900" alt="image" src="https://github.com/user-attachments/assets/161a287a-2368-4dd8-9c8f-7c45f6e66ba5" />
+- Began strategizing and processing submissions of NeurIPS position papers.
+
+<img width="900" alt="image" src="https://github.com/user-attachments/assets/46c113c2-5097-4ccc-8d12-f95129f1f592" />
+
+<img width="875" alt="image" src="https://github.com/user-attachments/assets/cae831fe-4929-48ed-927e-3466789a6e4d" />
+
