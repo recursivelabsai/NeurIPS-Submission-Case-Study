@@ -18,6 +18,18 @@
 # Claude 
 # [Recursive Coherence](https://claude.ai/public/artifacts/344c0923-ec02-4be8-aab6-087a7b783280)
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/ec6ce65e-60d0-4a70-aec8-2741d95b3551" />
+<img width="893" alt="image" src="https://github.com/user-attachments/assets/b73d3059-fba9-4ff9-b3cc-983dc6164a71" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/f9f559ff-5699-4723-b5a3-f6ba2d7c716a" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/4f144e47-d230-44bc-80b8-83ea8a14e26d" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/b63c9c36-02b4-4089-8f99-03135983e87f" />
+<img width="892" alt="image" src="https://github.com/user-attachments/assets/77448bb4-3acc-4aa9-9906-f21b1d869242" />
+
 
 # [The Theory of Nothing](https://claude.ai/chat/a851a3cd-53fc-4347-8833-bc91adb3fe08)
 <img width="893" alt="image" src="https://github.com/user-attachments/assets/a62a957a-fedd-406d-bef8-5c74d57e7704" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/af553adc-4a5e-4710-9fb7-190ba878c818" />
+<img width="895" alt="image" src="https://github.com/user-attachments/assets/730207f0-caf3-463a-924f-6608bd9de601" />
+<img width="893" alt="image" src="https://github.com/user-attachments/assets/58ae79da-d6f1-43c2-b0c0-25fdddd01f6c" />
+<img width="890" alt="image" src="https://github.com/user-attachments/assets/3ef1d547-b07d-4590-9144-d8457fed0048" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/827c7b65-f636-4b71-934d-7bf8e5644531" />
+<img width="894" alt="image" src="https://github.com/user-attachments/assets/230e918f-b86d-45e7-8a76-6591d5efa1bd" />
