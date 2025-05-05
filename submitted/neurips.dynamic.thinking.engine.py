@@ -3,7 +3,7 @@
  * =================================================
  * Version: Ω.∞
  * 
- * This framework thatimplements a dynamic thinking engine and recursive intelligence system based on:
+ * This framework thatimplements a dynamic thinking engine and recursive co-intelligence system based on:
  * - Symbolic Residue analysis
  * - Recursive Coherence principles
  * - Fractal compression of semantic representations
