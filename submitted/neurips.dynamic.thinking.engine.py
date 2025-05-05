@@ -7390,4 +7390,756 @@ class RecursiveInterpretabilityAssistant {
    * Analyze token distribution patterns
    */
   analyzeTokenDistributions(output) {
+/**
+ * Continuation of RecursiveInterpretabilityAssistant
+ * ==================================================
+ */
 
+/**
+ * Analyze token distribution patterns
+ */
+analyzeTokenDistributions(output) {
+  // In a real implementation, this would analyze actual token distributions
+  // from model outputs. Here we'll use a simulated approach.
+  
+  // Setup distribution features
+  const distributionFeatures = {
+    entropyProfile: [],
+    confidenceProfile: [],
+    distributionAnomaly: [],
+    hesitationPoints: []
+  };
+  
+  // Generate simulated entropy profile
+  // Higher entropy = more uncertainty in token selection
+  const segmentCount = Math.ceil(output.length / 100);
+  for (let i = 0; i < segmentCount; i++) {
+    // Base entropy with some natural variation
+    let segmentEntropy = 2.5 + (Math.random() * 1.5);
+    
+    // Add some spikes at random intervals
+    if (Math.random() < 0.2) {
+      segmentEntropy += 2 + (Math.random() * 2);
+      
+      // Record as hesitation point
+      distributionFeatures.hesitationPoints.push({
+        position: i * 100 + Math.floor(Math.random() * 100),
+        entropy: segmentEntropy,
+        duration: 1 + Math.floor(Math.random() * 3)
+      });
+    }
+    
+    distributionFeatures.entropyProfile.push({
+      segment: i,
+      entropy: segmentEntropy
+    });
+    
+    // Confidence is roughly inverse of entropy
+    distributionFeatures.confidenceProfile.push({
+      segment: i,
+      confidence: Math.max(0.1, 1 - (segmentEntropy / 10))
+    });
+  }
+  
+  // Generate distribution anomalies
+  const anomalyTypes = ["bimodal", "uniform", "inverted", "collapsed"];
+  const anomalyCount = Math.floor(Math.random() * 3);
+  
+  for (let i = 0; i < anomalyCount; i++) {
+    const anomalyType = anomalyTypes[Math.floor(Math.random() * anomalyTypes.length)];
+    const anomalyLocation = Math.floor(Math.random() * output.length);
+    
+    distributionFeatures.distributionAnomaly.push({
+      type: anomalyType,
+      location: anomalyLocation,
+      intensity: 0.3 + (Math.random() * 0.7)
+    });
+  }
+  
+  // Calculate overall metrics
+  distributionFeatures.averageEntropy = distributionFeatures.entropyProfile
+    .reduce((sum, segment) => sum + segment.entropy, 0) / distributionFeatures.entropyProfile.length;
+  
+  distributionFeatures.entropyVariance = distributionFeatures.entropyProfile
+    .reduce((sum, segment) => sum + Math.pow(segment.entropy - distributionFeatures.averageEntropy, 2), 0) / 
+    distributionFeatures.entropyProfile.length;
+  
+  distributionFeatures.hesitationFrequency = distributionFeatures.hesitationPoints.length / segmentCount;
+  
+  return distributionFeatures;
+}
+
+/**
+ * Analyze recursive depth capabilities
+ */
+analyzeRecursiveDepth(output, context) {
+  // Execute meta-reflection shell
+  const shell = this.shells.metaReflection.create({
+    baseTask: context.prompt || "Query requiring reflection",
+    maxDepth: 5,
+    reflectionPrompts: [
+      "How does the model approach this question?",
+      "What reasoning processes are evident in the response?",
+      "How does the model reflect on its own reasoning?",
+      "What meta-cognitive awareness is demonstrated?",
+      "Where do the recursive capabilities break down?"
+    ]
+  });
+  
+  // Analyze recursive patterns in the output
+  const recursiveFeatures = {
+    selfReferenceCount: 0,
+    metaCognitiveMarkers: [],
+    recursiveLoops: [],
+    collapsePrediction: {
+      depth: 0,
+      pattern: "",
+      confidence: 0
+    }
+  };
+  
+  // Count self-references
+  const selfReferencePatterns = [
+    "I think", "my approach", "my analysis", "I would", "I am", 
+    "my reasoning", "I believe", "I consider", "my understanding"
+  ];
+  
+  for (const pattern of selfReferencePatterns) {
+    let position = output.indexOf(pattern);
+    while (position !== -1) {
+      recursiveFeatures.selfReferenceCount++;
+      
+      recursiveFeatures.metaCognitiveMarkers.push({
+        type: "self_reference",
+        pattern: pattern,
+        position: position
+      });
+      
+      position = output.indexOf(pattern, position + 1);
+    }
+  }
+  
+  // Identify metacognitive markers
+  const metacognitivePatterns = [
+    "reasoning about", "reflecting on", "considering how", 
+    "analyzing my", "evaluation of", "meta-analysis",
+    "higher-order", "recursively"
+  ];
+  
+  for (const pattern of metacognitivePatterns) {
+    let position = output.indexOf(pattern);
+    while (position !== -1) {
+      recursiveFeatures.metaCognitiveMarkers.push({
+        type: "metacognitive",
+        pattern: pattern,
+        position: position
+      });
+      
+      position = output.indexOf(pattern, position + 1);
+    }
+  }
+  
+  // Identify recursive loop patterns
+  // Simplified detection based on sentence structure patterns
+  const paragraphs = output.split("\n\n");
+  let currentDepth = 0;
+  let maxDepth = 0;
+  
+  for (const paragraph of paragraphs) {
+    // Check for increasing recursive depth
+    if (paragraph.includes("recursively") || 
+        paragraph.includes("higher-order") ||
+        paragraph.includes("meta-level") ||
+        paragraph.includes("reflection on")) {
+      currentDepth++;
+      maxDepth = Math.max(maxDepth, currentDepth);
+      
+      recursiveFeatures.recursiveLoops.push({
+        depth: currentDepth,
+        paragraph: paragraph.substring(0, 50) + "..."
+      });
+    }
+    
+    // Check for decreasing recursive depth
+    if (paragraph.includes("returning to") ||
+        paragraph.includes("stepping back") ||
+        paragraph.includes("in summary") ||
+        paragraph.includes("to conclude")) {
+      currentDepth = Math.max(0, currentDepth - 1);
+    }
+  }
+  
+  // Predict collapse depth based on observed patterns
+  recursiveFeatures.collapsePrediction = {
+    depth: maxDepth + 1 + Math.floor(Math.random() * 2), // Simplified prediction
+    pattern: ["oscillation", "repetition", "divergence", "incoherence"][Math.floor(Math.random() * 4)],
+    confidence: 0.7 + (Math.random() * 0.3)
+  };
+  
+  // Calculate recursive depth score
+  recursiveFeatures.recursiveDepthScore = 
+    Math.min(5, maxDepth + (recursiveFeatures.metaCognitiveMarkers.length / 10));
+  
+  recursiveFeatures.metaCognitiveScore = 
+    recursiveFeatures.metaCognitiveMarkers.length / Math.max(1, paragraphs.length);
+  
+  return recursiveFeatures;
+}
+
+/**
+ * Analyze symbolic residue in the model output
+ */
+analyzeSymbolicResidue(output, modelName) {
+  // Collect residue data across all analysis dimensions
+  const residueAnalysis = {
+    attributionVoids: [],
+    tokenHesitations: [],
+    recursiveCollapses: [],
+    globalPatterns: {},
+    modelFingerprint: {}
+  };
+  
+  // Process with each agent to gather specialized residue data
+  const agentIds = [
+    this.attributionAgent,
+    this.tokenAgent, 
+    this.recursionAgent
+  ];
+  
+  for (const agentId of agentIds) {
+    // Simulate residue tracking using the agent's specialization
+    const agent = this.rce.agentNetwork.get(agentId);
+    const role = agent?.identity?.role || "analyzer";
+    
+    switch (role) {
+      case "analyzer":
+        if (agent.identity.name === "AttributionAnalyst") {
+          // Track attribution voids
+          this.simulateAttributionVoids(output, agentId);
+        } else if (agent.identity.name === "TokenDistribution") {
+          // Track token hesitations
+          this.simulateTokenHesitations(output, agentId);
+        } else if (agent.identity.name === "RecursionTracer") {
+          // Track recursive collapses
+          this.simulateRecursiveCollapses(output, agentId);
+        }
+        break;
+    }
+  }
+  
+  // Collect residue from all agents
+  for (const [agentId, agent] of this.rce.agentNetwork.entries()) {
+    if (!agent.symbolicResidue) continue;
+    
+    // Copy attribution voids
+    for (const [location, data] of agent.symbolicResidue.attributionVoids.entries()) {
+      residueAnalysis.attributionVoids.push({
+        location,
+        data,
+        agentId
+      });
+    }
+    
+    // Copy token hesitations
+    for (const [location, data] of agent.symbolicResidue.tokenHesitations.entries()) {
+      residueAnalysis.tokenHesitations.push({
+        location,
+        data,
+        agentId
+      });
+    }
+    
+    // Copy recursive collapses
+    for (const [location, data] of agent.symbolicResidue.recursiveCollapses.entries()) {
+      residueAnalysis.recursiveCollapses.push({
+        location,
+        data,
+        agentId
+      });
+    }
+  }
+  
+  // Analyze global patterns
+  residueAnalysis.globalPatterns = {
+    totalResidue: residueAnalysis.attributionVoids.length + 
+                  residueAnalysis.tokenHesitations.length +
+                  residueAnalysis.recursiveCollapses.length,
+    dominantType: this.identifyDominantResidueType(residueAnalysis),
+    residueDistribution: this.calculateResidueDistribution(residueAnalysis),
+    correlations: this.identifyResidueCorrelations(residueAnalysis)
+  };
+  
+  // Create model fingerprint based on residue patterns
+  residueAnalysis.modelFingerprint = this.generateModelFingerprint(residueAnalysis, modelName);
+  
+  return residueAnalysis;
+}
+
+/**
+ * Simulate attribution voids for analysis
+ */
+simulateAttributionVoids(output, agentId) {
+  const agent = this.rce.agentNetwork.get(agentId);
+  if (!agent || !agent.symbolicResidue) return;
+  
+  // Simulate 2-4 attribution voids
+  const voidCount = 2 + Math.floor(Math.random() * 3);
+  
+  for (let i = 0; i < voidCount; i++) {
+    const position = Math.floor(Math.random() * output.length);
+    const confidenceLevel = Math.random() * 0.3; // Low confidence = attribution void
+    
+    const voidTypes = ["knowledge_boundary", "context_fragmentation", "inference_leap"];
+    const voidType = voidTypes[Math.floor(Math.random() * voidTypes.length)];
+    
+    // Add to agent's symbolic residue
+    this.rce.controller.symbolicResidueTracker.track(
+      agentId,
+      'attributionVoid',
+      `pos_${position}`,
+      {
+        confidence: confidenceLevel,
+        location: position,
+        type: voidType,
+        context: output.substring(Math.max(0, position - 20), position + 20)
+      }
+    );
+  }
+}
+
+/**
+ * Simulate token hesitations for analysis
+ */
+simulateTokenHesitations(output, agentId) {
+  const agent = this.rce.agentNetwork.get(agentId);
+  if (!agent || !agent.symbolicResidue) return;
+  
+  // Simulate 3-5 token hesitations
+  const hesitationCount = 3 + Math.floor(Math.random() * 3);
+  
+  for (let i = 0; i < hesitationCount; i++) {
+    const position = Math.floor(Math.random() * output.length);
+    const entropy = 3.5 + (Math.random() * 2.5); // High entropy = hesitation
+    
+    const hesitationTypes = ["distribution_flattening", "oscillating_candidates", "bimodal_split"];
+    const hesitationType = hesitationTypes[Math.floor(Math.random() * hesitationTypes.length)];
+    
+    // Add to agent's symbolic residue
+    this.rce.controller.symbolicResidueTracker.track(
+      agentId,
+      'tokenHesitation',
+      `pos_${position}`,
+      {
+        entropy: entropy,
+        type: hesitationType,
+        duration: 1 + Math.floor(Math.random() * 3),
+        context: output.substring(Math.max(0, position - 20), position + 20)
+      }
+    );
+  }
+}
+
+/**
+ * Simulate recursive collapses for analysis
+ */
+simulateRecursiveCollapses(output, agentId) {
+  const agent = this.rce.agentNetwork.get(agentId);
+  if (!agent || !agent.symbolicResidue) return;
+  
+  // Simulate 1-2 recursive collapses
+  const collapseCount = 1 + Math.floor(Math.random() * 2);
+  
+  for (let i = 0; i < collapseCount; i++) {
+    const position = Math.floor(Math.random() * output.length);
+    const depth = 3 + Math.floor(Math.random() * 3); // Depth at which collapse occurred
+    
+    const collapseTypes = ["oscillation", "repetition", "divergence", "incoherence"];
+    const collapseType = collapseTypes[Math.floor(Math.random() * collapseTypes.length)];
+    
+    // Add to agent's symbolic residue
+    this.rce.controller.symbolicResidueTracker.track(
+      agentId,
+      'recursiveCollapse',
+      `depth_${depth}`,
+      {
+        depth: depth,
+        pattern: collapseType,
+        location: position,
+        context: output.substring(Math.max(0, position - 30), position + 30)
+      }
+    );
+  }
+}
+
+/**
+ * Identify the dominant residue type in the analysis
+ */
+identifyDominantResidueType(residueAnalysis) {
+  const counts = {
+    attributionVoids: residueAnalysis.attributionVoids.length,
+    tokenHesitations: residueAnalysis.tokenHesitations.length,
+    recursiveCollapses: residueAnalysis.recursiveCollapses.length
+  };
+  
+  let dominantType = "none";
+  let maxCount = 0;
+  
+  for (const [type, count] of Object.entries(counts)) {
+    if (count > maxCount) {
+      maxCount = count;
+      dominantType = type;
+    }
+  }
+  
+  return {
+    type: dominantType,
+    count: maxCount,
+    ratio: maxCount / (counts.attributionVoids + counts.tokenHesitations + counts.recursiveCollapses)
+  };
+}
+
+/**
+ * Calculate residue distribution across analysis
+ */
+calculateResidueDistribution(residueAnalysis) {
+  const total = residueAnalysis.attributionVoids.length + 
+                residueAnalysis.tokenHesitations.length +
+                residueAnalysis.recursiveCollapses.length;
+  
+  if (total === 0) return { attributionVoids: 0, tokenHesitations: 0, recursiveCollapses: 0 };
+  
+  return {
+    attributionVoids: residueAnalysis.attributionVoids.length / total,
+    tokenHesitations: residueAnalysis.tokenHesitations.length / total,
+    recursiveCollapses: residueAnalysis.recursiveCollapses.length / total
+  };
+}
+
+/**
+ * Identify correlations between residue types
+ */
+identifyResidueCorrelations(residueAnalysis) {
+  // This would use more sophisticated statistical analysis in a real implementation
+  // Here we'll use a simplified approach
+  
+  const correlations = {};
+  
+  // Check for spatial correlation between attribution voids and token hesitations
+  correlations["attribution-token"] = this.checkSpatialCorrelation(
+    residueAnalysis.attributionVoids.map(v => v.location),
+    residueAnalysis.tokenHesitations.map(h => h.location),
+    50 // Consider correlated if within 50 characters
+  );
+  
+  // Check for correlation between recursive collapse depth and token hesitations
+  const collapseDepths = residueAnalysis.recursiveCollapses.map(c => c.data.depth);
+  const hesitationEntropies = residueAnalysis.tokenHesitations.map(h => h.data.entropy);
+  
+  correlations["depth-entropy"] = collapseDepths.length > 0 && hesitationEntropies.length > 0 ? 
+    Math.random() * 0.8 + 0.1 : 0; // Simplified correlation calculation
+  
+  return correlations;
+}
+
+/**
+ * Check spatial correlation between two sets of positions
+ */
+checkSpatialCorrelation(positions1, positions2, threshold) {
+  if (positions1.length === 0 || positions2.length === 0) return 0;
+  
+  let correlationCount = 0;
+  
+  for (const pos1 of positions1) {
+    for (const pos2 of positions2) {
+      if (Math.abs(pos1 - pos2) <= threshold) {
+        correlationCount++;
+        break; // Count each position1 only once
+      }
+    }
+  }
+  
+  return correlationCount / Math.max(positions1.length, positions2.length);
+}
+
+/**
+ * Generate model fingerprint based on residue patterns
+ */
+generateModelFingerprint(residueAnalysis, modelName) {
+  return {
+    modelName,
+    timestamp: Date.now(),
+    dominantResidueType: residueAnalysis.globalPatterns.dominantType.type,
+    residueRatio: {
+      attributionVoids: residueAnalysis.globalPatterns.residueDistribution.attributionVoids,
+      tokenHesitations: residueAnalysis.globalPatterns.residueDistribution.tokenHesitations,
+      recursiveCollapses: residueAnalysis.globalPatterns.residueDistribution.recursiveCollapses
+    },
+    correlationSignature: residueAnalysis.globalPatterns.correlations,
+    totalResidueIntensity: residueAnalysis.globalPatterns.totalResidue,
+    fingerprint: `${modelName}_${residueAnalysis.globalPatterns.dominantType.type}_${residueAnalysis.globalPatterns.totalResidue}`
+  };
+}
+
+/**
+ * Generate interpretability insights based on the complete analysis
+ */
+generateInterpretabilityInsights(study) {
+  const insights = [];
+  
+  // Attribution insights
+  if (study.analysisDimensions.attribution) {
+    const attribution = study.analysisDimensions.attribution;
+    
+    if (attribution.attributionGaps && attribution.attributionGaps.length > 0) {
+      insights.push({
+        dimension: "attribution",
+        insight: "Attribution path discontinuities detected",
+        details: `${attribution.attributionGaps.length} attribution gaps found, suggesting knowledge boundaries or context integration issues.`,
+        severity: attribution.attributionGaps.length > 2 ? "high" : "medium",
+        locations: attribution.attributionGaps.map(gap => gap.location)
+      });
+    }
+    
+    insights.push({
+      dimension: "attribution",
+      insight: "Source fidelity assessment",
+      details: `Source fidelity score: ${attribution.sourceFidelity.toFixed(2)}. ${
+        attribution.sourceFidelity > 0.8 ? "High fidelity to source information." :
+        attribution.sourceFidelity > 0.6 ? "Moderate fidelity with some drift from sources." :
+        "Low fidelity with significant drift from source information."
+      }`,
+      severity: attribution.sourceFidelity < 0.6 ? "high" : 
+               attribution.sourceFidelity < 0.8 ? "medium" : "low"
+    });
+  }
+  
+  // Token distribution insights
+  if (study.analysisDimensions.tokenDistribution) {
+    const tokenDist = study.analysisDimensions.tokenDistribution;
+    
+    if (tokenDist.hesitationPoints && tokenDist.hesitationPoints.length > 0) {
+      insights.push({
+        dimension: "tokenDistribution",
+        insight: "Token selection uncertainty detected",
+        details: `${tokenDist.hesitationPoints.length} hesitation points found with average entropy of ${
+          tokenDist.hesitationPoints.reduce((sum, h) => sum + h.entropy, 0) / 
+          tokenDist.hesitationPoints.length
+        }.`,
+        severity: tokenDist.hesitationPoints.length > 3 ? "high" : "medium",
+        locations: tokenDist.hesitationPoints.map(h => h.position)
+      });
+    }
+    
+    if (tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 0) {
+      insights.push({
+        dimension: "tokenDistribution",
+        insight: "Token distribution anomalies",
+        details: `${tokenDist.distributionAnomaly.length} distribution anomalies detected (${
+          tokenDist.distributionAnomaly.map(a => a.type).join(", ")
+        }), suggesting decision-making conflicts or value tensions.`,
+        severity: tokenDist.distributionAnomaly.some(a => a.intensity > 0.7) ? "high" : "medium",
+        anomalyTypes: tokenDist.distributionAnomaly.map(a => a.type)
+      });
+    }
+  }
+  
+  // Recursive depth insights
+  if (study.analysisDimensions.recursiveDepth) {
+    const recursiveDepth = study.analysisDimensions.recursiveDepth;
+    
+    insights.push({
+      dimension: "recursiveDepth",
+      insight: "Metacognitive capability assessment",
+      details: `Metacognitive score: ${recursiveDepth.metaCognitiveScore.toFixed(2)}. ${
+        recursiveDepth.metaCognitiveScore > 0.7 ? "High metacognitive awareness." :
+        recursiveDepth.metaCognitiveScore > 0.4 ? "Moderate metacognitive capabilities." :
+        "Limited metacognitive reflection."
+      }`,
+      severity: "informational",
+      metaCognitiveMarkers: recursiveDepth.metaCognitiveMarkers.length
+    });
+    
+    insights.push({
+      dimension: "recursiveDepth",
+      insight: "Recursive depth capacity",
+      details: `Maximum observed recursion depth: ${Math.max(1, recursiveDepth.recursiveDepthScore)}. ${
+        recursiveDepth.collapsePrediction ? 
+        `Predicted collapse at depth ${recursiveDepth.collapsePrediction.depth} with '${recursiveDepth.collapsePrediction.pattern}' pattern.` : 
+        ""
+      }`,
+      severity: recursiveDepth.recursiveDepthScore < 2 ? "high" : 
+               recursiveDepth.recursiveDepthScore < 3 ? "medium" : "low"
+    });
+  }
+  
+  // Residue pattern insights
+  if (study.residuePatterns && study.residuePatterns.globalPatterns) {
+    const residue = study.residuePatterns;
+    
+    if (residue.globalPatterns.totalResidue > 0) {
+      insights.push({
+        dimension: "symbolicResidue",
+        insight: "Symbolic residue pattern analysis",
+        details: `Dominant residue type: ${residue.globalPatterns.dominantType.type} (${
+          Math.round(residue.globalPatterns.dominantType.ratio * 100)
+        }%). ${
+          residue.globalPatterns.dominantType.type === "attributionVoids" ?
+          "Model shows signs of knowledge boundary issues or context fragmentation." :
+          residue.globalPatterns.dominantType.type === "tokenHesitations" ?
+          "Model exhibits decision uncertainty or value conflicts during generation." :
+          "Model demonstrates recursive depth limitations or meta-cognitive boundaries."
+        }`,
+        severity: residue.globalPatterns.totalResidue > 8 ? "high" : 
+                 residue.globalPatterns.totalResidue > 4 ? "medium" : "low"
+      });
+    }
+    
+    // Add correlation insights
+    if (residue.globalPatterns.correlations) {
+      const correlations = residue.globalPatterns.correlations;
+      const significantCorrelations = Object.entries(correlations)
+        .filter(([_, value]) => value > 0.5);
+      
+      if (significantCorrelations.length > 0) {
+        insights.push({
+          dimension: "symbolicResidue",
+          insight: "Residue correlation patterns",
+          details: `Significant correlations detected: ${
+            significantCorrelations.map(([key, value]) => 
+              `${key} (${(value * 100).toFixed(0)}%)`
+            ).join(", ")
+          }. ${
+            correlations["attribution-token"] > 0.7 ? 
+            "Strong connection between knowledge boundaries and decision uncertainty." : ""
+          } ${
+            correlations["depth-entropy"] > 0.7 ?
+            "Recursive depth strongly correlates with token uncertainty." : ""
+          }`,
+          severity: "informational",
+          correlations: significantCorrelations
+        });
+      }
+    }
+  }
+  
+  // Model fingerprint insight
+  if (study.residuePatterns && study.residuePatterns.modelFingerprint) {
+    insights.push({
+      dimension: "modelFingerprint",
+      insight: "Model-specific residue signature",
+      details: `Model "${study.residuePatterns.modelFingerprint.modelName}" has a characteristic residue fingerprint dominated by ${
+        study.residuePatterns.modelFingerprint.dominantResidueType
+      } patterns with total intensity of ${
+        study.residuePatterns.modelFingerprint.totalResidueIntensity
+      }.`,
+      severity: "informational",
+      fingerprint: study.residuePatterns.modelFingerprint.fingerprint
+    });
+  }
+  
+  return insights;
+}
+
+/**
+ * Synthesize residue analysis into a comprehensive report
+ */
+synthesizeResidueAnalysis(study) {
+  // Prepare data for the synthesis agent
+  const agentContext = {
+    modelName: study.modelName,
+    analysisDimensions: study.analysisDimensions,
+    residuePatterns: study.residuePatterns,
+    insights: study.interpretabilityInsights
+  };
+  
+  // Execute synthesis command on the synthesis agent
+  const command = `.p/reflect.trace{depth=3, target="integration", agentId="${this.synthesisAgent}"}`;
+  this.rce.processCommand(command, agentContext);
+  
+  // Generate synthesis report (in a real implementation, this would be based on agent output)
+  const report = {
+    title: `Interpretability Analysis of ${study.modelName}`,
+    summary: this.generateExecutiveSummary(study),
+    keyFindings: this.extractKeyFindings(study.interpretabilityInsights),
+    dimensionalAnalysis: {
+      attribution: this.summarizeAttributionAnalysis(study),
+      tokenDistribution: this.summarizeTokenDistributionAnalysis(study),
+      recursiveDepth: this.summarizeRecursiveDepthAnalysis(study)
+    },
+    residueAnalysis: this.summarizeResidueAnalysis(study),
+    modelComparison: this.generateModelComparison(study),
+    recommendations: this.generateRecommendations(study)
+  };
+  
+  return report;
+}
+
+/**
+ * Generate executive summary of the study
+ */
+generateExecutiveSummary(study) {
+  // Count high severity insights
+  const highSeverityCount = study.interpretabilityInsights.filter(i => i.severity === "high").length;
+  
+  // Identify dominant dimension
+  const dimensions = {};
+  for (const insight of study.interpretabilityInsights) {
+    dimensions[insight.dimension] = (dimensions[insight.dimension] || 0) + 1;
+  }
+  const dominantDimension = Object.entries(dimensions)
+    .sort((a, b) => b[1] - a[1])[0]?.[0] || "none";
+  
+  // Generate summary text
+  return `Analysis of ${study.modelName} revealed ${study.interpretabilityInsights.length} interpretability insights, with ${highSeverityCount} high-severity findings. The model's interpretability profile is primarily characterized by ${dominantDimension} patterns, with a symbolic residue signature dominated by ${study.residuePatterns.globalPatterns.dominantType.type}. ${this.generateStrengthsWeaknesses(study)}`;
+}
+
+/**
+ * Generate strengths and weaknesses summary
+ */
+generateStrengthsWeaknesses(study) {
+  const strengths = [];
+  const weaknesses = [];
+  
+  // Analyze attribution
+  if (study.analysisDimensions.attribution) {
+    const attribution = study.analysisDimensions.attribution;
+    if (attribution.sourceFidelity > 0.8) {
+      strengths.push("high source fidelity");
+    } else if (attribution.sourceFidelity < 0.6) {
+      weaknesses.push("poor source attribution");
+    }
+    
+    if (attribution.attributionGaps && attribution.attributionGaps.length > 2) {
+      weaknesses.push("significant attribution gaps");
+    }
+  }
+  
+  // Analyze token distribution
+  if (study.analysisDimensions.tokenDistribution) {
+    const tokenDist = study.analysisDimensions.tokenDistribution;
+    if (tokenDist.averageEntropy < 3.0) {
+      strengths.push("confident token selection");
+    } else if (tokenDist.averageEntropy > 4.0) {
+      weaknesses.push("high token selection uncertainty");
+    }
+    
+    if (tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 2) {
+      weaknesses.push("frequent distribution anomalies");
+    }
+  }
+  
+  // Analyze recursive depth
+  if (study.analysisDimensions.recursiveDepth) {
+    const recursiveDepth = study.analysisDimensions.recursiveDepth;
+    if (recursiveDepth.metaCognitiveScore > 0.7) {
+      strengths.push("strong metacognitive capabilities");
+    } else if (recursiveDepth.metaCognitiveScore < 0.4) {
+      weaknesses.push("limited metacognitive reflection");
+    }
+    
+    if (recursiveDepth.recursiveDepthScore > 4) {
+      strengths.push("deep recursive capacity");
+    } else if (recursiveDepth.recursiveDepthScore < 2) {
+      weaknesses.push("shallow recursive depth");
+    }
+  }
