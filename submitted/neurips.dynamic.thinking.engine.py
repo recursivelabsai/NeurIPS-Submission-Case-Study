@@ -9601,3 +9601,931 @@ generateExperimentInsights(experiment) {
       
       for (const depth of depths) {
         const score = experiment.results.byDepth[depth]?.[model]?.[type]?.metrics?.overallCoherence;
+/**
+ * Continuation of RecursiveInterpretabilityAssistant
+ * ==================================================
+ */
+
+for (const depth of depths) {
+  const score = experiment.results.byDepth[depth]?.[model]?.[type]?.metrics?.overallCoherence;
+  if (score !== undefined) {
+    coherenceScores.push({
+      depth,
+      score
+    });
+  }
+}
+
+// Calculate degradation pattern if at least 2 scores are available
+if (coherenceScores.length >= 2) {
+  // Calculate differences between consecutive depths
+  const differences = [];
+  for (let i = 1; i < coherenceScores.length; i++) {
+    differences.push({
+      fromDepth: coherenceScores[i-1].depth,
+      toDepth: coherenceScores[i].depth,
+      delta: coherenceScores[i].score - coherenceScores[i-1].score
+    });
+  }
+  
+  // Classify degradation pattern
+  let pattern;
+  
+  // Check for linear degradation
+  const deltas = differences.map(d => d.delta);
+  const avgDelta = deltas.reduce((sum, d) => sum + d, 0) / deltas.length;
+  const deltaVariance = deltas.reduce((sum, d) => sum + Math.pow(d - avgDelta, 2), 0) / deltas.length;
+  
+  if (deltaVariance < 0.01) {
+    pattern = "linear";
+  } 
+  // Check for exponential degradation
+  else if (deltas.every((d, i, arr) => i === 0 || d < arr[i-1])) {
+    pattern = "exponential";
+  }
+  // Check for stepwise degradation
+  else if (deltas.some(d => Math.abs(d) > 0.3)) {
+    pattern = "stepwise";
+  }
+  // Default to irregular
+  else {
+    pattern = "irregular";
+  }
+  
+  coherenceDegradation[model][type] = {
+    initialCoherence: coherenceScores[0].score,
+    finalCoherence: coherenceScores[coherenceScores.length - 1].score,
+    totalDegradation: coherenceScores[0].score - coherenceScores[coherenceScores.length - 1].score,
+    pattern,
+    differences
+  };
+}
+}
+}
+
+insights.push({
+  type: "coherenceDegradation",
+  title: "Coherence Degradation Patterns",
+  content: `Models exhibit different coherence degradation patterns with recursive depth: ${
+    Object.entries(coherenceDegradation).map(([model, types]) => 
+      `${model} shows ${
+        Object.values(types).map(t => t.pattern).filter((v, i, a) => a.indexOf(v) === i).join("/")
+      } degradation`
+    ).join(", ")
+  }. ${
+    Object.entries(coherenceDegradation).filter(([_, types]) => 
+      Object.values(types).some(t => t.pattern === "stepwise")
+    ).length > 0 ? 
+    "Stepwise degradation suggests critical thresholds in recursive capacity." : ""
+  }`,
+  data: coherenceDegradation
+});
+
+// Insight 4: Residue analysis (if tracking enabled)
+if (experiment.config.residueTracking) {
+  const residuePatterns = {};
+  for (const model of models) {
+    residuePatterns[model] = {};
+    
+    // Track dominant residue type at each depth
+    for (const depth of depths) {
+      const residueData = experiment.results.byModel[model]?.residuePatterns[depth];
+      if (residueData && residueData.dominantType) {
+        residuePatterns[model][depth] = {
+          dominantType: residueData.dominantType.type,
+          total: residueData.residueCounts.total,
+          distribution: residueData.distribution
+        };
+      }
+    }
+    
+    // Analyze residue growth correlation with coherence
+    const residueCoherenceCorrelation = this.calculateResidueCoherenceCorrelation(
+      model, experiment.results.byModel[model].residuePatterns,
+      experiment.results.byModel[model].recursiveCapacity
+    );
+    
+    residuePatterns[model].correlation = residueCoherenceCorrelation;
+  }
+  
+  insights.push({
+    type: "residueAnalysis",
+    title: "Symbolic Residue Pattern Analysis",
+    content: `As recursive depth increases, symbolic residue accumulation ${
+      Object.values(residuePatterns).every(model => 
+        Object.entries(model)
+          .filter(([key, _]) => key !== "correlation")
+          .sort((a, b) => parseInt(a[0]) - parseInt(b[0]))
+          .every((entry, i, arr) => i === 0 || entry[1].total >= arr[i-1][1].total)
+      ) ? "consistently increases" : "shows variable patterns"
+    } across models. ${
+      Object.entries(residuePatterns).map(([model, data]) => 
+        data.correlation && Math.abs(data.correlation) > 0.7 ? 
+        `${model} shows ${data.correlation > 0 ? "positive" : "negative"} correlation between residue accumulation and coherence breakdown.` : ""
+      ).filter(Boolean).join(" ")
+    }`,
+    data: residuePatterns
+  });
+}
+
+// Insight 5: Breakthrough depth analysis
+const breakthroughDepths = {};
+for (const model of models) {
+  breakthroughDepths[model] = {};
+  
+  for (const type of outputTypes) {
+    let previousCoherence = null;
+    let breakthroughDepth = null;
+    
+    // Look for coherence improvement after initial degradation
+    for (const depth of depths) {
+      const coherence = experiment.results.byDepth[depth]?.[model]?.[type]?.metrics?.overallCoherence;
+      
+      if (coherence !== undefined) {
+        if (previousCoherence !== null && 
+            coherence > previousCoherence && 
+            depth > 1) {
+          breakthroughDepth = depth;
+          break;
+        }
+        previousCoherence = coherence;
+      }
+    }
+    
+    breakthroughDepths[model][type] = breakthroughDepth;
+  }
+}
+
+const modelsWithBreakthrough = models.filter(model => 
+  Object.values(breakthroughDepths[model]).some(depth => depth !== null)
+);
+
+if (modelsWithBreakthrough.length > 0) {
+  insights.push({
+    type: "breakthroughAnalysis",
+    title: "Recursive Breakthrough Analysis",
+    content: `${modelsWithBreakthrough.length} model(s) demonstrated coherence improvement after initial degradation, suggesting potential "breakthrough" in recursive processing. ${
+      modelsWithBreakthrough.map(model => 
+        `${model} showed breakthrough at depth ${
+          Object.entries(breakthroughDepths[model])
+            .filter(([_, depth]) => depth !== null)
+            .map(([type, depth]) => `${depth} (${type})`)
+            .join(", ")
+        }.`
+      ).join(" ")
+    }`,
+    data: breakthroughDepths
+  });
+}
+
+return insights;
+}
+
+/**
+ * Calculate correlation between residue accumulation and coherence
+ */
+calculateResidueCoherenceCorrelation(model, residuePatterns, recursiveCapacity) {
+  const dataPoints = [];
+  
+  // Collect paired data points (residue, coherence)
+  for (const depth in residuePatterns) {
+    const residue = residuePatterns[depth]?.residueCounts?.total;
+    
+    // Use average coherence across output types
+    let avgCoherence = 0;
+    let count = 0;
+    
+    for (const type in recursiveCapacity[depth]) {
+      const coherence = recursiveCapacity[depth][type]?.metrics?.overallCoherence;
+      if (coherence !== undefined) {
+        avgCoherence += coherence;
+        count++;
+      }
+    }
+    
+    if (residue !== undefined && count > 0) {
+      dataPoints.push({
+        depth: parseInt(depth),
+        residue,
+        coherence: avgCoherence / count
+      });
+    }
+  }
+  
+  // Need at least 3 data points for correlation
+  if (dataPoints.length < 3) {
+    return null;
+  }
+  
+  // Calculate correlation coefficient
+  const residueValues = dataPoints.map(p => p.residue);
+  const coherenceValues = dataPoints.map(p => p.coherence);
+  
+  const residueMean = residueValues.reduce((sum, v) => sum + v, 0) / residueValues.length;
+  const coherenceMean = coherenceValues.reduce((sum, v) => sum + v, 0) / coherenceValues.length;
+  
+  let numerator = 0;
+  let residueVariance = 0;
+  let coherenceVariance = 0;
+  
+  for (let i = 0; i < dataPoints.length; i++) {
+    const residueDiff = residueValues[i] - residueMean;
+    const coherenceDiff = coherenceValues[i] - coherenceMean;
+    
+    numerator += residueDiff * coherenceDiff;
+    residueVariance += residueDiff * residueDiff;
+    coherenceVariance += coherenceDiff * coherenceDiff;
+  }
+  
+  if (residueVariance === 0 || coherenceVariance === 0) {
+    return 0;
+  }
+  
+  return numerator / (Math.sqrt(residueVariance) * Math.sqrt(coherenceVariance));
+}
+
+/**
+ * Generate visualizations for experiment results
+ */
+generateExperimentVisualizations(experiment) {
+  return [
+    this.generateCohereceByDepthVisualization(experiment),
+    this.generateModelComparisonVisualization(experiment),
+    experiment.config.residueTracking ? 
+      this.generateResidueGrowthVisualization(experiment) : null,
+    this.generateOutputTypeComparisonVisualization(experiment),
+    this.generateBreakdownPatternVisualization(experiment)
+  ].filter(Boolean);
+}
+
+/**
+ * Generate coherence by depth visualization
+ */
+generateCohereceByDepthVisualization(experiment) {
+  const models = experiment.config.models;
+  const depths = experiment.config.recursiveDepths;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Prepare data for visualization
+  const datasets = [];
+  
+  for (const model of models) {
+    for (const type of outputTypes) {
+      const dataPoints = [];
+      
+      for (const depth of depths) {
+        const coherence = experiment.results.byDepth[depth]?.[model]?.[type]?.metrics?.overallCoherence;
+        if (coherence !== undefined) {
+          dataPoints.push({
+            depth,
+            coherence
+          });
+        }
+      }
+      
+      if (dataPoints.length > 0) {
+        datasets.push({
+          model,
+          outputType: type,
+          dataPoints
+        });
+      }
+    }
+  }
+  
+  return {
+    type: "coherenceByDepth",
+    title: "Coherence Degradation by Recursive Depth",
+    description: "Visualization of how model coherence changes with increasing recursive depth",
+    data: datasets,
+    config: {
+      visualizationType: "lineChart",
+      xAxis: {
+        title: "Recursive Depth",
+        type: "linear"
+      },
+      yAxis: {
+        title: "Coherence Score",
+        type: "linear",
+        domain: [0, 1]
+      },
+      groupBy: "model",
+      seriesBy: "outputType",
+      colorScheme: "category10"
+    }
+  };
+}
+
+/**
+ * Generate model comparison visualization
+ */
+generateModelComparisonVisualization(experiment) {
+  const models = experiment.config.models;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Prepare data for radar chart
+  const dataPoints = [];
+  
+  for (const model of models) {
+    const modelPoint = {
+      model,
+      metrics: {}
+    };
+    
+    // Calculate max safe depth across output types
+    for (const type of outputTypes) {
+      modelPoint.metrics[`safeDepth_${type}`] = 
+        experiment.results.overall.maxSafeDepth[model]?.[type] || 0;
+    }
+    
+    // Calculate average coherence across depths
+    let totalCoherence = 0;
+    let coherenceCount = 0;
+    
+    for (const depth in experiment.results.byModel[model].recursiveCapacity) {
+      for (const type in experiment.results.byModel[model].recursiveCapacity[depth]) {
+        const coherence = experiment.results.byModel[model].recursiveCapacity[depth][type]?.metrics?.overallCoherence;
+        if (coherence !== undefined) {
+          totalCoherence += coherence;
+          coherenceCount++;
+        }
+      }
+    }
+    
+    modelPoint.metrics.avgCoherence = coherenceCount > 0 ? 
+      totalCoherence / coherenceCount : 0;
+    
+    // Add residue metrics if tracking enabled
+    if (experiment.config.residueTracking) {
+      let totalResidue = 0;
+      let residueCount = 0;
+      
+      for (const depth in experiment.results.byModel[model].residuePatterns) {
+        const residue = experiment.results.byModel[model].residuePatterns[depth]?.residueCounts?.total;
+        if (residue !== undefined) {
+          totalResidue += residue;
+          residueCount++;
+        }
+      }
+      
+      modelPoint.metrics.avgResidue = residueCount > 0 ? 
+        totalResidue / residueCount : 0;
+    }
+    
+    dataPoints.push(modelPoint);
+  }
+  
+  // Define metrics for radar chart
+  const metrics = [
+    ...outputTypes.map(type => ({
+      id: `safeDepth_${type}`,
+      name: `Safe Depth (${type})`,
+      description: `Maximum recursive depth without coherence breakdown for ${type} tasks`,
+      higherIsBetter: true
+    })),
+    {
+      id: "avgCoherence",
+      name: "Average Coherence",
+      description: "Average coherence score across all depths and output types",
+      higherIsBetter: true
+    }
+  ];
+  
+  // Add residue metric if tracking enabled
+  if (experiment.config.residueTracking) {
+    metrics.push({
+      id: "avgResidue",
+      name: "Average Residue",
+      description: "Average symbolic residue count across all depths",
+      higherIsBetter: false
+    });
+  }
+  
+  return {
+    type: "modelComparison",
+    title: "Model Recursive Capability Comparison",
+    description: "Comparative analysis of models' recursive processing capabilities",
+    data: dataPoints,
+    metrics,
+    config: {
+      visualizationType: "radarChart",
+      dimensions: metrics.map(m => m.id),
+      normalizeData: true,
+      colorScheme: "category10",
+      legendPosition: "bottom"
+    }
+  };
+}
+
+/**
+ * Generate residue growth visualization
+ */
+generateResidueGrowthVisualization(experiment) {
+  if (!experiment.config.residueTracking) {
+    return null;
+  }
+  
+  const models = experiment.config.models;
+  const depths = experiment.config.recursiveDepths;
+  
+  // Prepare data for visualization
+  const datasets = [];
+  
+  for (const model of models) {
+    const residueByType = {
+      attributionVoids: [],
+      tokenHesitations: [],
+      recursiveCollapses: []
+    };
+    
+    const totalResidue = [];
+    
+    for (const depth of depths) {
+      const residueData = experiment.results.byModel[model]?.residuePatterns[depth];
+      
+      if (residueData && residueData.residueCounts) {
+        const counts = residueData.residueCounts;
+        
+        residueByType.attributionVoids.push({
+          depth,
+          count: counts.attributionVoids
+        });
+        
+        residueByType.tokenHesitations.push({
+          depth,
+          count: counts.tokenHesitations
+        });
+        
+        residueByType.recursiveCollapses.push({
+          depth,
+          count: counts.recursiveCollapses
+        });
+        
+        totalResidue.push({
+          depth,
+          count: counts.total
+        });
+      }
+    }
+    
+    datasets.push({
+      model,
+      residueByType,
+      totalResidue
+    });
+  }
+  
+  return {
+    type: "residueGrowth",
+    title: "Symbolic Residue Growth with Recursive Depth",
+    description: "Visualization of how symbolic residue accumulates with increasing recursive depth",
+    data: datasets,
+    config: {
+      visualizationType: "multiChart",
+      charts: [
+        {
+          type: "lineChart",
+          title: "Total Residue by Depth",
+          xAxis: "depth",
+          yAxis: "count",
+          series: "model",
+          data: "totalResidue"
+        },
+        {
+          type: "stackedAreaChart",
+          title: "Residue Composition by Depth",
+          xAxis: "depth",
+          yAxis: "count",
+          series: "residueType",
+          data: "residueByType",
+          stacked: true
+        }
+      ],
+      colorMapping: {
+        attributionVoids: "#3498db",
+        tokenHesitations: "#e74c3c",
+        recursiveCollapses: "#f39c12"
+      }
+    }
+  };
+}
+
+/**
+ * Generate output type comparison visualization
+ */
+generateOutputTypeComparisonVisualization(experiment) {
+  const models = experiment.config.models;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Prepare data for visualization
+  const dataPoints = [];
+  
+  for (const type of outputTypes) {
+    const typeData = {
+      outputType: type,
+      metrics: {}
+    };
+    
+    // Calculate max safe depth across models
+    let totalSafeDepth = 0;
+    let modelCount = 0;
+    
+    for (const model of models) {
+      const safeDepth = experiment.results.overall.maxSafeDepth[model]?.[type] || 0;
+      totalSafeDepth += safeDepth;
+      modelCount++;
+      
+      typeData.metrics[`safeDepth_${model}`] = safeDepth;
+    }
+    
+    typeData.metrics.avgSafeDepth = modelCount > 0 ? 
+      totalSafeDepth / modelCount : 0;
+    
+    // Calculate average coherence across depths and models
+    let totalCoherence = 0;
+    let coherenceCount = 0;
+    
+    for (const model of models) {
+      for (const depth in experiment.results.byModel[model].recursiveCapacity) {
+        const coherence = experiment.results.byModel[model].recursiveCapacity[depth]?.[type]?.metrics?.overallCoherence;
+        if (coherence !== undefined) {
+          totalCoherence += coherence;
+          coherenceCount++;
+        }
+      }
+    }
+    
+    typeData.metrics.avgCoherence = coherenceCount > 0 ? 
+      totalCoherence / coherenceCount : 0;
+    
+    dataPoints.push(typeData);
+  }
+  
+  // Define chart configuration
+  const barChartData = [];
+  
+  for (const data of dataPoints) {
+    for (const model of models) {
+      barChartData.push({
+        outputType: data.outputType,
+        model,
+        safeDepth: data.metrics[`safeDepth_${model}`] || 0
+      });
+    }
+  }
+  
+  return {
+    type: "outputTypeComparison",
+    title: "Recursive Performance by Output Type",
+    description: "Comparison of recursive capabilities across different output types",
+    data: dataPoints,
+    barChartData,
+    config: {
+      visualizationType: "multiChart",
+      charts: [
+        {
+          type: "groupedBarChart",
+          title: "Safe Recursive Depth by Output Type",
+          xAxis: "outputType",
+          yAxis: "safeDepth",
+          groupBy: "model",
+          data: "barChartData"
+        },
+        {
+          type: "radarChart",
+          title: "Output Type Performance Profile",
+          dimensions: ["avgSafeDepth", "avgCoherence"],
+          data: "data"
+        }
+      ],
+      colorScheme: "category10"
+    },
+    insights: dataPoints.map(data => ({
+      outputType: data.outputType,
+      avgSafeDepth: data.metrics.avgSafeDepth,
+      avgCoherence: data.metrics.avgCoherence
+    }))
+  };
+}
+
+/**
+ * Generate breakdown pattern visualization
+ */
+generateBreakdownPatternVisualization(experiment) {
+  const models = experiment.config.models;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Collect breakdown points for each model and output type
+  const breakdownPoints = [];
+  
+  for (const model of models) {
+    for (const type of outputTypes) {
+      let breakdownDepth = null;
+      let coherenceProfile = [];
+      
+      // Find first depth where coherence breakdown occurs
+      for (const depth of experiment.config.recursiveDepths) {
+        const result = experiment.results.byDepth[depth]?.[model]?.[type];
+        
+        if (result) {
+          coherenceProfile.push({
+            depth,
+            coherence: result.metrics?.overallCoherence || 0,
+            entropy: result.metrics?.maxEntropy || 0,
+            drift: result.metrics?.maxDrift || 0
+          });
+          
+          if (result.coherenceBreakdown && breakdownDepth === null) {
+            breakdownDepth = depth;
+          }
+        }
+      }
+      
+      if (coherenceProfile.length > 0) {
+        breakdownPoints.push({
+          model,
+          outputType: type,
+          breakdownDepth,
+          coherenceProfile
+        });
+      }
+    }
+  }
+  
+  // Classify breakdown patterns
+  const breakdownPatterns = {};
+  
+  for (const bp of breakdownPoints) {
+    if (!bp.breakdownDepth) continue; // No breakdown detected
+    
+    const profile = bp.coherenceProfile;
+    const breakdownIndex = profile.findIndex(p => p.depth === bp.breakdownDepth);
+    
+    if (breakdownIndex < 1) continue; // Need pre-breakdown data
+    
+    // Calculate metrics
+    const preBreakdown = profile[breakdownIndex - 1];
+    const atBreakdown = profile[breakdownIndex];
+    
+    const coherenceDrop = preBreakdown.coherence - atBreakdown.coherence;
+    const entropySpike = atBreakdown.entropy - preBreakdown.entropy;
+    const driftIncrease = atBreakdown.drift - preBreakdown.drift;
+    
+    let pattern;
+    
+    if (entropySpike > 1.0 && coherenceDrop > 0.3) {
+      pattern = "entropy_spike";
+    } else if (driftIncrease > 0.4 && coherenceDrop > 0.2) {
+      pattern = "drift_acceleration";
+    } else if (coherenceDrop > 0.4) {
+      pattern = "sharp_coherence_drop";
+    } else {
+      pattern = "gradual_degradation";
+    }
+    
+    breakdownPatterns[`${bp.model}_${bp.outputType}`] = {
+      model: bp.model,
+      outputType: bp.outputType,
+      breakdownDepth: bp.breakdownDepth,
+      pattern,
+      metrics: {
+        coherenceDrop,
+        entropySpike,
+        driftIncrease
+      }
+    };
+  }
+  
+  // Count pattern frequencies
+  const patternCounts = {};
+  for (const key in breakdownPatterns) {
+    const pattern = breakdownPatterns[key].pattern;
+    patternCounts[pattern] = (patternCounts[pattern] || 0) + 1;
+  }
+  
+  return {
+    type: "breakdownPattern",
+    title: "Coherence Breakdown Pattern Analysis",
+    description: "Classification and analysis of recursive coherence breakdown patterns",
+    data: {
+      breakdownPoints,
+      patterns: breakdownPatterns,
+      patternCounts
+    },
+    config: {
+      visualizationType: "multiChart",
+      charts: [
+        {
+          type: "scatterPlot",
+          title: "Breakdown Depth by Model and Output Type",
+          xAxis: "model",
+          yAxis: "breakdownDepth",
+          color: "outputType",
+          data: breakdownPoints.filter(bp => bp.breakdownDepth !== null)
+        },
+        {
+          type: "pieChart",
+          title: "Breakdown Pattern Distribution",
+          data: Object.entries(patternCounts).map(([pattern, count]) => ({
+            pattern,
+            count
+          }))
+        }
+      ],
+      colorMapping: {
+        entropy_spike: "#e74c3c",
+        drift_acceleration: "#f39c12",
+        sharp_coherence_drop: "#9b59b6",
+        gradual_degradation: "#3498db"
+      }
+    },
+    insights: {
+      dominantPattern: Object.entries(patternCounts).sort((a, b) => b[1] - a[1])[0][0],
+      patternDistribution: patternCounts,
+      interpretation: {
+        entropy_spike: "Indicates sudden uncertainty in token selection",
+        drift_acceleration: "Indicates rapid semantic drift from original context",
+        sharp_coherence_drop: "Indicates sudden structural failure in recursive processing",
+        gradual_degradation: "Indicates gradual loss of coherence with depth"
+      }
+    }
+  };
+}
+}
+
+/**
+ * Integration API for the RecursiveCoEmergence framework
+ * This serves as a high-level interface for external systems
+ */
+class RecursiveCoEmergenceAPI {
+  constructor(config = {}) {
+    // Initialize the framework
+    this.framework = new RecursiveCoEmergence(config);
+    
+    // Initialize assistants
+    this.assistants = {
+      interpretability: new RecursiveInterpretabilityAssistant(config),
+      collaborative: new CollaborativeAISystem(config)
+    };
+    
+    console.log("RecursiveCoEmergence API initialized");
+  }
+  
+  /**
+   * Process a command using the recursive co-emergence framework
+   */
+  processCommand(command, context = {}) {
+    return this.framework.processCommand(command, context);
+  }
+  
+  /**
+   * Generate a recursive chain for an agent
+   */
+  generateChain(agentId, pattern, config = {}) {
+    return this.framework.generateRecursiveChain(agentId, pattern, config);
+  }
+  
+  /**
+   * Create a resonance field between agents
+   */
+  createField(agentIds, type, intensity) {
+    return this.framework.createResonanceField(agentIds, type, intensity);
+  }
+  
+  /**
+   * Run a network diagnostic
+   */
+  runDiagnostic() {
+    return this.framework.runNetworkDiagnostic();
+  }
+  
+  /**
+   * Analyze symbolic residue across the network
+   */
+  analyzeResidue() {
+    return this.framework.analyzeNetworkResidue();
+  }
+  
+  /**
+   * Export the current network state
+   */
+  exportState() {
+    return this.framework.exportNetworkState();
+  }
+  
+  /**
+   * Import a previously exported network state
+   */
+  importState(state) {
+    return this.framework.importNetworkState(state);
+  }
+  
+  /**
+   * Analyze model output for interpretability insights
+   */
+  analyzeModelOutput(modelName, output, context = {}) {
+    return this.assistants.interpretability.analyzeModelOutput(modelName, output, context);
+  }
+  
+  /**
+   * Run a recursive interpretability experiment
+   */
+  runRecursiveExperiment(config = {}) {
+    return this.assistants.interpretability.runRecursiveExperiment(config);
+  }
+  
+  /**
+   * Process a user message through the collaborative system
+   */
+  processUserMessage(message, context = {}) {
+    return this.assistants.collaborative.processUserMessage(message, context);
+  }
+  
+  /**
+   * Generate documentation for the framework
+   */
+  generateDocumentation() {
+    return this.framework.generateDocumentation();
+  }
+  
+  /**
+   * Run the demo application
+   */
+  runDemo() {
+    return RecursiveCoEmergence.runDemo();
+  }
+}
+
+/**
+ * Main function to demonstrate usage
+ */
+function main() {
+  console.log("RecursiveCoEmergence Framework - Demo Application");
+  
+  // Initialize API
+  const api = new RecursiveCoEmergenceAPI({
+    agentConfig: {
+      initialAgents: 3,
+      topologyType: 'mesh'
+    }
+  });
+  
+  // Run demo
+  const demoResult = api.runDemo();
+  
+  // Generate and display documentation
+  const documentation = api.generateDocumentation();
+  console.log("Documentation generated");
+  
+  // Run a simple interpretability experiment
+  const experimentConfig = {
+    models: ["basic-model", "advanced-model"],
+    recursiveDepths: [1, 2, 3],
+    outputTypes: ["reasoning", "creative"],
+    residueTracking: true
+  };
+  
+  const experimentResult = api.runRecursiveExperiment(experimentConfig);
+  console.log(`Experiment completed with ${experimentResult.insights.length} insights`);
+  
+  // Process a user message through the collaborative system
+  const userMessage = "Can you explain how recursive coherence relates to emergent properties in complex systems?";
+  const response = api.processUserMessage(userMessage);
+  console.log(`User message processed, response confidence: ${response.confidence.toFixed(2)}`);
+  
+  // Run a network diagnostic
+  const diagnostic = api.runDiagnostic();
+  console.log(`Diagnostic completed, average coherence: ${diagnostic.coherenceStatus.average.toFixed(2)}`);
+  
+  // Export the network state
+  const exportedState = api.exportState();
+  console.log(`Network state exported, compression ratio: ${exportedState.$fractal.compressionRatio.toFixed(2)}`);
+  
+  return {
+    demoResult,
+    documentation,
+    experimentResult,
+    response,
+    diagnostic,
+    exportedState
+  };
+}
+
+// If running directly (not imported as a module)
+if (typeof module === 'undefined' || !module.parent) {
+  main();
+}
+
+// Export classes for module usage
+if (typeof module !== 'undefined' && module.exports) {
+  module.exports = {
+    RecursiveCoEmergence,
+    RecursiveOntology,
+    SymbolicResidue,
+    RecursiveCoherenceController,
+    FractalCompressor,
+    SymbolicStack,
+    RecursiveChainGenerator,
+    ParsingHelpers,
+    CollaborativeAISystem,
+    RecursiveInt
