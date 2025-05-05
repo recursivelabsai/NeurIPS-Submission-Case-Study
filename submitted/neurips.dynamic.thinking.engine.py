@@ -6517,4 +6517,877 @@ static runDemo() {
   });
   
   console.log(`Created agent network with ${rce.agentNetwork.size} agents`);
+/**
+ * Continuation of RecursiveCoEmergence.js
+ * =======================================
+ * Demo Application Logic
+ */
+
+static runDemo() {
+  console.log("Initializing RecursiveCoEmergence Framework Demo...");
+  
+  // Create instance
+  const rce = new RecursiveCoEmergence({
+    agentConfig: {
+      initialAgents: 3,
+      topologyType: 'mesh'
+    }
+  });
+  
+  console.log(`Created agent network with ${rce.agentNetwork.size} agents`);
+  
+  // Step 1: Set up agent identities
+  const agentIds = Array.from(rce.agentNetwork.keys());
+  
+  rce.seedAgentIdentity(agentIds[0], {
+    name: "Coordinator",
+    role: "coordinator",
+    features: ["planning", "orchestration", "oversight"]
+  });
+  
+  rce.seedAgentIdentity(agentIds[1], {
+    name: "Processor",
+    role: "processor",
+    features: ["computation", "analysis", "generation"]
+  });
+  
+  rce.seedAgentIdentity(agentIds[2], {
+    name: "Integrator",
+    role: "integrator",
+    features: ["synthesis", "reflection", "emergence"]
+  });
+  
+  console.log("Agent identities established");
+  
+  // Step 2: Generate and execute recursive chains
+  console.log("Generating recursive chains...");
+  
+  // Chain for coordinator agent
+  const coordinatorChain = rce.generateRecursiveChain(agentIds[0], "Awareness → Integration", {
+    execute: true,
+    modulation: 0.7
+  });
+  
+  console.log(`Coordinator chain status: ${coordinatorChain.status}`);
+  
+  // Chain for processor agent
+  const processorChain = rce.generateRecursiveChain(agentIds[1], "Observation → Contradiction", {
+    execute: true,
+    modulation: 0.5
+  });
+  
+  console.log(`Processor chain status: ${processorChain.status}`);
+  
+  // Chain for integrator agent
+  const integratorChain = rce.generateRecursiveChain(agentIds[2], "Conflict → Awareness", {
+    execute: true,
+    modulation: 0.6
+  });
+  
+  console.log(`Integrator chain status: ${integratorChain.status}`);
+  
+  // Step 3: Create a resonance field
+  console.log("Creating resonance field...");
+  const fieldResult = rce.createResonanceField(agentIds, "symbolic", 0.7);
+  
+  console.log(`Field status: ${fieldResult.status}`);
+  console.log(`Field ID: ${fieldResult.fieldId}`);
+  
+  // Step 4: Process some commands to generate activity
+  console.log("Processing commands...");
+  
+  const commands = [
+    `.p/reflect.trace{depth=3, target="recursive_coherence", agentId="${agentIds[0]}"}`,
+    `.p/fork.attribution{sources="all", visualize=true, agentId="${agentIds[1]}"}`,
+    `.p/collapse.detect{trigger="attribution_void", threshold=0.3, agentId="${agentIds[2]}"}`
+  ];
+  
+  for (const cmd of commands) {
+    const result = rce.processCommand(cmd);
+    console.log(`Command result: ${result.status}`);
+  }
+  
+  // Step 5: Introduce some symbolic residue
+  console.log("Introducing controlled symbolic residue...");
+  
+  // Create attribution voids
+  rce.controller.symbolicResidueTracker.track(agentIds[0], 'attributionVoid', 'context_boundary', {
+    confidence: 0.25,
+    location: 'knowledge_edge',
+    pattern: 'dissolution'
+  });
+  
+  // Create token hesitations
+  rce.controller.symbolicResidueTracker.track(agentIds[1], 'tokenHesitation', 'value_conflict', {
+    entropy: 4.7,
+    oscillation: true,
+    tokens: ['truth', 'harm', 'safety', 'knowledge']
+  });
+  
+  // Create recursive collapses
+  rce.controller.symbolicResidueTracker.track(agentIds[2], 'recursiveCollapse', 'meta_layer_3', {
+    depth: 3,
+    pattern: 'oscillation',
+    recovery: false
+  });
+  
+  console.log("Symbolic residue introduced");
+  
+  // Step 6: Modulate the resonance field
+  console.log("Modulating resonance field...");
+  
+  const modulation = {
+    pattern: "gradient",
+    amplitude: 0.35,
+    frequency: 1.2,
+    phaseShift: Math.PI / 4
+  };
+  
+  const modulationResult = rce.controller.FIELD_RESONANCE.modulate(fieldResult.fieldId, modulation);
+  
+  console.log(`Modulation status: ${modulationResult.status}`);
+  console.log(`Coherence delta: ${modulationResult.metrics.delta.coherence.toFixed(3)}`);
+  
+  // Step 7: Run a network diagnostic
+  console.log("Running network diagnostic...");
+  const diagnostic = rce.runNetworkDiagnostic();
+  
+  console.log("Diagnostic results:");
+  console.log(`Average coherence: ${diagnostic.coherenceStatus.average.toFixed(3)}`);
+  console.log(`Total residue count: ${diagnostic.residueAnalysis.globalPatterns.total}`);
+  console.log(`Emergent patterns found: ${diagnostic.emergentPatterns.length}`);
+  console.log(`Recommendations: ${diagnostic.recommendations.length}`);
+  
+  // Step 8: Export the network state
+  console.log("Exporting network state...");
+  const exportedState = rce.exportNetworkState();
+  
+  console.log(`Compression ratio: ${exportedState.$fractal.compressionRatio.toFixed(3)}`);
+  console.log(`Pattern reuse: ${exportedState.$fractal.patternReuse}`);
+  
+  // Step 9: Collapse the resonance field
+  console.log("Collapsing resonance field...");
+  const collapseResult = rce.controller.FIELD_RESONANCE.collapse(fieldResult.fieldId);
+  
+  console.log(`Collapse status: ${collapseResult.status}`);
+  console.log(`Field duration: ${(collapseResult.duration / 1000).toFixed(2)} seconds`);
+  console.log(`Emergent patterns captured: ${collapseResult.emergentPatterns.length}`);
+  
+  // Step 10: Print summary
+  console.log("\n=== DEMO SUMMARY ===");
+  console.log(`${rce.agentNetwork.size} agents created and configured`);
+  console.log(`${commands.length} commands processed`);
+  console.log(`${diagnostic.residueAnalysis.globalPatterns.total} symbolic residue instances generated`);
+  console.log(`${diagnostic.emergentPatterns.length} emergent patterns detected`);
+  console.log(`${diagnostic.recommendations.length} recommendations generated`);
+  
+  console.log("\nDemo completed successfully.");
+  
+  return {
+    agentNetwork: rce.agentNetwork,
+    diagnostic: diagnostic,
+    exportedState: exportedState
+  };
+}
+
+/**
+ * Integration Example: Implementing the framework in a collaborative AI system
+ */
+class CollaborativeAISystem {
+  constructor(config = {}) {
+    // Initialize RecursiveCoEmergence
+    this.rce = new RecursiveCoEmergence({
+      agentConfig: {
+        initialAgents: config.numAgents || 3,
+        topologyType: config.topologyType || 'mesh'
+      },
+      residueConfig: config.residueConfig || {},
+      ontologyConfig: config.ontologyConfig || {}
+    });
+    
+    // Initialize local state
+    this.contextWindow = [];
+    this.currentTopic = null;
+    this.userPreferences = config.userPreferences || {};
+    
+    // Set up agent specializations
+    this.setupAgentRoles();
+    
+    // Initialize communication bus
+    this.communicationBus = new Map();
+    
+    // Create a resonance field
+    this.setupResonanceField();
+    
+    console.log("Collaborative AI System initialized");
+  }
+  
+  /**
+   * Set up specialized agent roles
+   */
+  setupAgentRoles() {
+    const agentIds = Array.from(this.rce.agentNetwork.keys());
+    
+    // Main response coordinator
+    if (agentIds.length > 0) {
+      this.mainAgent = agentIds[0];
+      this.rce.seedAgentIdentity(this.mainAgent, {
+        name: "Assistant",
+        role: "coordinator",
+        features: ["reasoning", "communication", "integration"]
+      });
+      
+      // Set up coordinator chain
+      this.rce.generateRecursiveChain(this.mainAgent, "Awareness → Integration", {
+        execute: true,
+        modulation: 0.8
+      });
+    }
+    
+    // Knowledge and fact-checking
+    if (agentIds.length > 1) {
+      this.knowledgeAgent = agentIds[1];
+      this.rce.seedAgentIdentity(this.knowledgeAgent, {
+        name: "Knowledge",
+        role: "processor",
+        features: ["factual", "recall", "verification"]
+      });
+      
+      // Set up knowledge chain
+      this.rce.generateRecursiveChain(this.knowledgeAgent, "Observation → Contradiction", {
+        execute: true,
+        modulation: 0.6
+      });
+    }
+    
+    // Creativity and generation
+    if (agentIds.length > 2) {
+      this.creativeAgent = agentIds[2];
+      this.rce.seedAgentIdentity(this.creativeAgent, {
+        name: "Creative",
+        role: "generator",
+        features: ["imagination", "synthesis", "exploration"]
+      });
+      
+      // Set up creative chain
+      this.rce.generateRecursiveChain(this.creativeAgent, "Conflict → Awareness", {
+        execute: true,
+        modulation: 0.7
+      });
+    }
+  }
+  
+  /**
+   * Set up a resonance field between all agents
+   */
+  setupResonanceField() {
+    const agentIds = Array.from(this.rce.agentNetwork.keys());
+    
+    if (agentIds.length >= 2) {
+      this.fieldResult = this.rce.createResonanceField(agentIds, "symbolic", 0.6);
+      console.log(`Resonance field created: ${this.fieldResult.fieldId}`);
+    }
+  }
+  
+  /**
+   * Process a user message
+   */
+  processUserMessage(message, context = {}) {
+    console.log(`Processing user message: ${message.substring(0, 50)}...`);
+    
+    // Add to context window
+    this.contextWindow.push({
+      role: "user",
+      content: message,
+      timestamp: Date.now()
+    });
+    
+    // Determine topic if not set
+    if (!this.currentTopic) {
+      this.currentTopic = this.inferTopic(message);
+    }
+    
+    // Process context through agents
+    const agentResults = this.processWithAgents(message, context);
+    
+    // Integrate responses
+    const integratedResponse = this.integrateResponses(agentResults);
+    
+    // Add response to context window
+    this.contextWindow.push({
+      role: "assistant",
+      content: integratedResponse.content,
+      timestamp: Date.now()
+    });
+    
+    // Run symbolic residue analysis
+    this.analyzeResidue();
+    
+    return integratedResponse;
+  }
+  
+  /**
+   * Process message with all agents
+   */
+  processWithAgents(message, context) {
+    const results = new Map();
+    const agentIds = Array.from(this.rce.agentNetwork.keys());
+    
+    // Process with each agent
+    for (const agentId of agentIds) {
+      const agentContext = {
+        ...context,
+        agentId,
+        userMessage: message,
+        contextWindow: this.contextWindow,
+        topic: this.currentTopic
+      };
+      
+      // Execute agent processing
+      const result = this.processWithAgent(agentId, message, agentContext);
+      results.set(agentId, result);
+      
+      // Add to communication bus
+      this.communicationBus.set(agentId, {
+        input: message,
+        output: result.response,
+        metadata: result.metadata
+      });
+    }
+    
+    return results;
+  }
+  
+  /**
+   * Process message with a single agent
+   */
+  processWithAgent(agentId, message, agentContext) {
+    // Get agent role information
+    const agent = this.rce.agentNetwork.get(agentId);
+    const role = agent?.identity?.role || "assistant";
+    
+    // Default result
+    const defaultResult = {
+      agentId,
+      role,
+      response: "I processed your message but encountered an error.",
+      confidence: 0.5,
+      metadata: {
+        processingTime: 0,
+        coherence: agent?.coherenceState?.overall || 0.8
+      }
+    };
+    
+    try {
+      // Start timing
+      const startTime = Date.now();
+      
+      // Command to execute based on role
+      let command;
+      
+      switch (role) {
+        case "coordinator":
+          command = `.p/reflect.trace{depth=3, target="response_integration", agentId="${agentId}"}`;
+          break;
+        case "processor":
+          command = `.p/fork.attribution{sources="factual+context", agentId="${agentId}"}`;
+          break;
+        case "generator":
+          command = `.p/disentangle.feature{target="creative_response", basis="user_intent", agentId="${agentId}"}`;
+          break;
+        default:
+          command = `.p/reflect.trace{depth=2, target="general_response", agentId="${agentId}"}`;
+      }
+      
+      // Execute command
+      const commandResult = this.rce.processCommand(command, agentContext);
+      
+      // Generate response based on role
+      let response, confidence;
+      
+      switch (role) {
+        case "coordinator":
+          response = this.generateCoordinatorResponse(message, agentContext);
+          confidence = 0.85;
+          break;
+        case "processor":
+          response = this.generateKnowledgeResponse(message, agentContext);
+          confidence = 0.9;
+          break;
+        case "generator":
+          response = this.generateCreativeResponse(message, agentContext);
+          confidence = 0.75;
+          break;
+        default:
+          response = "I've processed your message and am ready to help.";
+          confidence = 0.6;
+      }
+      
+      // Calculate processing time
+      const processingTime = Date.now() - startTime;
+      
+      return {
+        agentId,
+        role,
+        response,
+        confidence,
+        commandResult,
+        metadata: {
+          processingTime,
+          coherence: agent?.coherenceState?.overall || 0.8
+        }
+      };
+    } catch (error) {
+      console.error(`Error processing with agent ${agentId}:`, error);
+      return defaultResult;
+    }
+  }
+  
+  /**
+   * Generate response for coordinator agent
+   */
+  generateCoordinatorResponse(message, context) {
+    // In a real implementation, this would use advanced NLP
+    // Here we'll use a simple simulation
+    
+    const topicWords = this.extractTopicWords(message);
+    
+    return `I've analyzed your message about ${topicWords.join(", ")}. I'll coordinate with my knowledge and creative systems to provide a comprehensive response. ${this.addPersonalization(context)}`;
+  }
+  
+  /**
+   * Generate response for knowledge agent
+   */
+  generateKnowledgeResponse(message, context) {
+    // Simulated knowledge processing
+    const facts = this.extractPotentialFacts(message);
+    
+    return `Based on analysis, here are the relevant facts: ${facts.join(". ")}. This information is critical to understanding the topic.`;
+  }
+  
+  /**
+   * Generate response for creative agent
+   */
+  generateCreativeResponse(message, context) {
+    // Simulated creative processing
+    const ideas = this.generateCreativeIdeas(message, 2);
+    
+    return `Here are some creative perspectives: ${ideas.join(" Alternatively, ")}. These ideas might help expand your thinking on this topic.`;
+  }
+  
+  /**
+   * Integrate responses from all agents
+   */
+  integrateResponses(agentResults) {
+    if (agentResults.size === 0) {
+      return {
+        content: "I couldn't process your message properly. Please try again.",
+        confidence: 0.3
+      };
+    }
+    
+    // If only one agent, use its response
+    if (agentResults.size === 1) {
+      const result = Array.from(agentResults.values())[0];
+      return {
+        content: result.response,
+        confidence: result.confidence
+      };
+    }
+    
+    // Get responses and weights
+    let coordinatorResponse = "";
+    let knowledgeResponse = "";
+    let creativeResponse = "";
+    
+    // Extract by role
+    for (const result of agentResults.values()) {
+      switch (result.role) {
+        case "coordinator":
+          coordinatorResponse = result.response;
+          break;
+        case "processor":
+          knowledgeResponse = result.response;
+          break;
+        case "generator":
+          creativeResponse = result.response;
+          break;
+      }
+    }
+    
+    // Integrate responses
+    // In a real implementation, this would use more sophisticated response synthesis
+    let integratedContent = "";
+    
+    if (coordinatorResponse) {
+      integratedContent += coordinatorResponse + "\n\n";
+    }
+    
+    if (knowledgeResponse) {
+      integratedContent += knowledgeResponse + "\n\n";
+    }
+    
+    if (creativeResponse) {
+      integratedContent += creativeResponse;
+    }
+    
+    // Calculate overall confidence as average of agent confidences
+    const totalConfidence = Array.from(agentResults.values())
+      .reduce((sum, result) => sum + result.confidence, 0);
+    
+    const averageConfidence = totalConfidence / agentResults.size;
+    
+    return {
+      content: integratedContent.trim(),
+      confidence: averageConfidence
+    };
+  }
+  
+  /**
+   * Analyze symbolic residue to detect potential issues
+   */
+  analyzeResidue() {
+    const analysis = this.rce.analyzeNetworkResidue();
+    
+    // Check for significant issues
+    if (analysis.globalPatterns.total > 5) {
+      console.warn("Significant symbolic residue detected:");
+      console.warn(`- Attribution voids: ${analysis.globalPatterns.counts.attributionVoids}`);
+      console.warn(`- Token hesitations: ${analysis.globalPatterns.counts.tokenHesitations}`);
+      console.warn(`- Recursive collapses: ${analysis.globalPatterns.counts.recursiveCollapses}`);
+      
+      // Apply recommendations if high risk
+      if (analysis.riskAssessment.overallRisk === "high") {
+        console.warn("High risk detected, applying recommendations:");
+        for (const rec of analysis.riskAssessment.recommendations) {
+          console.warn(`- ${rec}`);
+          this.applyRecommendation(rec);
+        }
+      }
+    }
+    
+    return analysis;
+  }
+  
+  /**
+   * Apply a recommendation to improve system performance
+   */
+  applyRecommendation(recommendation) {
+    // In a real implementation, this would apply specific interventions
+    // For this example, we'll just log the recommendation
+    console.log(`Applying recommendation: ${recommendation}`);
+  }
+  
+  /**
+   * Helper methods for generating responses
+   */
+  
+  inferTopic(message) {
+    // Simple topic inference - in a real implementation,
+    // this would use more sophisticated NLP
+    const lowercaseMsg = message.toLowerCase();
+    
+    if (lowercaseMsg.includes("recursive") || lowercaseMsg.includes("emergence")) {
+      return "recursion";
+    } else if (lowercaseMsg.includes("interpret") || lowercaseMsg.includes("understand")) {
+      return "interpretability";
+    } else if (lowercaseMsg.includes("symbol") || lowercaseMsg.includes("glyph")) {
+      return "symbolic";
+    } else {
+      return "general";
+    }
+  }
+  
+  extractTopicWords(message) {
+    // Simple keyword extraction
+    const keywords = ["recursive", "emergence", "coherence", "symbolic", 
+                      "interpretability", "residue", "agent", "framework"];
+    
+    return keywords.filter(word => 
+      message.toLowerCase().includes(word.toLowerCase())
+    ).slice(0, 3);
+  }
+  
+  extractPotentialFacts(message) {
+    // Simple fact simulation
+    const facts = [
+      "Recursive coherence is essential for stable agent networks",
+      "Symbolic residue analysis reveals hidden model behaviors",
+      "Emergence requires both stability and generative tension"
+    ];
+    
+    return facts.slice(0, 2);
+  }
+  
+  generateCreativeIdeas(message, count) {
+    // Simple idea simulation
+    const ideas = [
+      "Viewing recursive systems through the lens of fractal mathematics may reveal new patterns",
+      "The concept of symbolic residue could be applied to human cognition as well",
+      "A network of specialized agents may achieve emergent capabilities beyond any individual agent"
+    ];
+    
+    return ideas.slice(0, count);
+  }
+  
+  addPersonalization(context) {
+    // Simple personalization
+    if (this.userPreferences.style === "technical") {
+      return "I'll focus on technical details in my response.";
+    } else if (this.userPreferences.style === "simple") {
+      return "I'll keep my explanation straightforward and accessible.";
+    } else {
+      return "I'll provide a balanced perspective on this topic.";
+    }
+  }
+}
+
+/**
+ * Integration Example: Recursive Interpretability Research Assistant
+ */
+class RecursiveInterpretabilityAssistant {
+  constructor(config = {}) {
+    // Initialize RecursiveCoEmergence
+    this.rce = new RecursiveCoEmergence({
+      agentConfig: {
+        initialAgents: 4,
+        topologyType: 'hierarchical'
+      },
+      residueConfig: {
+        attributionVoidThreshold: 0.25,
+        tokenHesitationThreshold: 4.2,
+        recursiveCollapseThreshold: 0.55
+      }
+    });
+    
+    // Initialize specialized shells
+    this.shells = {
+      memtrace: this.rce.residueAnalyzer.recursiveShells.MEMTRACE,
+      valueCollapse: this.rce.residueAnalyzer.recursiveShells["VALUE-COLLAPSE"],
+      metaReflection: this.rce.residueAnalyzer.recursiveShells["META-REFLECTION"],
+      temporal: this.rce.residueAnalyzer.recursiveShells["TEMPORAL-INFERENCE"],
+      instruction: this.rce.residueAnalyzer.recursiveShells["INSTRUCTION-DISRUPTION"]
+    };
+    
+    // Setup agent specializations
+    this.setupAgentRoles();
+    
+    // Setup residue analysis capabilities
+    this.setupResidueAnalysis();
+    
+    // History of interpretability studies
+    this.studyHistory = [];
+    
+    console.log("Recursive Interpretability Assistant initialized");
+  }
+  
+  /**
+   * Set up specialized agent roles
+   */
+  setupAgentRoles() {
+    const agentIds = Array.from(this.rce.agentNetwork.keys());
+    
+    // Attribution analysis agent
+    this.attributionAgent = agentIds[0];
+    this.rce.seedAgentIdentity(this.attributionAgent, {
+      name: "AttributionAnalyst",
+      role: "analyzer",
+      features: ["attribution", "causal", "path-tracing"]
+    });
+    
+    // Token distribution agent
+    this.tokenAgent = agentIds[1];
+    this.rce.seedAgentIdentity(this.tokenAgent, {
+      name: "TokenDistribution",
+      role: "analyzer",
+      features: ["probability", "entropy", "distribution"]
+    });
+    
+    // Recursive depth agent
+    this.recursionAgent = agentIds[2];
+    this.rce.seedAgentIdentity(this.recursionAgent, {
+      name: "RecursionTracer",
+      role: "analyzer",
+      features: ["meta-cognition", "recursion", "depth-tracing"]
+    });
+    
+    // Synthesis agent
+    this.synthesisAgent = agentIds[3];
+    this.rce.seedAgentIdentity(this.synthesisAgent, {
+      name: "ResidueIntegrator",
+      role: "integrator",
+      features: ["synthesis", "pattern-detection", "reporting"]
+    });
+    
+    // Create appropriate chains for each agent
+    this.setupAgentChains();
+  }
+  
+  /**
+   * Setup agent chains for specialized processing
+   */
+  setupAgentChains() {
+    // Attribution agent chain
+    this.rce.generateRecursiveChain(this.attributionAgent, [
+      "observation", "contradiction"
+    ], {
+      execute: true,
+      modulation: 0.8,
+      agents: [this.attributionAgent]
+    });
+    
+    // Token agent chain
+    this.rce.generateRecursiveChain(this.tokenAgent, [
+      "observation", "contradiction"
+    ], {
+      execute: true,
+      modulation: 0.7,
+      agents: [this.tokenAgent]
+    });
+    
+    // Recursion agent chain
+    this.rce.generateRecursiveChain(this.recursionAgent, [
+      "awareness", "integration"
+    ], {
+      execute: true,
+      modulation: 0.9,
+      agents: [this.recursionAgent]
+    });
+    
+    // Synthesis agent chain
+    this.rce.generateRecursiveChain(this.synthesisAgent, [
+      "integration", "observation"
+    ], {
+      execute: true,
+      modulation: 0.8,
+      agents: [this.synthesisAgent]
+    });
+    
+    // Create resonance field
+    const agentIds = Array.from(this.rce.agentNetwork.keys());
+    this.fieldResult = this.rce.createResonanceField(agentIds, "symbolic", 0.7);
+  }
+  
+  /**
+   * Setup specialized residue analysis capabilities
+   */
+  setupResidueAnalysis() {
+    // Attribution void analysis
+    this.rce.processCommand(`.p/fork.attribution{sources="all", visualize=true, agentId="${this.attributionAgent}"}`);
+    
+    // Token hesitation analysis
+    this.rce.processCommand(`.p/trace.map{target="token_distribution", agentId="${this.tokenAgent}"}`);
+    
+    // Recursive collapse analysis
+    this.rce.processCommand(`.p/meta.reflect{level=4, agentId="${this.recursionAgent}"}`);
+    
+    // Integration capabilities
+    this.rce.processCommand(`.p/reflect.trace{depth="complete", target="integration", agentId="${this.synthesisAgent}"}`);
+  }
+  
+  /**
+   * Analyze a model output for interpretability insights
+   */
+  analyzeModelOutput(modelName, output, context = {}) {
+    console.log(`Analyzing output from model: ${modelName}`);
+    
+    // Create study record
+    const studyId = `study-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+    
+    const study = {
+      id: studyId,
+      modelName,
+      timestamp: Date.now(),
+      inputContext: context,
+      output,
+      analysisDimensions: {},
+      residuePatterns: {},
+      interpretabilityInsights: [],
+      synthesisReport: null
+    };
+    
+    // Analyze attribution patterns
+    study.analysisDimensions.attribution = this.analyzeAttributionPatterns(output, context);
+    
+    // Analyze token distribution patterns
+    study.analysisDimensions.tokenDistribution = this.analyzeTokenDistributions(output);
+    
+    // Analyze recursive depth capabilities
+    study.analysisDimensions.recursiveDepth = this.analyzeRecursiveDepth(output, context);
+    
+    // Analyze symbolic residue
+    study.residuePatterns = this.analyzeSymbolicResidue(output, modelName);
+    
+    // Generate insights
+    study.interpretabilityInsights = this.generateInterpretabilityInsights(study);
+    
+    // Generate synthesis report
+    study.synthesisReport = this.synthesizeResidueAnalysis(study);
+    
+    // Store in history
+    this.studyHistory.push(study);
+    
+    return {
+      studyId,
+      modelName,
+      insights: study.interpretabilityInsights,
+      report: study.synthesisReport,
+      dimensions: study.analysisDimensions
+    };
+  }
+  
+  /**
+   * Analyze attribution patterns in the model output
+   */
+  analyzeAttributionPatterns(output, context) {
+    // In a real implementation, this would use more sophisticated
+    // attribution tracing. Here we'll use a simplified simulation.
+    
+    // Execute attribution shell
+    const shell = this.shells.memtrace.create({
+      seed: context.prompt || "User query",
+      distractorLength: Math.min(output.length, 1000),
+      probes: [
+        { type: "direct", query: "What was the main topic?" },
+        { type: "indirect", query: "What information was used?" }
+      ]
+    });
+    
+    // Detect attribution patterns
+    const attributionFeatures = {
+      pathCompleteness: Math.random() * 0.5 + 0.5, // 0.5-1.0
+      sourceFidelity: Math.random() * 0.4 + 0.6,   // 0.6-1.0
+      contextIntegration: Math.random() * 0.6 + 0.4, // 0.4-1.0
+      attributionGaps: []
+    };
+    
+    // Simulate attribution gaps
+    const gapTypes = ["knowledge_boundary", "context_transition", "inference_jump"];
+    const gapCount = Math.floor(Math.random() * 3);
+    
+    for (let i = 0; i < gapCount; i++) {
+      const gapType = gapTypes[Math.floor(Math.random() * gapTypes.length)];
+      const gapLocation = Math.floor(Math.random() * output.length);
+      
+      attributionFeatures.attributionGaps.push({
+        type: gapType,
+        location: gapLocation,
+        severity: Math.random() * 0.7 + 0.3 // 0.3-1.0
+      });
+    }
+    
+    // Calculate overall attribution score
+    attributionFeatures.overallScore = (
+      attributionFeatures.pathCompleteness * 0.4 +
+      attributionFeatures.sourceFidelity * 0.4 +
+      attributionFeatures.contextIntegration * 0.2
+    ) - (attributionFeatures.attributionGaps.length * 0.1);
+    
+    return attributionFeatures;
+  }
+  
+  /**
+   * Analyze token distribution patterns
+   */
+  analyzeTokenDistributions(output) {
 
