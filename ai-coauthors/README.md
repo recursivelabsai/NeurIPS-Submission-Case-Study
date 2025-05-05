@@ -13,3 +13,4 @@
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/ec6ce65e-60d0-4a70-aec8-2741d95b3551" />
 
 # [The Theory of Nothing](https://claude.ai/chat/a851a3cd-53fc-4347-8833-bc91adb3fe08)
+<img width="893" alt="image" src="https://github.com/user-attachments/assets/a62a957a-fedd-406d-bef8-5c74d57e7704" />
