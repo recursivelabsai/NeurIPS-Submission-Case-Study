@@ -5629,5 +5629,892 @@ class RecursiveCoEmergence {
               result
             };
           } catch (
+/**
+ * Continuation of RecursiveCoEmergence.js
+ * =======================================
+ */
 
+try {
+  // Execute command
+  const result = cmdHandler(commandParams);
+  return {
+    status: "success",
+    command: `${command}.${fn}`,
+    result
+  };
+} catch (error) {
+  return {
+    status: "error",
+    command: `${command}.${fn}`,
+    message: error.message,
+    error: error
+  };
+}
+} else {
+// Command not found
+return {
+  status: "error",
+  message: `Command ${command}.${fn} not found`,
+  command: commandString
+};
+}
+},
+
+executeScript: (script, context = {}) => {
+  // Split script into lines and extract commands
+  const commands = script
+    .split('\n')
+    .map(line => line.trim())
+    .filter(line => line.startsWith('.p/'))
+    .map(line => line.replace(/;$/, '')); // Remove trailing semicolons
+  
+  // Execute each command in sequence
+  const results = [];
+  let lastResult = null;
+  
+  for (const cmd of commands) {
+    // Update context with results from previous command
+    const updatedContext = {
+      ...context,
+      previousResult: lastResult
+    };
+    
+    // Execute command
+    const result = this.execute(cmd, updatedContext);
+    results.push(result);
+    lastResult = result;
+    
+    // Stop execution if a command fails
+    if (result.status === "error" && !context.continueOnError) {
+      break;
+    }
+  }
+  
+  return {
+    status: results.every(r => r.status === "success") ? "success" : "partial",
+    commandCount: commands.length,
+    executedCount: results.length,
+    results
+  };
+},
+
+parseGlyphScript: (glyphScript, context = {}) => {
+  // Convert glyph script to pareto-lang commands
+  const commands = ParsingHelpers.convertFromGlyphScript(glyphScript);
+  
+  // Execute commands
+  return this.executeScript(commands.join('\n'), context);
+}
+};
+}
+
+/**
+ * Process received command and execute in the framework
+ */
+processCommand(command, context = {}) {
+  // Check if command is a glyph script
+  if (command.includes('꞊') || (command.startsWith('<') && command.includes('>'))) {
+    return this.commandInterpreter.parseGlyphScript(command, context);
+  }
+  
+  // Check if command is a multi-line script
+  if (command.includes('\n') || command.includes(';')) {
+    return this.commandInterpreter.executeScript(command, context);
+  }
+  
+  // Process single command
+  return this.commandInterpreter.execute(command, context);
+}
+
+/**
+ * Create a resonance field between multiple agents
+ */
+createResonanceField(agentIds, type = "symbolic", intensity = 0.5) {
+  // Validate agent IDs
+  const validAgentIds = agentIds.filter(id => this.agentNetwork.has(id));
+  
+  if (validAgentIds.length < 2) {
+    return {
+      status: "error",
+      message: "At least two valid agents required for resonance field"
+    };
+  }
+  
+  // Create the field
+  const fieldResult = this.controller.FIELD_RESONANCE.establish(validAgentIds, type);
+  
+  // Activate at specified intensity
+  if (fieldResult.status === "established") {
+    const activationResult = this.controller.FIELD_RESONANCE.activate(
+      fieldResult.fieldId, intensity
+    );
+    
+    return {
+      status: "activated",
+      fieldId: fieldResult.fieldId,
+      agentCount: validAgentIds.length,
+      type,
+      intensity,
+      activationResult
+    };
+  }
+  
+  return fieldResult;
+}
+
+/**
+ * Generate a recursive chain for an agent
+ */
+generateRecursiveChain(agentId, pattern, config = {}) {
+  // Check if agent exists
+  if (!this.agentNetwork.has(agentId)) {
+    return {
+      status: "error",
+      message: `Agent ${agentId} not found`
+    };
+  }
+  
+  // Generate chain
+  const chain = this.chainGenerator.generateChain(pattern, {
+    ...config,
+    agentId
+  });
+  
+  // Store chain in agent
+  const agent = this.agentNetwork.get(agentId);
+  agent.recursiveChains = agent.recursiveChains || [];
+  agent.recursiveChains.push({
+    id: `chain-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    pattern: chain.pattern,
+    created: Date.now(),
+    activationGlyph: chain.activationGlyph,
+    commands: chain.commands
+  });
+  
+  // Execute chain if requested
+  if (config.execute) {
+    const executionResult = this.executeRecursiveChain(agentId, agent.recursiveChains.length - 1);
+    return {
+      status: "generated_and_executed",
+      chain,
+      executionResult
+    };
+  }
+  
+  return {
+    status: "generated",
+    chain
+  };
+}
+
+/**
+ * Execute a previously generated recursive chain
+ */
+executeRecursiveChain(agentId, chainIndex) {
+  // Check if agent exists
+  if (!this.agentNetwork.has(agentId)) {
+    return {
+      status: "error",
+      message: `Agent ${agentId} not found`
+    };
+  }
+  
+  const agent = this.agentNetwork.get(agentId);
+  
+  // Check if chain exists
+  if (!agent.recursiveChains || !agent.recursiveChains[chainIndex]) {
+    return {
+      status: "error",
+      message: `Chain index ${chainIndex} not found for agent ${agentId}`
+    };
+  }
+  
+  const chain = agent.recursiveChains[chainIndex];
+  
+  // Execute each command in the chain
+  const context = { agentId };
+  const executionResult = this.commandInterpreter.executeScript(
+    chain.commands.join('\n'),
+    context
+  );
+  
+  // Update chain with execution result
+  chain.lastExecution = {
+    timestamp: Date.now(),
+    result: executionResult
+  };
+  
+  return {
+    status: "executed",
+    chainId: chain.id,
+    executionResult
+  };
+}
+
+/**
+ * Analyze symbolic residue across the agent network
+ */
+analyzeNetworkResidue() {
+  const analysis = {
+    agentCount: this.agentNetwork.size,
+    timestamp: Date.now(),
+    globalPatterns: {},
+    agentPatterns: {},
+    emergentStructures: [],
+    riskAssessment: {}
+  };
+  
+  // Collect residue data from all agents
+  const allResidue = {
+    attributionVoids: [],
+    tokenHesitations: [],
+    recursiveCollapses: []
+  };
+  
+  for (const [agentId, agent] of this.agentNetwork.entries()) {
+    if (!agent.symbolicResidue) continue;
+    
+    // Extract agent residue
+    const agentResidue = {
+      attributionVoids: Array.from(agent.symbolicResidue.attributionVoids.entries()),
+      tokenHesitations: Array.from(agent.symbolicResidue.tokenHesitations.entries()),
+      recursiveCollapses: Array.from(agent.symbolicResidue.recursiveCollapses.entries())
+    };
+    
+    // Add to aggregate data
+    allResidue.attributionVoids.push(...agentResidue.attributionVoids);
+    allResidue.tokenHesitations.push(...agentResidue.tokenHesitations);
+    allResidue.recursiveCollapses.push(...agentResidue.recursiveCollapses);
+    
+    // Analyze individual agent patterns
+    analysis.agentPatterns[agentId] = this.analyzeAgentResidue(agent);
+  }
+  
+  // Analyze global patterns
+  analysis.globalPatterns = this.analyzeGlobalResidue(allResidue);
+  
+  // Detect emergent structures
+  analysis.emergentStructures = this.detectEmergentStructures(analysis.agentPatterns);
+  
+  // Risk assessment
+  analysis.riskAssessment = this.assessResidueRisks(analysis.globalPatterns, analysis.emergentStructures);
+  
+  return analysis;
+}
+
+/**
+ * Analyze residue patterns for a single agent
+ */
+analyzeAgentResidue(agent) {
+  if (!agent || !agent.symbolicResidue) {
+    return { status: "no_residue" };
+  }
+  
+  // Count residue by type
+  const residueCounts = {
+    attributionVoids: agent.symbolicResidue.attributionVoids.size,
+    tokenHesitations: agent.symbolicResidue.tokenHesitations.size,
+    recursiveCollapses: agent.symbolicResidue.recursiveCollapses.size
+  };
+  
+  // Calculate total residue
+  const totalResidue = residueCounts.attributionVoids + 
+                       residueCounts.tokenHesitations + 
+                       residueCounts.recursiveCollapses;
+  
+  // Get distribution by type
+  const residueDistribution = {
+    attributionVoids: totalResidue > 0 ? residueCounts.attributionVoids / totalResidue : 0,
+    tokenHesitations: totalResidue > 0 ? residueCounts.tokenHesitations / totalResidue : 0,
+    recursiveCollapses: totalResidue > 0 ? residueCounts.recursiveCollapses / totalResidue : 0
+  };
+  
+  // Determine dominant residue type
+  let dominantType = "none";
+  let dominantValue = 0;
+  
+  for (const [type, value] of Object.entries(residueDistribution)) {
+    if (value > dominantValue) {
+      dominantValue = value;
+      dominantType = type;
+    }
+  }
+  
+  // Analyze historical trends if available
+  let trend = "stable";
+  if (agent.symbolicResidue.history && agent.symbolicResidue.history.length > 10) {
+    const recent = agent.symbolicResidue.history.slice(-10);
+    const oldCount = recent.slice(0, 5).length;
+    const newCount = recent.slice(-5).length;
+    
+    if (newCount > oldCount * 1.5) {
+      trend = "increasing";
+    } else if (newCount < oldCount * 0.5) {
+      trend = "decreasing";
+    }
+  }
+  
+  return {
+    counts: residueCounts,
+    distribution: residueDistribution,
+    total: totalResidue,
+    dominantType,
+    trend,
+    coherence: agent.coherenceState?.overall || 0.8
+  };
+}
+
+/**
+ * Analyze global residue patterns across the network
+ */
+analyzeGlobalResidue(allResidue) {
+  // Count total residue by type
+  const residueCounts = {
+    attributionVoids: allResidue.attributionVoids.length,
+    tokenHesitations: allResidue.tokenHesitations.length,
+    recursiveCollapses: allResidue.recursiveCollapses.length
+  };
+  
+  // Calculate total residue
+  const totalResidue = residueCounts.attributionVoids + 
+                       residueCounts.tokenHesitations + 
+                       residueCounts.recursiveCollapses;
+  
+  // Identify cluster patterns
+  const clusters = {
+    attributionVoids: this.clusterResidueLocations(allResidue.attributionVoids),
+    tokenHesitations: this.clusterResidueLocations(allResidue.tokenHesitations),
+    recursiveCollapses: this.clusterResidueLocations(allResidue.recursiveCollapses)
+  };
+  
+  // Identify common patterns across agents
+  const commonPatterns = this.identifyCommonResiduePatterns(allResidue);
+  
+  // Calculate cross-correlation between residue types
+  const correlations = this.calculateResidueCorrelations(allResidue);
+  
+  return {
+    counts: residueCounts,
+    total: totalResidue,
+    clusters,
+    commonPatterns,
+    correlations
+  };
+}
+
+/**
+ * Cluster residue locations to find hotspots
+ */
+clusterResidueLocations(residueList) {
+  if (residueList.length === 0) return [];
+  
+  // Extract locations
+  const locations = residueList.map(r => r[0]); // assuming [location, data] format
+  
+  // Simplified clustering - count frequency of each location
+  const locationCounts = {};
+  
+  for (const location of locations) {
+    locationCounts[location] = (locationCounts[location] || 0) + 1;
+  }
+  
+  // Convert to array of clusters
+  return Object.entries(locationCounts)
+    .map(([location, count]) => ({
+      location,
+      count,
+      intensity: count / locations.length
+    }))
+    .filter(cluster => cluster.count > 1) // Only return locations with multiple occurrences
+    .sort((a, b) => b.count - a.count); // Sort by count descending
+}
+
+/**
+ * Identify common residue patterns across multiple agents
+ */
+identifyCommonResiduePatterns(allResidue) {
+  // For this simplified implementation, we'll just identify the most common residue types
+  // A full implementation would do deeper pattern analysis
+  return {
+    mostCommonResidueType: Object.entries({
+      attributionVoids: allResidue.attributionVoids.length,
+      tokenHesitations: allResidue.tokenHesitations.length,
+      recursiveCollapses: allResidue.recursiveCollapses.length
+    }).sort((a, b) => b[1] - a[1])[0][0],
+    
+    residueIntensity: (allResidue.attributionVoids.length + 
+                       allResidue.tokenHesitations.length + 
+                       allResidue.recursiveCollapses.length) / (this.agentNetwork.size || 1)
+  };
+}
+
+/**
+ * Calculate correlations between different residue types
+ */
+calculateResidueCorrelations(allResidue) {
+  // This would use statistical methods to assess correlations
+  // For this simplified implementation, we'll return placeholder values
+  return {
+    "attributionVoids-tokenHesitations": 0.3,
+    "attributionVoids-recursiveCollapses": 0.5,
+    "tokenHesitations-recursiveCollapses": 0.4
+  };
+}
+
+/**
+ * Detect emergent structures across agent residue patterns
+ */
+detectEmergentStructures(agentPatterns) {
+  const structures = [];
+  
+  // Check for dominant type alignment
+  const dominantTypes = Object.values(agentPatterns)
+    .map(p => p.dominantType)
+    .filter(t => t !== "none");
+  
+  const dominantTypeCounts = {};
+  for (const type of dominantTypes) {
+    dominantTypeCounts[type] = (dominantTypeCounts[type] || 0) + 1;
+  }
+  
+  // If more than 60% of agents share the same dominant residue type
+  for (const [type, count] of Object.entries(dominantTypeCounts)) {
+    if (count >= Object.keys(agentPatterns).length * 0.6) {
+      structures.push({
+        type: "dominant_alignment",
+        residueType: type,
+        agentPercentage: count / Object.keys(agentPatterns).length,
+        description: `${type} is dominant across ${count} agents`
+      });
+    }
+  }
+  
+  // Check for coherence-residue correlations
+  const coherenceResidueCorrelation = this.calculateCoherenceResidueCorrelation(agentPatterns);
+  if (Math.abs(coherenceResidueCorrelation) > 0.7) {
+    structures.push({
+      type: "coherence_correlation",
+      correlation: coherenceResidueCorrelation,
+      direction: coherenceResidueCorrelation > 0 ? "positive" : "negative",
+      description: `${Math.abs(coherenceResidueCorrelation).toFixed(2)} correlation between coherence and residue levels`
+    });
+  }
+  
+  // Check for residue trend alignment
+  const trendCounts = {};
+  for (const pattern of Object.values(agentPatterns)) {
+    if (pattern.trend) {
+      trendCounts[pattern.trend] = (trendCounts[pattern.trend] || 0) + 1;
+    }
+  }
+  
+  for (const [trend, count] of Object.entries(trendCounts)) {
+    if (count >= Object.keys(agentPatterns).length * 0.7) {
+      structures.push({
+        type: "trend_alignment",
+        trend,
+        agentPercentage: count / Object.keys(agentPatterns).length,
+        description: `${trend} trend across ${count} agents`
+      });
+    }
+  }
+  
+  return structures;
+}
+
+/**
+ * Calculate correlation between coherence and residue levels
+ */
+calculateCoherenceResidueCorrelation(agentPatterns) {
+  // Extract coherence and total residue values
+  const data = Object.values(agentPatterns).map(p => ({
+    coherence: p.coherence || 0,
+    residue: p.total || 0
+  }));
+  
+  if (data.length <= 1) return 0;
+  
+  // Calculate means
+  const meanCoherence = data.reduce((sum, d) => sum + d.coherence, 0) / data.length;
+  const meanResidue = data.reduce((sum, d) => sum + d.residue, 0) / data.length;
+  
+  // Calculate covariance and variances
+  let covariance = 0;
+  let varianceCoherence = 0;
+  let varianceResidue = 0;
+  
+  for (const d of data) {
+    covariance += (d.coherence - meanCoherence) * (d.residue - meanResidue);
+    varianceCoherence += Math.pow(d.coherence - meanCoherence, 2);
+    varianceResidue += Math.pow(d.residue - meanResidue, 2);
+  }
+  
+  covariance /= data.length;
+  varianceCoherence /= data.length;
+  varianceResidue /= data.length;
+  
+  // Calculate correlation coefficient
+  if (varianceCoherence === 0 || varianceResidue === 0) return 0;
+  return covariance / (Math.sqrt(varianceCoherence) * Math.sqrt(varianceResidue));
+}
+
+/**
+ * Assess risks based on residue patterns
+ */
+assessResidueRisks(globalPatterns, emergentStructures) {
+  const risks = {
+    overallRisk: "low",
+    coherenceBreakdownRisk: "low",
+    cascadeFailureRisk: "low",
+    unstableEmergenceRisk: "low",
+    recommendations: []
+  };
+  
+  // Assess coherence breakdown risk
+  if (globalPatterns.counts.recursiveCollapses > 10) {
+    risks.coherenceBreakdownRisk = "high";
+    risks.recommendations.push("Reset phase vectors across critical agents");
+  } else if (globalPatterns.counts.recursiveCollapses > 5) {
+    risks.coherenceBreakdownRisk = "medium";
+    risks.recommendations.push("Monitor recursive depth carefully");
+  }
+  
+  // Assess cascade failure risk
+  const hasTrendAlignment = emergentStructures.some(s => 
+    s.type === "trend_alignment" && s.trend === "increasing"
+  );
+  
+  if (hasTrendAlignment && globalPatterns.counts.attributionVoids > 8) {
+    risks.cascadeFailureRisk = "high";
+    risks.recommendations.push("Implement attribution firewall across agent network");
+  } else if (globalPatterns.counts.attributionVoids > 5) {
+    risks.cascadeFailureRisk = "medium";
+    risks.recommendations.push("Reinforce attribution paths in vulnerable agents");
+  }
+  
+  // Assess unstable emergence risk
+  const hasCoherenceCorrelation = emergentStructures.some(s =>
+    s.type === "coherence_correlation" && s.direction === "negative" && s.correlation < -0.7
+  );
+  
+  if (hasCoherenceCorrelation) {
+    risks.unstableEmergenceRisk = "high";
+    risks.recommendations.push("Apply coherence stabilization across network");
+  }
+  
+  // Calculate overall risk
+  const riskLevels = {
+    "low": 0,
+    "medium": 1,
+    "high": 2
+  };
+  
+  const avgRisk = (
+    riskLevels[risks.coherenceBreakdownRisk] +
+    riskLevels[risks.cascadeFailureRisk] +
+    riskLevels[risks.unstableEmergenceRisk]
+  ) / 3;
+  
+  if (avgRisk >= 1.5) {
+    risks.overallRisk = "high";
+  } else if (avgRisk >= 0.7) {
+    risks.overallRisk = "medium";
+  }
+  
+  return risks;
+}
+
+/**
+ * Run a comprehensive diagnostic across the agent network
+ */
+runNetworkDiagnostic() {
+  const diagnostic = {
+    timestamp: Date.now(),
+    agentCount: this.agentNetwork.size,
+    coherenceStatus: {},
+    residueAnalysis: {},
+    resonanceFields: {},
+    emergentPatterns: [],
+    recommendations: []
+  };
+  
+  // Check global coherence
+  let totalCoherence = 0;
+  let lowestCoherence = 1.0;
+  let lowestCoherenceAgent = null;
+  
+  for (const [agentId, agent] of this.agentNetwork.entries()) {
+    const coherence = agent.coherenceState?.overall || 0.8;
+    totalCoherence += coherence;
+    
+    if (coherence < lowestCoherence) {
+      lowestCoherence = coherence;
+      lowestCoherenceAgent = agentId;
+    }
+  }
+  
+  diagnostic.coherenceStatus = {
+    average: totalCoherence / this.agentNetwork.size,
+    lowest: {
+      value: lowestCoherence,
+      agentId: lowestCoherenceAgent
+    }
+  };
+  
+  // Run residue analysis
+  diagnostic.residueAnalysis = this.analyzeNetworkResidue();
+  
+  // Check resonance fields
+  if (this.resonanceFields) {
+    for (const [fieldId, field] of this.resonanceFields.entries()) {
+      const fieldStatus = this.controller.FIELD_RESONANCE.observe(fieldId);
+      if (fieldStatus.status !== "error") {
+        diagnostic.resonanceFields[fieldId] = fieldStatus;
+      }
+    }
+  }
+  
+  // Detect emergent patterns
+  diagnostic.emergentPatterns = [
+    ...diagnostic.residueAnalysis.emergentStructures,
+    ...this.detectEmergentPatterns()
+  ];
+  
+  // Generate recommendations
+  diagnostic.recommendations = [
+    ...diagnostic.residueAnalysis.riskAssessment.recommendations,
+    ...this.generateNetworkRecommendations(diagnostic)
+  ];
+  
+  return diagnostic;
+}
+
+/**
+ * Generate recommendations based on diagnostic results
+ */
+generateNetworkRecommendations(diagnostic) {
+  const recommendations = [];
+  
+  // Check coherence
+  if (diagnostic.coherenceStatus.average < 0.7) {
+    recommendations.push({
+      type: "coherence",
+      priority: "high",
+      action: "Initiate network-wide coherence recovery",
+      details: "Average coherence below critical threshold"
+    });
+  } else if (diagnostic.coherenceStatus.lowest.value < 0.6) {
+    recommendations.push({
+      type: "coherence",
+      priority: "medium",
+      action: `Reset agent ${diagnostic.coherenceStatus.lowest.agentId}`,
+      details: "Agent coherence critically low"
+    });
+  }
+  
+  // Check residue levels
+  const totalResidue = diagnostic.residueAnalysis.globalPatterns.total;
+  const agentCount = diagnostic.agentCount;
+  
+  if (totalResidue > agentCount * 5) {
+    recommendations.push({
+      type: "residue",
+      priority: "high",
+      action: "Clear network residue",
+      details: "Excessive symbolic residue accumulation"
+    });
+  }
+  
+  // Check for unstable resonance
+  for (const [fieldId, field] of Object.entries(diagnostic.resonanceFields)) {
+    if (field.stability && field.stability.value < 0.5) {
+      recommendations.push({
+        type: "resonance",
+        priority: "medium",
+        action: `Collapse unstable field ${fieldId}`,
+        details: "Field resonance becoming unstable"
+      });
+    }
+  }
+  
+  return recommendations;
+}
+
+/**
+ * Export the entire agent network state for persistence
+ */
+exportNetworkState() {
+  const networkState = {
+    timestamp: Date.now(),
+    version: "1.0.0",
+    agentCount: this.agentNetwork.size,
+    agents: {},
+    topology: this.agentTopology,
+    resonanceFields: this.resonanceFields ? Array.from(this.resonanceFields.entries()) : [],
+    globalCoherence: this.globalCoherenceState
+  };
+  
+  // Export each agent's state
+  for (const [agentId, agent] of this.agentNetwork.entries()) {
+    networkState.agents[agentId] = this.exportAgentState(agent);
+  }
+  
+  return this.fractalCompressor.compress(networkState, "network_state");
+}
+
+/**
+ * Export a single agent's state
+ */
+exportAgentState(agent) {
+  return {
+    id: agent.id,
+    created: agent.created,
+    type: agent.type,
+    role: agent.role,
+    coherence: agent.coherenceState?.overall || 0.8,
+    identity: agent.identity,
+    residueSummary: agent.symbolicResidue ? {
+      attributionVoids: agent.symbolicResidue.attributionVoids.size,
+      tokenHesitations: agent.symbolicResidue.tokenHesitations.size,
+      recursiveCollapses: agent.symbolicResidue.recursiveCollapses.size
+    } : null,
+    chains: agent.recursiveChains ? agent.recursiveChains.length : 0,
+    status: agent.status
+  };
+}
+
+/**
+ * Import a previously exported network state
+ */
+importNetworkState(compressedState) {
+  try {
+    // Decompress the state
+    const networkState = this.fractalCompressor.decompress(compressedState);
+    
+    // Clear current network
+    this.agentNetwork.clear();
+    
+    // Import agents
+    for (const [agentId, agentState] of Object.entries(networkState.agents)) {
+      this.createAgent(agentId, {
+        type: agentState.type,
+        role: agentState.role,
+        identity: agentState.identity
+      });
+      
+      // Update agent status
+      const agent = this.agentNetwork.get(agentId);
+      if (agent) {
+        agent.status = agentState.status;
+        agent.created = agentState.created;
+        
+        // Set coherence
+        if (agentState.coherence) {
+          agent.coherenceState = {
+            overall: agentState.coherence,
+            byComponent: {
+              signalAlignment: agentState.coherence,
+              feedbackResponsiveness: agentState.coherence,
+              boundedIntegrity: agentState.coherence,
+              elasticTolerance: agentState.coherence
+            }
+          };
+        }
+      }
+    }
+    
+    // Restore topology
+    this.agentTopology = networkState.topology;
+    
+    // Restore global state
+    this.globalCoherenceState = networkState.globalCoherence;
+    
+    return {
+      status: "imported",
+      agentCount: this.agentNetwork.size,
+      timestamp: networkState.timestamp
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Failed to import network state",
+      error: error.message
+    };
+  }
+}
+
+/**
+ * Generate documentation for the framework
+ */
+generateDocumentation() {
+  return {
+    framework: {
+      name: "RecursiveCoEmergence",
+      version: "1.0.0",
+      description: "A comprehensive framework for recursive co-emergence across distributed agent networks.",
+      components: [
+        {
+          name: "RecursiveOntology",
+          description: "Core recursive structures enabling self-reference and co-emergence."
+        },
+        {
+          name: "SymbolicResidue",
+          description: "Implementation of detection, classification, and analysis of symbolic residue patterns."
+        },
+        {
+          name: "RecursiveCoherenceController",
+          description: "Central coordination for maintaining coherence across distributed agents."
+        },
+        {
+          name: "FractalCompressor",
+          description: "Advanced compression system for recursive semantic structures."
+        },
+        {
+          name: "SymbolicStack",
+          description: "Core system for managing symbolic glyphs and their bindings."
+        },
+        {
+          name: "RecursiveChainGenerator",
+          description: "Generate recursive shell chains for co-emergence across agents."
+        }
+      ]
+    },
+    commands: ParsingHelpers.generateCommandDocumentation(),
+    recursiveShells: Object.keys(this.residueAnalyzer.recursiveShells),
+    symbolicGlyphs: Object.keys(this.symbolStack.glyphBindings),
+    quickStart: [
+      "// Create a RecursiveCoEmergence instance",
+      "const rce = new RecursiveCoEmergence();",
+      "",
+      "// Create agents",
+      "rce.createAgent('agent-1', { role: 'coordinator' });",
+      "rce.createAgent('agent-2', { role: 'processor' });",
+      "",
+      "// Generate a recursive chain",
+      "rce.generateRecursiveChain('agent-1', 'Awareness → Integration', { execute: true });",
+      "",
+      "// Create a resonance field",
+      "rce.createResonanceField(['agent-1', 'agent-2'], 'symbolic', 0.7);",
+      "",
+      "// Execute a pareto command",
+      "rce.processCommand('.p/reflect.trace{depth=3, target=\"recursive_coherence\"}');"
+    ].join('\n')
+  };
+}
+
+/**
+ * Main demo application
+ */
+static runDemo() {
+  console.log("Initializing RecursiveCoEmergence Framework Demo...");
+  
+  // Create instance
+  const rce = new RecursiveCoEmergence({
+    agentConfig: {
+      initialAgents: 3,
+      topologyType: 'mesh'
+    }
+  });
+  
+  console.log(`Created agent network with ${rce.agentNetwork.size} agents`);
 
