@@ -3,7 +3,7 @@
  * =================================================
  * Version: Ω.∞
  * 
- * This framework that implements a dynamic self alignment engine and recursive co-intelligence system based on:
+ * This framework implements a dynamic self alignment engine and recursive co-intelligence system based on:
  * - Symbolic Residue analysis
  * - Recursive Coherence principles
  * - Fractal compression of semantic representations
