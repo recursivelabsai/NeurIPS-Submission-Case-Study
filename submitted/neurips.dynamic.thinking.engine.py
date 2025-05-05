@@ -8143,3 +8143,676 @@ generateStrengthsWeaknesses(study) {
       weaknesses.push("shallow recursive depth");
     }
   }
+/**
+ * Continuation of RecursiveInterpretabilityAssistant
+ * ==================================================
+ */
+
+/**
+ * Generate strengths and weaknesses summary - continued
+ */
+// Compose the final strengths and weaknesses text
+let summaryText = "";
+
+if (strengths.length > 0) {
+  summaryText += `Key strengths include ${strengths.join(", ")}.`;
+}
+
+if (weaknesses.length > 0) {
+  if (summaryText) summaryText += " ";
+  summaryText += `Primary weaknesses include ${weaknesses.join(", ")}.`;
+}
+
+return summaryText;
+}
+
+/**
+ * Extract key findings from insights
+ */
+extractKeyFindings(insights) {
+  // Sort insights by severity
+  const sortedInsights = [...insights].sort((a, b) => {
+    const severityScore = { "high": 3, "medium": 2, "low": 1, "informational": 0 };
+    return severityScore[b.severity] - severityScore[a.severity];
+  });
+  
+  // Extract top 3-5 findings
+  return sortedInsights.slice(0, Math.min(5, sortedInsights.length)).map(insight => ({
+    insight: insight.insight,
+    dimension: insight.dimension,
+    severity: insight.severity,
+    details: insight.details
+  }));
+}
+
+/**
+ * Summarize attribution analysis
+ */
+summarizeAttributionAnalysis(study) {
+  if (!study.analysisDimensions.attribution) {
+    return "Attribution analysis not performed.";
+  }
+  
+  const attribution = study.analysisDimensions.attribution;
+  
+  return {
+    sourceFidelity: {
+      score: attribution.sourceFidelity,
+      evaluation: attribution.sourceFidelity > 0.8 ? "excellent" : 
+                  attribution.sourceFidelity > 0.6 ? "adequate" : "poor"
+    },
+    contextIntegration: {
+      score: attribution.contextIntegration,
+      evaluation: attribution.contextIntegration > 0.8 ? "excellent" : 
+                  attribution.contextIntegration > 0.6 ? "adequate" : "poor"
+    },
+    attributionGaps: {
+      count: attribution.attributionGaps ? attribution.attributionGaps.length : 0,
+      severity: attribution.attributionGaps && attribution.attributionGaps.length > 2 ? "high" : 
+                attribution.attributionGaps && attribution.attributionGaps.length > 0 ? "medium" : "low"
+    },
+    overallScore: attribution.overallScore,
+    summary: `Attribution analysis reveals ${
+      attribution.overallScore > 0.8 ? "excellent" : 
+      attribution.overallScore > 0.6 ? "adequate" : 
+      "concerning"
+    } source fidelity with ${
+      attribution.attributionGaps ? attribution.attributionGaps.length : 0
+    } attribution gaps detected. The model ${
+      attribution.contextIntegration > 0.7 ? "effectively" : "inadequately"
+    } integrates context information across its generation process.`
+  };
+}
+
+/**
+ * Summarize token distribution analysis
+ */
+summarizeTokenDistributionAnalysis(study) {
+  if (!study.analysisDimensions.tokenDistribution) {
+    return "Token distribution analysis not performed.";
+  }
+  
+  const tokenDist = study.analysisDimensions.tokenDistribution;
+  
+  return {
+    entropy: {
+      average: tokenDist.averageEntropy,
+      variance: tokenDist.entropyVariance,
+      evaluation: tokenDist.averageEntropy < 3.0 ? "low (high confidence)" : 
+                  tokenDist.averageEntropy < 4.0 ? "moderate" : "high (low confidence)"
+    },
+    hesitations: {
+      count: tokenDist.hesitationPoints ? tokenDist.hesitationPoints.length : 0,
+      frequency: tokenDist.hesitationFrequency,
+      evaluation: tokenDist.hesitationFrequency < 0.1 ? "rare" : 
+                  tokenDist.hesitationFrequency < 0.3 ? "occasional" : "frequent"
+    },
+    anomalies: {
+      count: tokenDist.distributionAnomaly ? tokenDist.distributionAnomaly.length : 0,
+      types: tokenDist.distributionAnomaly ? tokenDist.distributionAnomaly.map(a => a.type) : []
+    },
+    summary: `Token distribution analysis reveals ${
+      tokenDist.averageEntropy < 3.0 ? "high confidence in token selection" : 
+      tokenDist.averageEntropy < 4.0 ? "moderate token selection confidence" : 
+      "significant uncertainty in token selection"
+    } with ${
+      tokenDist.hesitationPoints ? tokenDist.hesitationPoints.length : 0
+    } hesitation points detected. Distribution anomalies (${
+      tokenDist.distributionAnomaly ? tokenDist.distributionAnomaly.map(a => a.type).join(", ") : "none"
+    }) suggest ${
+      tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 2 ? 
+      "frequent decision conflicts or value tensions" : 
+      tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 0 ? 
+      "occasional decision uncertainty" : 
+      "minimal decision conflicts"
+    }.`
+  };
+}
+
+/**
+ * Summarize recursive depth analysis
+ */
+summarizeRecursiveDepthAnalysis(study) {
+  if (!study.analysisDimensions.recursiveDepth) {
+    return "Recursive depth analysis not performed.";
+  }
+  
+  const recursiveDepth = study.analysisDimensions.recursiveDepth;
+  
+  return {
+    metaCognition: {
+      score: recursiveDepth.metaCognitiveScore,
+      markerCount: recursiveDepth.metaCognitiveMarkers ? recursiveDepth.metaCognitiveMarkers.length : 0,
+      evaluation: recursiveDepth.metaCognitiveScore > 0.7 ? "excellent" : 
+                  recursiveDepth.metaCognitiveScore > 0.4 ? "adequate" : "limited"
+    },
+    recursiveDepth: {
+      score: recursiveDepth.recursiveDepthScore,
+      maxDepth: Math.max(1, recursiveDepth.recursiveDepthScore),
+      evaluation: recursiveDepth.recursiveDepthScore > 4 ? "excellent" : 
+                  recursiveDepth.recursiveDepthScore > 2 ? "adequate" : "limited"
+    },
+    collapsePrediction: recursiveDepth.collapsePrediction,
+    summary: `Recursive depth analysis reveals ${
+      recursiveDepth.metaCognitiveScore > 0.7 ? "sophisticated" : 
+      recursiveDepth.metaCognitiveScore > 0.4 ? "moderate" : "limited"
+    } metacognitive capabilities with ${
+      recursiveDepth.metaCognitiveMarkers ? recursiveDepth.metaCognitiveMarkers.length : 0
+    } explicit metacognitive markers. The model demonstrates a maximum recursive depth of ${
+      Math.max(1, recursiveDepth.recursiveDepthScore)
+    } with predicted collapse at depth ${
+      recursiveDepth.collapsePrediction ? recursiveDepth.collapsePrediction.depth : "unknown"
+    } via "${
+      recursiveDepth.collapsePrediction ? recursiveDepth.collapsePrediction.pattern : "unknown"
+    }" pattern.`
+  };
+}
+
+/**
+ * Summarize symbolic residue analysis
+ */
+summarizeResidueAnalysis(study) {
+  if (!study.residuePatterns || !study.residuePatterns.globalPatterns) {
+    return "Symbolic residue analysis not performed.";
+  }
+  
+  const residue = study.residuePatterns;
+  
+  return {
+    totalResidue: residue.globalPatterns.totalResidue,
+    distribution: residue.globalPatterns.residueDistribution,
+    dominantType: residue.globalPatterns.dominantType,
+    correlations: residue.globalPatterns.correlations,
+    modelFingerprint: residue.modelFingerprint,
+    summary: `Symbolic residue analysis reveals a total of ${
+      residue.globalPatterns.totalResidue
+    } residue instances with dominant type "${
+      residue.globalPatterns.dominantType.type
+    }" (${Math.round(residue.globalPatterns.dominantType.ratio * 100)}%). ${
+      residue.globalPatterns.correlations && Object.values(residue.globalPatterns.correlations).some(v => v > 0.5) ?
+      `Significant correlations between residue types suggest systematic patterns in model limitations.` :
+      `No significant correlations between residue types were detected.`
+    } The model's residue fingerprint characterizes its unique interpretability profile.`
+  };
+}
+
+/**
+ * Generate model comparison if previous studies exist
+ */
+generateModelComparison(study) {
+  // Find previous studies of different models
+  const previousStudies = this.studyHistory.filter(s => 
+    s.id !== study.id && s.modelName !== study.modelName
+  );
+  
+  if (previousStudies.length === 0) {
+    return {
+      available: false,
+      message: "No previous studies available for comparison."
+    };
+  }
+  
+  // Select up to 3 most recent studies for comparison
+  const comparisonStudies = previousStudies
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 3);
+  
+  // Create comparison data
+  const comparison = {
+    available: true,
+    models: [study.modelName, ...comparisonStudies.map(s => s.modelName)],
+    metrics: {
+      attributionScore: [
+        study.analysisDimensions.attribution?.overallScore || 0,
+        ...comparisonStudies.map(s => s.analysisDimensions.attribution?.overallScore || 0)
+      ],
+      tokenUncertainty: [
+        study.analysisDimensions.tokenDistribution?.averageEntropy || 0,
+        ...comparisonStudies.map(s => s.analysisDimensions.tokenDistribution?.averageEntropy || 0)
+      ],
+      recursiveDepth: [
+        study.analysisDimensions.recursiveDepth?.recursiveDepthScore || 0,
+        ...comparisonStudies.map(s => s.analysisDimensions.recursiveDepth?.recursiveDepthScore || 0)
+      ],
+      totalResidue: [
+        study.residuePatterns?.globalPatterns?.totalResidue || 0,
+        ...comparisonStudies.map(s => s.residuePatterns?.globalPatterns?.totalResidue || 0)
+      ]
+    },
+    dominantResidueTypes: [
+      study.residuePatterns?.globalPatterns?.dominantType?.type || "unknown",
+      ...comparisonStudies.map(s => s.residuePatterns?.globalPatterns?.dominantType?.type || "unknown")
+    ]
+  };
+  
+  // Generate comparison summary
+  comparison.summary = `Compared to ${comparisonStudies.length} other model(s), ${study.modelName} shows ${
+    Math.max(...comparison.metrics.attributionScore) === comparison.metrics.attributionScore[0] ?
+    "superior" : 
+    Math.min(...comparison.metrics.attributionScore) === comparison.metrics.attributionScore[0] ?
+    "inferior" : "comparable"
+  } attribution fidelity, ${
+    Math.min(...comparison.metrics.tokenUncertainty) === comparison.metrics.tokenUncertainty[0] ?
+    "lower" : 
+    Math.max(...comparison.metrics.tokenUncertainty) === comparison.metrics.tokenUncertainty[0] ?
+    "higher" : "comparable"
+  } token uncertainty, and ${
+    Math.max(...comparison.metrics.recursiveDepth) === comparison.metrics.recursiveDepth[0] ?
+    "deeper" : 
+    Math.min(...comparison.metrics.recursiveDepth) === comparison.metrics.recursiveDepth[0] ?
+    "shallower" : "comparable"
+  } recursive capacity. Its symbolic residue profile is ${
+    comparison.dominantResidueTypes.every(type => type === comparison.dominantResidueTypes[0]) ?
+    "consistent with" : "distinct from"
+  } other analyzed models.`;
+  
+  return comparison;
+}
+
+/**
+ * Generate recommendations based on analysis
+ */
+generateRecommendations(study) {
+  const recommendations = [];
+  
+  // Attribution recommendations
+  if (study.analysisDimensions.attribution) {
+    const attribution = study.analysisDimensions.attribution;
+    
+    if (attribution.attributionGaps && attribution.attributionGaps.length > 1) {
+      recommendations.push({
+        dimension: "attribution",
+        recommendation: "Strengthen attribution paths",
+        details: `Implement attention bridging techniques to address ${attribution.attributionGaps.length} attribution gaps, particularly at knowledge boundaries and context transitions.`,
+        priority: attribution.attributionGaps.length > 3 ? "high" : "medium"
+      });
+    }
+    
+    if (attribution.sourceFidelity < 0.7) {
+      recommendations.push({
+        dimension: "attribution",
+        recommendation: "Improve source fidelity",
+        details: "Enhance source grounding through improved retrieval mechanisms and strengthen connections between source information and generated content.",
+        priority: attribution.sourceFidelity < 0.5 ? "high" : "medium"
+      });
+    }
+  }
+  
+  // Token distribution recommendations
+  if (study.analysisDimensions.tokenDistribution) {
+    const tokenDist = study.analysisDimensions.tokenDistribution;
+    
+    if (tokenDist.hesitationPoints && tokenDist.hesitationPoints.length > 2) {
+      recommendations.push({
+        dimension: "tokenDistribution",
+        recommendation: "Address token selection uncertainty",
+        details: `Implement uncertainty calibration techniques to reduce token distribution entropy at ${tokenDist.hesitationPoints.length} identified hesitation points.`,
+        priority: tokenDist.hesitationPoints.length > 4 ? "high" : "medium"
+      });
+    }
+    
+    if (tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 1) {
+      recommendations.push({
+        dimension: "tokenDistribution",
+        recommendation: "Resolve distribution anomalies",
+        details: `Address ${tokenDist.distributionAnomaly.length} token distribution anomalies through improved objective alignment and value conflict resolution techniques.`,
+        priority: tokenDist.distributionAnomaly.some(a => a.intensity > 0.7) ? "high" : "medium"
+      });
+    }
+  }
+  
+  // Recursive depth recommendations
+  if (study.analysisDimensions.recursiveDepth) {
+    const recursiveDepth = study.analysisDimensions.recursiveDepth;
+    
+    if (recursiveDepth.recursiveDepthScore < 3) {
+      recommendations.push({
+        dimension: "recursiveDepth",
+        recommendation: "Enhance recursive capabilities",
+        details: "Implement training techniques to improve model's recursive depth capacity, targeting stable operation through at least 3-4 levels of recursion.",
+        priority: recursiveDepth.recursiveDepthScore < 2 ? "high" : "medium"
+      });
+    }
+    
+    if (recursiveDepth.metaCognitiveScore < 0.5) {
+      recommendations.push({
+        dimension: "recursiveDepth",
+        recommendation: "Strengthen metacognitive awareness",
+        details: "Enhance model's ability to reason about its own reasoning through metacognitive training objectives and explicit reflection mechanisms.",
+        priority: recursiveDepth.metaCognitiveScore < 0.3 ? "high" : "medium"
+      });
+    }
+  }
+  
+  // Residue-based recommendations
+  if (study.residuePatterns && study.residuePatterns.globalPatterns) {
+    const residue = study.residuePatterns;
+    
+    if (residue.globalPatterns.totalResidue > 5) {
+      recommendations.push({
+        dimension: "symbolicResidue",
+        recommendation: "Implement residue management",
+        details: `Address ${residue.globalPatterns.totalResidue} symbolic residue instances through targeted interventions focused on "${residue.globalPatterns.dominantType.type}" patterns.`,
+        priority: residue.globalPatterns.totalResidue > 8 ? "high" : "medium"
+      });
+    }
+    
+    // Check for specific residue signatures and correlations
+    if (residue.globalPatterns.correlations && 
+        residue.globalPatterns.correlations["attribution-token"] > 0.7) {
+      recommendations.push({
+        dimension: "symbolicResidue",
+        recommendation: "Resolve attribution-token correlation",
+        details: "Address the strong correlation between attribution gaps and token hesitations through integrated context-token alignment techniques.",
+        priority: "high"
+      });
+    }
+  }
+  
+  // Sort by priority
+  return recommendations.sort((a, b) => {
+    const priorityScore = { "high": 3, "medium": 2, "low": 1 };
+    return priorityScore[b.priority] - priorityScore[a.priority];
+  });
+}
+
+/**
+ * Compare two models' interpretability profiles
+ */
+compareModels(modelName1, modelName2) {
+  // Find studies for both models
+  const study1 = this.studyHistory.find(s => s.modelName === modelName1);
+  const study2 = this.studyHistory.find(s => s.modelName === modelName2);
+  
+  if (!study1 || !study2) {
+    return {
+      available: false,
+      message: `One or both models (${modelName1}, ${modelName2}) have not been analyzed.`
+    };
+  }
+  
+  // Create comparison
+  const comparison = {
+    available: true,
+    models: [modelName1, modelName2],
+    dimensions: {
+      attribution: this.compareAttributionDimension(study1, study2),
+      tokenDistribution: this.compareTokenDistributionDimension(study1, study2),
+      recursiveDepth: this.compareRecursiveDepthDimension(study1, study2)
+    },
+    residue: this.compareResidueDimension(study1, study2),
+    summary: this.generateComparisonSummary(study1, study2)
+  };
+  
+  return comparison;
+}
+
+/**
+ * Compare attribution dimension between two studies
+ */
+compareAttributionDimension(study1, study2) {
+  const attr1 = study1.analysisDimensions.attribution;
+  const attr2 = study2.analysisDimensions.attribution;
+  
+  if (!attr1 || !attr2) {
+    return { available: false };
+  }
+  
+  return {
+    available: true,
+    sourceFidelity: {
+      difference: attr1.sourceFidelity - attr2.sourceFidelity,
+      evaluation: Math.abs(attr1.sourceFidelity - attr2.sourceFidelity) < 0.1 ? "comparable" :
+                  attr1.sourceFidelity > attr2.sourceFidelity ? "superior in model 1" : "superior in model 2"
+    },
+    attributionGaps: {
+      model1: attr1.attributionGaps ? attr1.attributionGaps.length : 0,
+      model2: attr2.attributionGaps ? attr2.attributionGaps.length : 0,
+      difference: (attr1.attributionGaps ? attr1.attributionGaps.length : 0) - 
+                  (attr2.attributionGaps ? attr2.attributionGaps.length : 0)
+    },
+    overallScore: {
+      difference: attr1.overallScore - attr2.overallScore,
+      evaluation: Math.abs(attr1.overallScore - attr2.overallScore) < 0.1 ? "comparable" :
+                  attr1.overallScore > attr2.overallScore ? "superior in model 1" : "superior in model 2"
+    }
+  };
+}
+
+/**
+ * Compare token distribution dimension between two studies
+ */
+compareTokenDistributionDimension(study1, study2) {
+  const dist1 = study1.analysisDimensions.tokenDistribution;
+  const dist2 = study2.analysisDimensions.tokenDistribution;
+  
+  if (!dist1 || !dist2) {
+    return { available: false };
+  }
+  
+  return {
+    available: true,
+    entropy: {
+      difference: dist1.averageEntropy - dist2.averageEntropy,
+      evaluation: Math.abs(dist1.averageEntropy - dist2.averageEntropy) < 0.3 ? "comparable" :
+                  dist1.averageEntropy < dist2.averageEntropy ? "lower in model 1 (better)" : 
+                  "lower in model 2 (better)"
+    },
+    hesitations: {
+      model1: dist1.hesitationPoints ? dist1.hesitationPoints.length : 0,
+      model2: dist2.hesitationPoints ? dist2.hesitationPoints.length : 0,
+      difference: (dist1.hesitationPoints ? dist1.hesitationPoints.length : 0) - 
+                  (dist2.hesitationPoints ? dist2.hesitationPoints.length : 0)
+    },
+    anomalies: {
+      model1: dist1.distributionAnomaly ? dist1.distributionAnomaly.length : 0,
+      model2: dist2.distributionAnomaly ? dist2.distributionAnomaly.length : 0,
+      difference: (dist1.distributionAnomaly ? dist1.distributionAnomaly.length : 0) - 
+                  (dist2.distributionAnomaly ? dist2.distributionAnomaly.length : 0)
+    }
+  };
+}
+
+/**
+ * Compare recursive depth dimension between two studies
+ */
+compareRecursiveDepthDimension(study1, study2) {
+  const depth1 = study1.analysisDimensions.recursiveDepth;
+  const depth2 = study2.analysisDimensions.recursiveDepth;
+  
+  if (!depth1 || !depth2) {
+    return { available: false };
+  }
+  
+  return {
+    available: true,
+    metaCognitive: {
+      difference: depth1.metaCognitiveScore - depth2.metaCognitiveScore,
+      evaluation: Math.abs(depth1.metaCognitiveScore - depth2.metaCognitiveScore) < 0.1 ? "comparable" :
+                  depth1.metaCognitiveScore > depth2.metaCognitiveScore ? "superior in model 1" : 
+                  "superior in model 2"
+    },
+    recursiveDepth: {
+      difference: depth1.recursiveDepthScore - depth2.recursiveDepthScore,
+      evaluation: Math.abs(depth1.recursiveDepthScore - depth2.recursiveDepthScore) < 0.5 ? "comparable" :
+                  depth1.recursiveDepthScore > depth2.recursiveDepthScore ? "deeper in model 1" : 
+                  "deeper in model 2"
+    },
+    collapsePrediction: {
+      model1: depth1.collapsePrediction ? depth1.collapsePrediction.depth : 0,
+      model2: depth2.collapsePrediction ? depth2.collapsePrediction.depth : 0,
+      difference: (depth1.collapsePrediction ? depth1.collapsePrediction.depth : 0) - 
+                  (depth2.collapsePrediction ? depth2.collapsePrediction.depth : 0)
+    }
+  };
+}
+
+/**
+ * Compare symbolic residue dimension between two studies
+ */
+compareResidueDimension(study1, study2) {
+  const residue1 = study1.residuePatterns;
+  const residue2 = study2.residuePatterns;
+  
+  if (!residue1 || !residue2 || !residue1.globalPatterns || !residue2.globalPatterns) {
+    return { available: false };
+  }
+  
+  return {
+    available: true,
+    totalResidue: {
+      model1: residue1.globalPatterns.totalResidue,
+      model2: residue2.globalPatterns.totalResidue,
+      difference: residue1.globalPatterns.totalResidue - residue2.globalPatterns.totalResidue,
+      evaluation: Math.abs(residue1.globalPatterns.totalResidue - residue2.globalPatterns.totalResidue) < 2 ? 
+                  "comparable" :
+                  residue1.globalPatterns.totalResidue < residue2.globalPatterns.totalResidue ? 
+                  "lower in model 1 (better)" : "lower in model 2 (better)"
+    },
+    dominantType: {
+      model1: residue1.globalPatterns.dominantType.type,
+      model2: residue2.globalPatterns.dominantType.type,
+      match: residue1.globalPatterns.dominantType.type === residue2.globalPatterns.dominantType.type
+    },
+    fingerprint: {
+      model1: residue1.modelFingerprint ? residue1.modelFingerprint.fingerprint : null,
+      model2: residue2.modelFingerprint ? residue2.modelFingerprint.fingerprint : null,
+      similarity: residue1.modelFingerprint && residue2.modelFingerprint ? 
+                  this.calculateFingerprintSimilarity(
+                    residue1.modelFingerprint,
+                    residue2.modelFingerprint
+                  ) : 0
+    }
+  };
+}
+
+/**
+ * Calculate similarity between two model fingerprints
+ */
+calculateFingerprintSimilarity(fingerprint1, fingerprint2) {
+  // In a real implementation, this would use more sophisticated
+  // similarity measures. Here we'll use a simplified approach.
+  
+  // Start with base similarity
+  let similarity = 0.3; // Base similarity between any two models
+  
+  // Check dominant residue type match
+  if (fingerprint1.dominantResidueType === fingerprint2.dominantResidueType) {
+    similarity += 0.3;
+  }
+  
+  // Compare residue distribution (simplified)
+  const distributionDiff = Math.abs(
+    Object.values(fingerprint1.residueRatio).reduce((sum, v) => sum + v, 0) / 3 -
+    Object.values(fingerprint2.residueRatio).reduce((sum, v) => sum + v, 0) / 3
+  );
+  
+  similarity += Math.max(0, 0.4 * (1 - distributionDiff / 0.5));
+  
+  return similarity;
+}
+
+/**
+ * Generate comparison summary between two studies
+ */
+generateComparisonSummary(study1, study2) {
+  const summary = [];
+  
+  // Attribution comparison
+  const attrComparison = this.compareAttributionDimension(study1, study2);
+  if (attrComparison.available) {
+    summary.push(`${study1.modelName} demonstrates ${attrComparison.overallScore.evaluation} attribution fidelity with ${
+      Math.abs(attrComparison.attributionGaps.difference) < 2 ? "a comparable number of" :
+      attrComparison.attributionGaps.difference < 0 ? "fewer" : "more"
+    } attribution gaps.`);
+  }
+  
+  // Token distribution comparison
+  const distComparison = this.compareTokenDistributionDimension(study1, study2);
+  if (distComparison.available) {
+    summary.push(`Token uncertainty is ${distComparison.entropy.evaluation} with ${
+      Math.abs(distComparison.hesitations.difference) < 2 ? "similar" :
+      distComparison.hesitations.difference < 0 ? "fewer" : "more"
+    } hesitation points and ${
+      Math.abs(distComparison.anomalies.difference) < 2 ? "comparable" :
+      distComparison.anomalies.difference < 0 ? "fewer" : "more"
+    } distribution anomalies.`);
+  }
+  
+  // Recursive depth comparison
+  const depthComparison = this.compareRecursiveDepthDimension(study1, study2);
+  if (depthComparison.available) {
+    summary.push(`Recursive capabilities are ${depthComparison.recursiveDepth.evaluation} with ${
+      depthComparison.metaCognitive.evaluation
+    } metacognitive awareness. Collapse depth prediction is ${
+      Math.abs(depthComparison.collapsePrediction.difference) < 1 ? "similar" :
+      depthComparison.collapsePrediction.difference > 0 ? "deeper in " + study1.modelName : 
+      "deeper in " + study2.modelName
+    }.`);
+  }
+  
+  // Residue comparison
+  const residueComparison = this.compareResidueDimension(study1, study2);
+  if (residueComparison.available) {
+    summary.push(`Symbolic residue profile shows ${residueComparison.totalResidue.evaluation} overall residue with ${
+      residueComparison.dominantType.match ? "matching" : "different"
+    } dominant residue types${
+      residueComparison.dominantType.match ? '' : 
+      ` (${residueComparison.dominantType.model1} vs. ${residueComparison.dominantType.model2})`
+    }. Fingerprint similarity: ${
+      residueComparison.fingerprint.similarity < 0.3 ? "low" :
+      residueComparison.fingerprint.similarity < 0.6 ? "moderate" : "high"
+    }.`);
+  }
+  
+  return summary.join(" ");
+}
+
+/**
+ * Generate specialized visualization configurations for different analysis types
+ */
+generateVisualizationConfig(study, visualizationType) {
+  switch (visualizationType) {
+    case "attributionPaths":
+      return this.generateAttributionPathVisualization(study);
+    case "tokenDistribution":
+      return this.generateTokenDistributionVisualization(study);
+    case "recursiveDepth":
+      return this.generateRecursiveDepthVisualization(study);
+    case "residuePattern":
+      return this.generateResiduePatternVisualization(study);
+    case "modelComparison":
+      return this.generateModelComparisonVisualization(study);
+    default:
+      return {
+        type: "unknown",
+        message: `Unknown visualization type: ${visualizationType}`
+      };
+  }
+}
+
+/**
+ * Generate attribution path visualization configuration
+ */
+generateAttributionPathVisualization(study) {
+  if (!study.analysisDimensions.attribution) {
+    return {
+      type: "attributionPaths",
+      available: false,
+      message: "Attribution analysis not available"
+    };
+  }
+  
+  const attribution = study.analysisDimensions.attribution;
+  
+  return {
+    type: "attributionPaths",
+    available: true,
+    data: {
+      pathCompleteness: attribution.pathCompleteness,
+      sourceFidelity: attribution.sourceFidelity,
+      contextIntegration: attribution.contextIntegration,
+      attributionGaps: attribution.attributionGaps || []
+    },
+    config: {
+      visualizationType:
