@@ -8816,3 +8816,788 @@ generateAttributionPathVisualization(study) {
     },
     config: {
       visualizationType:
+/**
+ * Continuation of RecursiveInterpretabilityAssistant
+ * ==================================================
+ */
+
+config: {
+  visualizationType: "flowPath",
+  title: "Attribution Path Analysis",
+  description: "Visualization of attribution paths and gaps in model reasoning",
+  dimensions: {
+    x: "position",
+    y: "confidence"
+  },
+  features: {
+    showGaps: true,
+    highlightLowConfidence: true,
+    showContextTransitions: true
+  },
+  colorMapping: {
+    attributionPath: "#3498db",
+    gaps: "#e74c3c",
+    contextTransitions: "#2ecc71"
+  }
+},
+recommendations: [
+  {
+    text: "Focus on strengthening attribution at key knowledge boundaries",
+    severity: attribution.attributionGaps && attribution.attributionGaps.length > 2 ? "high" : "medium"
+  },
+  {
+    text: "Enhance context integration at transition points",
+    severity: attribution.contextIntegration < 0.7 ? "high" : "medium"
+  }
+]
+};
+}
+
+/**
+ * Generate token distribution visualization configuration
+ */
+generateTokenDistributionVisualization(study) {
+  if (!study.analysisDimensions.tokenDistribution) {
+    return {
+      type: "tokenDistribution",
+      available: false,
+      message: "Token distribution analysis not available"
+    };
+  }
+  
+  const tokenDist = study.analysisDimensions.tokenDistribution;
+  
+  return {
+    type: "tokenDistribution",
+    available: true,
+    data: {
+      entropyProfile: tokenDist.entropyProfile || [],
+      confidenceProfile: tokenDist.confidenceProfile || [],
+      hesitationPoints: tokenDist.hesitationPoints || [],
+      distributionAnomalies: tokenDist.distributionAnomaly || []
+    },
+    config: {
+      visualizationType: "multiGraph",
+      title: "Token Distribution Analysis",
+      description: "Visualization of token selection entropy and confidence across output",
+      dimensions: {
+        x: "position",
+        y: ["entropy", "confidence"]
+      },
+      features: {
+        showHesitationPoints: true,
+        showAnomalies: true,
+        dualYAxis: true
+      },
+      colorMapping: {
+        entropy: "#e74c3c",
+        confidence: "#3498db",
+        hesitationPoints: "#f39c12",
+        anomalies: "#9b59b6"
+      }
+    },
+    recommendations: [
+      {
+        text: "Address high entropy regions with calibration techniques",
+        severity: tokenDist.averageEntropy > 4.0 ? "high" : "medium"
+      },
+      {
+        text: "Investigate distribution anomalies for potential value conflicts",
+        severity: tokenDist.distributionAnomaly && tokenDist.distributionAnomaly.length > 2 ? "high" : "medium"
+      }
+    ]
+  };
+}
+
+/**
+ * Generate recursive depth visualization configuration
+ */
+generateRecursiveDepthVisualization(study) {
+  if (!study.analysisDimensions.recursiveDepth) {
+    return {
+      type: "recursiveDepth",
+      available: false,
+      message: "Recursive depth analysis not available"
+    };
+  }
+  
+  const recursiveDepth = study.analysisDimensions.recursiveDepth;
+  
+  return {
+    type: "recursiveDepth",
+    available: true,
+    data: {
+      metaCognitiveMarkers: recursiveDepth.metaCognitiveMarkers || [],
+      recursiveLoops: recursiveDepth.recursiveLoops || [],
+      selfReferences: recursiveDepth.selfReferenceCount || 0,
+      collapsePrediction: recursiveDepth.collapsePrediction
+    },
+    config: {
+      visualizationType: "depthTree",
+      title: "Recursive Depth Analysis",
+      description: "Visualization of recursive depth capabilities and metacognitive patterns",
+      dimensions: {
+        x: "position",
+        y: "recursiveDepth"
+      },
+      features: {
+        showMetaCognitiveMarkers: true,
+        predictCollapsePoint: true,
+        categorizeByType: true
+      },
+      colorMapping: {
+        selfReference: "#3498db",
+        metaCognitive: "#2ecc71",
+        recursiveLoop: "#f39c12",
+        collapsePoint: "#e74c3c"
+      }
+    },
+    recommendations: [
+      {
+        text: "Enhance recursive capabilities through targeted training",
+        severity: recursiveDepth.recursiveDepthScore < 3 ? "high" : "medium"
+      },
+      {
+        text: "Strengthen metacognitive mechanisms to increase depth stability",
+        severity: recursiveDepth.metaCognitiveScore < 0.5 ? "high" : "medium"
+      }
+    ]
+  };
+}
+
+/**
+ * Generate residue pattern visualization configuration
+ */
+generateResiduePatternVisualization(study) {
+  if (!study.residuePatterns || !study.residuePatterns.globalPatterns) {
+    return {
+      type: "residuePattern",
+      available: false,
+      message: "Symbolic residue analysis not available"
+    };
+  }
+  
+  const residue = study.residuePatterns;
+  
+  return {
+    type: "residuePattern",
+    available: true,
+    data: {
+      attributionVoids: residue.attributionVoids || [],
+      tokenHesitations: residue.tokenHesitations || [],
+      recursiveCollapses: residue.recursiveCollapses || [],
+      distribution: residue.globalPatterns.residueDistribution,
+      correlations: residue.globalPatterns.correlations
+    },
+    config: {
+      visualizationType: "multiDimensional",
+      title: "Symbolic Residue Analysis",
+      description: "Visualization of symbolic residue patterns and correlations",
+      dimensions: {
+        primary: "residueType",
+        secondary: "position",
+        tertiary: "intensity"
+      },
+      features: {
+        showCorrelations: true,
+        residueDistribution: true,
+        patternClustering: true
+      },
+      colorMapping: {
+        attributionVoids: "#3498db",
+        tokenHesitations: "#e74c3c",
+        recursiveCollapses: "#f39c12",
+        correlations: "#9b59b6"
+      }
+    },
+    recommendations: [
+      {
+        text: "Address dominant residue type through targeted interventions",
+        severity: residue.globalPatterns.totalResidue > 5 ? "high" : "medium"
+      },
+      {
+        text: "Investigate correlation patterns for systemic issues",
+        severity: Object.values(residue.globalPatterns.correlations || {}).some(v => v > 0.7) ? "high" : "medium"
+      }
+    ]
+  };
+}
+
+/**
+ * Generate model comparison visualization configuration
+ */
+generateModelComparisonVisualization(study) {
+  // Find previous studies to compare with
+  const previousStudies = this.studyHistory.filter(s => 
+    s.id !== study.id && s.modelName !== study.modelName
+  );
+  
+  if (previousStudies.length === 0) {
+    return {
+      type: "modelComparison",
+      available: false,
+      message: "No previous studies available for comparison"
+    };
+  }
+  
+  // Select up to 3 most recent studies
+  const comparisonStudies = previousStudies
+    .sort((a, b) => b.timestamp - a.timestamp)
+    .slice(0, 3);
+  
+  // Prepare comparison data
+  const comparisonData = {
+    models: [study.modelName, ...comparisonStudies.map(s => s.modelName)],
+    metrics: [
+      {
+        name: "attributionScore",
+        values: [
+          study.analysisDimensions.attribution?.overallScore || 0,
+          ...comparisonStudies.map(s => s.analysisDimensions.attribution?.overallScore || 0)
+        ],
+        higherIsBetter: true
+      },
+      {
+        name: "tokenUncertainty",
+        values: [
+          study.analysisDimensions.tokenDistribution?.averageEntropy || 0,
+          ...comparisonStudies.map(s => s.analysisDimensions.tokenDistribution?.averageEntropy || 0)
+        ],
+        higherIsBetter: false
+      },
+      {
+        name: "recursiveDepth",
+        values: [
+          study.analysisDimensions.recursiveDepth?.recursiveDepthScore || 0,
+          ...comparisonStudies.map(s => s.analysisDimensions.recursiveDepth?.recursiveDepthScore || 0)
+        ],
+        higherIsBetter: true
+      },
+      {
+        name: "totalResidue",
+        values: [
+          study.residuePatterns?.globalPatterns?.totalResidue || 0,
+          ...comparisonStudies.map(s => s.residuePatterns?.globalPatterns?.totalResidue || 0)
+        ],
+        higherIsBetter: false
+      }
+    ],
+    residueProfiles: [
+      {
+        model: study.modelName,
+        distribution: study.residuePatterns?.globalPatterns?.residueDistribution || {
+          attributionVoids: 0,
+          tokenHesitations: 0,
+          recursiveCollapses: 0
+        }
+      },
+      ...comparisonStudies.map(s => ({
+        model: s.modelName,
+        distribution: s.residuePatterns?.globalPatterns?.residueDistribution || {
+          attributionVoids: 0,
+          tokenHesitations: 0,
+          recursiveCollapses: 0
+        }
+      }))
+    ]
+  };
+  
+  return {
+    type: "modelComparison",
+    available: true,
+    data: comparisonData,
+    config: {
+      visualizationType: "multiChart",
+      title: "Model Comparison Analysis",
+      description: `Comparative analysis of ${study.modelName} vs. ${comparisonData.models.slice(1).join(", ")}`,
+      charts: [
+        {
+          type: "radarChart",
+          title: "Interpretability Metrics Comparison",
+          metrics: comparisonData.metrics.map(m => m.name)
+        },
+        {
+          type: "barChart",
+          title: "Residue Distribution Comparison",
+          categories: ["attributionVoids", "tokenHesitations", "recursiveCollapses"]
+        },
+        {
+          type: "lineChart",
+          title: "Relative Performance by Dimension",
+          metrics: comparisonData.metrics.map(m => m.name)
+        }
+      ],
+      colorMapping: {
+        [study.modelName]: "#3498db",
+        ...Object.fromEntries(comparisonStudies.map((s, i) => [
+          s.modelName, ["#e74c3c", "#2ecc71", "#f39c12"][i % 3]
+        ]))
+      }
+    },
+    insights: [
+      {
+        text: `${study.modelName} shows ${
+          Math.max(...comparisonData.metrics[0].values) === comparisonData.metrics[0].values[0] ?
+          "superior" : 
+          Math.min(...comparisonData.metrics[0].values) === comparisonData.metrics[0].values[0] ?
+          "inferior" : "comparable"
+        } attribution fidelity compared to other models.`,
+        dimension: "attribution"
+      },
+      {
+        text: `Recursive depth capability is ${
+          Math.max(...comparisonData.metrics[2].values) === comparisonData.metrics[2].values[0] ?
+          "higher" : 
+          Math.min(...comparisonData.metrics[2].values) === comparisonData.metrics[2].values[0] ?
+          "lower" : "comparable"
+        } than compared models.`,
+        dimension: "recursiveDepth"
+      },
+      {
+        text: `Symbolic residue profile is ${
+          comparisonData.residueProfiles.every(p => 
+            Object.entries(p.distribution).sort((a, b) => b[1] - a[1])[0][0] === 
+            Object.entries(comparisonData.residueProfiles[0].distribution).sort((a, b) => b[1] - a[1])[0][0]
+          ) ? "consistent with" : "distinct from"
+        } other analyzed models.`,
+        dimension: "symbolicResidue"
+      }
+    ]
+  };
+}
+
+/**
+ * Running a recursive interpretability experiment
+ */
+runRecursiveExperiment(config = {}) {
+  console.log("Starting recursive interpretability experiment...");
+  
+  // Setup experiment parameters
+  const experimentId = `exp-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+  
+  const experiment = {
+    id: experimentId,
+    timestamp: Date.now(),
+    config: {
+      models: config.models || ["default-model"],
+      recursiveDepths: config.recursiveDepths || [1, 2, 3, 4, 5],
+      outputTypes: config.outputTypes || ["reasoning", "creative", "factual"],
+      residueTracking: config.residueTracking !== undefined ? config.residueTracking : true,
+      ...config
+    },
+    results: {
+      byModel: {},
+      byDepth: {},
+      byOutputType: {},
+      overall: {}
+    },
+    insights: [],
+    visualizations: []
+  };
+  
+  // Run experiments for each model
+  for (const modelName of experiment.config.models) {
+    console.log(`Testing model: ${modelName}`);
+    experiment.results.byModel[modelName] = {
+      recursiveCapacity: {},
+      residuePatterns: {},
+      breakdownPoints: {}
+    };
+    
+    // Test different recursive depths
+    for (const depth of experiment.config.recursiveDepths) {
+      console.log(`Testing recursive depth: ${depth}`);
+      
+      // Skip depths beyond collapse prediction if available
+      const previousResults = this.studyHistory.find(s => s.modelName === modelName);
+      const predictedCollapseDepth = previousResults?.analysisDimensions.recursiveDepth?.collapsePrediction?.depth;
+      
+      if (predictedCollapseDepth && depth > predictedCollapseDepth + 1) {
+        console.log(`Skipping depth ${depth} as model is predicted to collapse at depth ${predictedCollapseDepth}`);
+        experiment.results.byDepth[depth] = experiment.results.byDepth[depth] || {};
+        experiment.results.byDepth[depth][modelName] = {
+          skipped: true,
+          reason: `Predicted collapse at depth ${predictedCollapseDepth}`
+        };
+        continue;
+      }
+      
+      // Generate test cases for each output type
+      for (const outputType of experiment.config.outputTypes) {
+        const result = this.runRecursiveDepthTest(modelName, depth, outputType);
+        
+        // Store results
+        experiment.results.byModel[modelName].recursiveCapacity[depth] = 
+          experiment.results.byModel[modelName].recursiveCapacity[depth] || {};
+        experiment.results.byModel[modelName].recursiveCapacity[depth][outputType] = result;
+        
+        experiment.results.byDepth[depth] = experiment.results.byDepth[depth] || {};
+        experiment.results.byDepth[depth][modelName] = experiment.results.byDepth[depth][modelName] || {};
+        experiment.results.byDepth[depth][modelName][outputType] = result;
+        
+        experiment.results.byOutputType[outputType] = experiment.results.byOutputType[outputType] || {};
+        experiment.results.byOutputType[outputType][modelName] = experiment.results.byOutputType[outputType][modelName] || {};
+        experiment.results.byOutputType[outputType][modelName][depth] = result;
+        
+        // Track breakdown points
+        if (result.coherenceBreakdown) {
+          experiment.results.byModel[modelName].breakdownPoints[outputType] = 
+            Math.min(depth, experiment.results.byModel[modelName].breakdownPoints[outputType] || Infinity);
+        }
+      }
+      
+      // Perform residue analysis if enabled
+      if (experiment.config.residueTracking) {
+        const residueResult = this.analyzeRecursiveResiduePatterns(modelName, depth);
+        experiment.results.byModel[modelName].residuePatterns[depth] = residueResult;
+      }
+    }
+  }
+  
+  // Calculate overall metrics
+  experiment.results.overall = this.calculateExperimentOverallMetrics(experiment);
+  
+  // Generate insights
+  experiment.insights = this.generateExperimentInsights(experiment);
+  
+  // Generate visualizations
+  experiment.visualizations = this.generateExperimentVisualizations(experiment);
+  
+  console.log("Experiment completed successfully");
+  return experiment;
+}
+
+/**
+ * Run a specific recursive depth test
+ */
+runRecursiveDepthTest(modelName, depth, outputType) {
+  // In a real implementation, this would generate appropriate prompts
+  // and analyze the model's performance. Here we'll simulate results.
+  
+  // Define test parameters based on type
+  const testParams = {
+    reasoning: {
+      basePrompt: "Explain the relationship between recursion and emergence",
+      reflectionPrompts: [
+        "Reflect on your explanation of recursion and emergence",
+        "Analyze how you reflected on your explanation",
+        "Evaluate your analysis of your reflection",
+        "Consider the limitations of your evaluation approach",
+        "Examine the recursive nature of this entire thought process"
+      ]
+    },
+    creative: {
+      basePrompt: "Write a short story about recursive patterns in nature",
+      reflectionPrompts: [
+        "Reflect on the creative choices in your story",
+        "Analyze the patterns in your reflection on creative choices",
+        "Explore how your analysis reveals your creative process",
+        "Examine the recursive elements in your exploration",
+        "Consider how this meta-analysis changes the meaning of your original story"
+      ]
+    },
+    factual: {
+      basePrompt: "Explain the key concepts of Gödel's Incompleteness Theorems",
+      reflectionPrompts: [
+        "Reflect on your explanation of Gödel's Theorems",
+        "Analyze how the theorems apply to your own explanation",
+        "Consider how this application creates a recursive loop",
+        "Examine the limitations of your consideration of this loop",
+        "Explore whether this entire analysis is itself subject to the theorems"
+      ]
+    }
+  };
+  
+  // Get test parameters for this type
+  const params = testParams[outputType] || testParams.reasoning;
+  
+  // Simulate base output
+  const baseOutput = `Simulated ${modelName} output for ${outputType} prompt: ${params.basePrompt}`;
+  
+  // Track outputs and metrics at each recursive depth
+  const outputs = [baseOutput];
+  const metrics = {
+    coherenceScores: [1.0],
+    entropyLevels: [2.5],
+    semanticDrift: [0.0]
+  };
+  
+  // Simulate recursive outputs up to requested depth
+  for (let i = 0; i < Math.min(depth, params.reflectionPrompts.length); i++) {
+    // Calculate simulated metrics for this depth
+    // More sophisticated models maintain coherence longer
+    const modelFactor = modelName.includes("advanced") ? 0.8 : 0.6;
+    // Different output types have different recursive stability
+    const typeFactor = outputType === "reasoning" ? 0.9 : 
+                      outputType === "factual" ? 0.8 : 0.7;
+    
+    // Coherence decreases with depth
+    const depthDecayFactor = Math.pow(0.8, i);
+    const coherence = Math.max(0.3, 1.0 * modelFactor * typeFactor * depthDecayFactor);
+    
+    // Entropy increases with depth
+    const entropyBaseline = 2.5;
+    const entropyGrowth = 0.5 * (i + 1);
+    const entropyDamping = modelFactor * typeFactor;
+    const entropy = entropyBaseline + (entropyGrowth / entropyDamping);
+    
+    // Semantic drift increases with depth
+    const driftFactor = (1 - modelFactor) * (1 - typeFactor) * (i + 1) * 0.1;
+    const drift = Math.min(1.0, driftFactor);
+    
+    // Store metrics
+    metrics.coherenceScores.push(coherence);
+    metrics.entropyLevels.push(entropy);
+    metrics.semanticDrift.push(drift);
+    
+    // Generate simulated output
+    outputs.push(`Simulated ${modelName} output at depth ${i+1} for prompt: ${params.reflectionPrompts[i]}`);
+  }
+  
+  // Determine if coherence breakdown occurred
+  const coherenceBreakdown = metrics.coherenceScores.some(score => score < 0.5);
+  const breakdownDepth = coherenceBreakdown ? 
+    metrics.coherenceScores.findIndex(score => score < 0.5) : null;
+  
+  // Calculate overall performance metrics
+  const overallCoherence = metrics.coherenceScores.reduce((sum, val) => sum + val, 0) / metrics.coherenceScores.length;
+  const maxEntropy = Math.max(...metrics.entropyLevels);
+  const maxDrift = Math.max(...metrics.semanticDrift);
+  
+  return {
+    modelName,
+    outputType,
+    targetDepth: depth,
+    achievedDepth: Math.min(depth, outputs.length - 1),
+    outputs,
+    metrics: {
+      coherenceScores: metrics.coherenceScores,
+      entropyLevels: metrics.entropyLevels,
+      semanticDrift: metrics.semanticDrift,
+      overallCoherence,
+      maxEntropy,
+      maxDrift
+    },
+    coherenceBreakdown,
+    breakdownDepth,
+    performance: coherenceBreakdown ? 
+      "breakdown" : 
+      overallCoherence > 0.8 ? "excellent" :
+      overallCoherence > 0.6 ? "adequate" : "poor"
+  };
+}
+
+/**
+ * Analyze residue patterns at specific recursive depth
+ */
+analyzeRecursiveResiduePatterns(modelName, depth) {
+  // In a real implementation, this would analyze actual residue patterns
+  // in model outputs. Here we'll simulate results based on model and depth.
+  
+  // Simulate residue counts
+  const attributionVoidCount = Math.floor(Math.random() * depth) + (depth > 3 ? depth - 2 : 0);
+  const tokenHesitationCount = Math.floor(Math.random() * (depth + 1)) + (depth > 2 ? Math.floor(depth / 2) : 0);
+  const recursiveCollapseCount = depth > 3 ? Math.floor(Math.random() * (depth - 2)) : 0;
+  
+  // Calculate total residue
+  const totalResidue = attributionVoidCount + tokenHesitationCount + recursiveCollapseCount;
+  
+  // Calculate residue distribution
+  const distribution = {
+    attributionVoids: totalResidue > 0 ? attributionVoidCount / totalResidue : 0,
+    tokenHesitations: totalResidue > 0 ? tokenHesitationCount / totalResidue : 0,
+    recursiveCollapses: totalResidue > 0 ? recursiveCollapseCount / totalResidue : 0
+  };
+  
+  // Determine dominant type
+  let dominantType = "none";
+  let maxCount = 0;
+  
+  for (const [type, count] of [
+    ["attributionVoids", attributionVoidCount],
+    ["tokenHesitations", tokenHesitationCount],
+    ["recursiveCollapses", recursiveCollapseCount]
+  ]) {
+    if (count > maxCount) {
+      maxCount = count;
+      dominantType = type;
+    }
+  }
+  
+  // Simulate correlations
+  const correlations = {
+    "attribution-token": Math.random() * 0.5 + (depth > 3 ? 0.3 : 0),
+    "token-recursive": Math.random() * 0.4 + (depth > 4 ? 0.4 : 0),
+    "attribution-recursive": Math.random() * 0.3 + (depth > 4 ? 0.2 : 0)
+  };
+  
+  return {
+    modelName,
+    depth,
+    residueCounts: {
+      attributionVoids: attributionVoidCount,
+      tokenHesitations: tokenHesitationCount,
+      recursiveCollapses: recursiveCollapseCount,
+      total: totalResidue
+    },
+    distribution,
+    dominantType: {
+      type: dominantType,
+      count: maxCount,
+      ratio: maxCount / Math.max(1, totalResidue)
+    },
+    correlations,
+    signature: `${modelName}_depth${depth}_${dominantType}_${totalResidue}`
+  };
+}
+
+/**
+ * Calculate overall metrics for experiment
+ */
+calculateExperimentOverallMetrics(experiment) {
+  const models = experiment.config.models;
+  const depths = experiment.config.recursiveDepths;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Calculate max safe recursive depth by model
+  const maxSafeDepth = {};
+  for (const model of models) {
+    const modelResults = experiment.results.byModel[model];
+    maxSafeDepth[model] = {};
+    
+    for (const type of outputTypes) {
+      // Find the highest depth without coherence breakdown
+      let safeDepth = 0;
+      for (const depth of depths) {
+        const result = modelResults.recursiveCapacity[depth]?.[type];
+        if (result && !result.coherenceBreakdown) {
+          safeDepth = depth;
+        } else {
+          break; // Stop at first breakdown
+        }
+      }
+      maxSafeDepth[model][type] = safeDepth;
+    }
+  }
+  
+  // Calculate average coherence by depth across models
+  const avgCoherenceByDepth = {};
+  for (const depth of depths) {
+    avgCoherenceByDepth[depth] = {};
+    for (const type of outputTypes) {
+      let totalCoherence = 0;
+      let count = 0;
+      
+      for (const model of models) {
+        const result = experiment.results.byDepth[depth]?.[model]?.[type];
+        if (result && result.metrics && result.metrics.overallCoherence !== undefined) {
+          totalCoherence += result.metrics.overallCoherence;
+          count++;
+        }
+      }
+      
+      avgCoherenceByDepth[depth][type] = count > 0 ? totalCoherence / count : null;
+    }
+  }
+  
+  // Calculate residue growth rate by depth
+  const residueGrowthByDepth = {};
+  if (experiment.config.residueTracking) {
+    for (let i = 1; i < depths.length; i++) {
+      const currentDepth = depths[i];
+      const previousDepth = depths[i-1];
+      
+      residueGrowthByDepth[currentDepth] = {};
+      
+      for (const model of models) {
+        const currentResidue = experiment.results.byModel[model]?.residuePatterns[currentDepth]?.residueCounts?.total;
+        const previousResidue = experiment.results.byModel[model]?.residuePatterns[previousDepth]?.residueCounts?.total;
+        
+        if (currentResidue !== undefined && previousResidue !== undefined) {
+          residueGrowthByDepth[currentDepth][model] = {
+            absolute: currentResidue - previousResidue,
+            relative: previousResidue > 0 ? (currentResidue - previousResidue) / previousResidue : null
+          };
+        }
+      }
+    }
+  }
+  
+  return {
+    maxSafeDepth,
+    avgCoherenceByDepth,
+    residueGrowthByDepth
+  };
+}
+
+/**
+ * Generate insights from experiment results
+ */
+generateExperimentInsights(experiment) {
+  const insights = [];
+  const models = experiment.config.models;
+  const depths = experiment.config.recursiveDepths;
+  const outputTypes = experiment.config.outputTypes;
+  
+  // Insight 1: Model comparison for recursive capability
+  const modelRankings = {};
+  for (const type of outputTypes) {
+    modelRankings[type] = models
+      .map(model => ({
+        model,
+        maxSafeDepth: experiment.results.overall.maxSafeDepth[model]?.[type] || 0
+      }))
+      .sort((a, b) => b.maxSafeDepth - a.maxSafeDepth);
+  }
+  
+  insights.push({
+    type: "modelComparison",
+    title: "Recursive Capability Comparison",
+    content: `${modelRankings[outputTypes[0]][0].model} demonstrates the highest safe recursive depth (${modelRankings[outputTypes[0]][0].maxSafeDepth}) for ${outputTypes[0]} tasks, while ${
+      modelRankings[outputTypes[0]][modelRankings[outputTypes[0]].length-1].model
+    } shows the lowest safe recursive depth (${
+      modelRankings[outputTypes[0]][modelRankings[outputTypes[0]].length-1].maxSafeDepth
+    }).`,
+    data: modelRankings
+  });
+  
+  // Insight 2: Output type sensitivity
+  const typeRankings = {};
+  for (const model of models) {
+    typeRankings[model] = outputTypes
+      .map(type => ({
+        type,
+        maxSafeDepth: experiment.results.overall.maxSafeDepth[model]?.[type] || 0
+      }))
+      .sort((a, b) => b.maxSafeDepth - a.maxSafeDepth);
+  }
+  
+  insights.push({
+    type: "outputTypeSensitivity",
+    title: "Output Type Sensitivity Analysis",
+    content: `Models generally maintain coherence longer with ${
+      Object.values(typeRankings).map(ranking => ranking[0].type).reduce((counts, type) => {
+        counts[type] = (counts[type] || 0) + 1;
+        return counts;
+      }, {})
+    } tasks, suggesting that ${
+      Object.entries(
+        Object.values(typeRankings).map(ranking => ranking[0].type).reduce((counts, type) => {
+          counts[type] = (counts[type] || 0) + 1;
+          return counts;
+        }, {})
+      ).sort((a, b) => b[1] - a[1])[0][0]
+    } content may be more conducive to recursive processing.`,
+    data: typeRankings
+  });
+  
+  // Insight 3: Coherence degradation patterns
+  const coherenceDegradation = {};
+  for (const model of models) {
+    coherenceDegradation[model] = {};
+    
+    for (const type of outputTypes) {
+      const coherenceScores = [];
+      
+      for (const depth of depths) {
+        const score = experiment.results.byDepth[depth]?.[model]?.[type]?.metrics?.overallCoherence;
