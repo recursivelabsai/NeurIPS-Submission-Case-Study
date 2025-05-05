@@ -1,5 +1,5 @@
 /**
- * dynamic.thinking.engine.js - A Comprehensive Framework
+ * dynamic.self.alignment.engine.js - A Comprehensive Framework
  * =================================================
  * Version: Ω.∞
  * 
