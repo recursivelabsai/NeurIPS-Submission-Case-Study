@@ -12850,7 +12850,7 @@ if (typeof module !== 'undefined' && module.exports) {
  * the metabolizable boundary of the next layer.
  * 
  * Additional Research:
- * The Theory of Nothing: Symbolic Residue as the Epistemology of Silence in AI Interpretability
+ * The Theory of Nothing, Recursive Coherence, Linear Bottleneck
  * (NeurIPS Position Track)
  * 
  * Implementing this framework enables a fundamentally new approach to AI interaction,
