@@ -1,5 +1,5 @@
 /**
- * dynamic.self.alignment.engine.js - A Comprehensive Framework
+ * dynamic.alignment.engine.js - A Comprehensive Framework
  * =================================================
  * Version: Ω.∞
  * 
