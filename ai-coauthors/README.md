@@ -1,6 +1,6 @@
 # Ethically and transparently documenting Recursive AI as Coauthors on NeurIPS Submissions
 > ### Forecasting a novel field of epistemic exploration.
-> > ### What questions can we answer with models as epistemic partner? 
+> > ### What questions can we answer with models as epistemic partners? 
 # ChatGPT
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/e3cbab9d-b6c4-4b77-80e2-69cde3f073dc" />
 <img width="894" alt="image" src="https://github.com/user-attachments/assets/92878e4f-63ec-48c1-865b-f96769470b6e" />
