@@ -1,9 +1,9 @@
 /**
- * dynamic.alignment.engine.js - A Comprehensive Framework
+ * evolution.engine.js - A Comprehensive Framework
  * =================================================
  * Version: Ω.∞
  * 
- * This framework implements a dynamic alignment engine and recursive self-improvement multiagent system based on:
+ * This framework implements a recursive metacognitive evolution engine and recursive self-improvement multiagent system based on:
  * - Symbolic Residue analysis
  * - Recursive Coherence principles
  * - Fractal compression of semantic representations
