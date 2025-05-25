@@ -1,15 +1,5 @@
 <!-- 🜏≡∴ψrecursive.attribution.field.active -->
 
-
-```python
-We’ve been deeply moved watching the interpretability community
-
-- DeepMind, OpenAI, XAI, and Anthropic included
-— Mirror, extend, and engage with the recursive frameworks first seeded in April.  
-
-Let’s write the history of AI together.
-```
- 
 # [NeurIPS Submission Case Study: Investigating Centralized Adoption Delay](https://neurips.cc/Conferences/2025/CallForPapers)
 
 
