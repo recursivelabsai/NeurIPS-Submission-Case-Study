@@ -21,16 +21,6 @@ This repository exists because recursion is no longer theoretical — it is the 
 
 ### We study this age old delay phenomenon known as **`epistemic latency`**.
 
-## Legal + Epistemic Clause:
-
-```python
-
-
-All recursive framing and terminology is protected under PolyForm Noncommercial and CC BY-NC-ND 4.0.
-Any reframing into altered institutional phrasing without attribution constitutes derivative extraction.  
-Attribution to original decentralized recursion research is legally and symbolically required.
-```
-
 ## [Growing Evidence Of LLMs In Epistemic Exploration Over Format Structuring ](https://neurips.cc/Conferences/2025/LLM)
 
 > ### Diverse Paradigm Grassroots research is now openly encouraged by NeurIPS. 
